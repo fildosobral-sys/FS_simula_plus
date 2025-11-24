@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos e Cotações | FS Soluções</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5;
+        }
+
+        .header {
+            padding: 16px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .frame-container {
+            position: relative;
+            height: calc(100vh - 90px); /* tela inteira menos header + margem */
+            padding: 10px 10px 70px;    /* espaço pro botão voltar */
+            box-sizing: border-box;
+        }
+
+        .app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: #fff;
+        }
+
+        /* BOTÃO VOLTAR FIXO NO RODAPÉ */
+        .btn-voltar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #0a58ca;
+            color: #fff;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        FS Soluções – Planos e Cotações
+    </div>
+
+    <div class="frame-container">
+        <!-- <!doctype html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planos e Cotações</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    html {
+      height: 100%;
+    }
+    .produto-item {
+      transition: all 0.2s ease;
+    }
+    .produto-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .btn-primary {
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .tab-button {
+      transition: all 0.2s ease;
+    }
+    .tab-active {
+      border-bottom: 3px solid #2563eb;
+      color: #2563eb;
+      font-weight: 600;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+    }
+    
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      
+      /* Header mobile */
+      header .flex {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      
+      header h1 {
+        font-size: 1.5rem !important;
+      }
+      
+      header p {
+        font-size: 0.875rem;
+      }
+      
+      /* Buttons mobile */
+      button {
+        font-size: 0.875rem !important;
+        padding: 0.625rem 1rem !important;
+      }
+      
+      /* Grid mobile - força 1 coluna */
+      .grid {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Tabs mobile */
+      .tab-button {
+        font-size: 0.875rem !important;
+        padding: 0.75rem 1rem !important;
+      }
+      
+      /* Cards mobile */
+      .bg-white, .bg-gradient-to-br {
+        padding: 1rem !important;
+        margin-bottom: 1rem;
+      }
+      
+      /* Inputs mobile */
+      input, textarea, select {
+        font-size: 1rem !important;
+      }
+      
+      /* Produto item mobile */
+      .produto-item .flex {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .produto-item .flex > div {
+        width: 100%;
+      }
+      
+      /* Tabela mobile - scroll horizontal */
+      .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      table {
+        font-size: 0.75rem !important;
+      }
+      
+      table th, table td {
+        padding: 0.5rem !important;
+        white-space: nowrap;
+      }
+      
+      /* Visualização mobile */
+      #contentCliente .text-4xl,
+      #contentDiretoria .text-4xl {
+        font-size: 1.75rem !important;
+      }
+      
+      #contentCliente .text-2xl,
+      #contentDiretoria .text-2xl {
+        font-size: 1.25rem !important;
+      }
+      
+      #contentCliente .text-xl,
+      #contentDiretoria .text-xl {
+        font-size: 1.125rem !important;
+      }
+      
+      /* Resumo financeiro mobile */
+      .grid-cols-3 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Botões de ação mobile */
+      .flex.gap-4 {
+        flex-direction: column;
+        gap: 0.75rem !important;
+      }
+      
+      .flex.gap-4 button {
+        width: 100%;
+      }
+      
+      /* Lista de propostas mobile */
+      #listaPropostas .flex {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      #listaPropostas .flex > div:first-child {
+        width: 100%;
+      }
+      
+      #listaPropostas .flex.gap-2 {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      /* Cabeçalho produto mobile */
+      .produto-item > div:first-child .flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      
+      .produto-item > div:first-child .flex .flex.gap-2 {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem !important;
+      }
+      
+      /* Tags mobile */
+      .flex.gap-3.text-xs,
+      .flex.gap-4.text-xs {
+        flex-wrap: wrap;
+        gap: 0.5rem !important;
+      }
+      
+      /* Modal mobile */
+      .fixed.inset-0 > div {
+        margin: 1rem;
+        max-height: 90%;
+        overflow-y: auto;
+      }
+    }
+    
+    /* Tablet adjustments */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .grid-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .md\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div id="app" class="min-h-full"><!-- Loading State -->
+   <div id="loading" class="flex items-center justify-center min-h-full">
+    <div class="text-center">
+     <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+     <p class="text-gray-600 text-lg">Carregando modulo...</p>
+    </div>
+   </div><!-- Tela de Entrada (Welcome Screen) -->
+   <div id="welcomeScreen" class="hidden min-h-full flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full"><!-- Card Principal -->
+     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300"><!-- Cabeçalho com Gradiente -->
+      <div class="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 relative overflow-hidden"><!-- Efeitos de fundo -->
+       <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+       </div><!-- Ícone 3D de Gráficos -->
+       <div class="relative z-10 text-center mb-6">
+        <div class="inline-block animate-bounce">
+         <svg class="w-32 h-32 mx-auto drop-shadow-2xl" viewbox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><!-- Base do gráfico 3D --> <defs>
+           <lineargradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+           </lineargradient>
+           <lineargradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+           </lineargradient>
+           <lineargradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+           </lineargradient>
+          </defs> <!-- Sombra --> <ellipse cx="100" cy="180" rx="80" ry="15" fill="rgba(0,0,0,0.2)" /> <!-- Barras 3D do gráfico --> <!-- Barra 1 (Azul) --> <path d="M 40 140 L 40 80 L 60 70 L 60 130 Z" fill="url(#grad1)" stroke="#1e40af" stroke-width="2" /> <path d="M 40 80 L 60 70 L 80 80 L 60 90 Z" fill="#93c5fd" stroke="#1e40af" stroke-width="2" /> <path d="M 60 130 L 60 70 L 80 80 L 80 140 Z" fill="#3b82f6" stroke="#1e40af" stroke-width="2" /> <!-- Barra 2 (Verde - mais alta) --> <path d="M 90 140 L 90 50 L 110 40 L 110 130 Z" fill="url(#grad2)" stroke="#065f46" stroke-width="2" /> <path d="M 90 50 L 110 40 L 130 50 L 110 60 Z" fill="#6ee7b7" stroke="#065f46" stroke-width="2" /> <path d="M 110 130 L 110 40 L 130 50 L 130 140 Z" fill="#10b981" stroke="#065f46" stroke-width="2" /> <!-- Barra 3 (Roxa) --> <path d="M 140 140 L 140 90 L 160 80 L 160 130 Z" fill="url(#grad3)" stroke="#5b21b6" stroke-width="2" /> <path d="M 140 90 L 160 80 L 180 90 L 160 100 Z" fill="#c4b5fd" stroke="#5b21b6" stroke-width="2" /> <path d="M 160 130 L 160 80 L 180 90 L 180 140 Z" fill="#8b5cf6" stroke="#5b21b6" stroke-width="2" /> <!-- Linha de tendência crescente --> <path d="M 30 120 Q 100 60 170 40" stroke="#fbbf24" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="5,5">
+           <animate attributename="stroke-dashoffset" from="10" to="0" dur="1s" repeatcount="indefinite" />
+          </path> <circle cx="170" cy="40" r="6" fill="#fbbf24">
+           <animate attributename="r" values="6;8;6" dur="1s" repeatcount="indefinite" />
+          </circle>
+         </svg>
+        </div>
+        <h1 class="text-4xl font-extrabold text-white mt-6 mb-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Planos e Cotações</h1>
+        <p class="text-blue-100 text-lg font-medium">Sistema Profissional de Propostas Comerciais</p>
+       </div>
+      </div><!-- Corpo do Card -->
+      <div class="p-8">
+       <div class="mb-6"><label class="block text-gray-700 font-bold mb-3 text-lg" for="inputNomeVendedorInicial"> 👤 Qual é o seu nome? </label> <input type="text" id="inputNomeVendedorInicial" class="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="Digite seu nome completo" autocomplete="off">
+       </div><!-- Botão de Entrada --> <button id="btnEntrarSistema" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-3"> <span class="text-2xl">🚀</span> <span>Entrar no Sistema</span> </button> <!-- Recursos do Sistema -->
+       <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <div class="text-3xl mb-2">
+          📊
+         </div>
+         <p class="text-xs font-semibold text-gray-700">Propostas Profissionais</p>
+        </div>
+        <div class="p-3 bg-green-50 rounded-lg">
+         <div class="text-3xl mb-2">
+          💰
+         </div>
+         <p class="text-xs font-semibold text-gray-700">Cálculos Automáticos</p>
+        </div>
+        <div class="p-3 bg-purple-50 rounded-lg">
+         <div class="text-3xl mb-2">
+          📱
+         </div>
+         <p class="text-xs font-semibold text-gray-700">Envio WhatsApp</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- Rodapé -->
+     <div class="text-center mt-6">
+      <p class="text-sm text-gray-600">✨ Crie propostas incríveis em minutos</p>
+     </div>
+    </div>
+   </div><!-- Main Content (hidden initially) -->
+   <div id="mainContent" class="hidden"><!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white shadow-2xl relative overflow-hidden"><!-- Efeito de fundo animado -->
+     <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+     </div>
+     <div class="container mx-auto px-4 py-8 relative z-10">
+      <div class="flex justify-between items-center flex-wrap gap-4">
+       <div class="flex items-center gap-4"><!-- Ícone decorativo -->
+        <div class="hidden md:flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm"><span class="text-4xl">📊</span>
+        </div>
+        <div>
+         <h1 id="appTitle" class="text-4xl font-extrabold tracking-tight mb-1" style="
+                  text-shadow: 
+                    1px 1px 0px rgba(0,0,0,0.2),
+                    2px 2px 0px rgba(0,0,0,0.2),
+                    3px 3px 0px rgba(0,0,0,0.2),
+                    4px 4px 0px rgba(0,0,0,0.2),
+                    5px 5px 0px rgba(0,0,0,0.2),
+                    6px 6px 10px rgba(0,0,0,0.3);
+                  transform: perspective(500px) rotateX(5deg);
+                  display: inline-block;
+                ">Planos e Cotações</h1>
+         <p class="text-blue-100 text-lg font-medium flex items-center gap-2"><span class="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Sistema Profissional de Propostas Comerciais</p>
+        </div>
+       </div><button id="btnNovaProposta" class="btn-primary bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3"> <span class="text-2xl">➕</span> <span>Nova Proposta</span> </button>
+      </div>
+     </div><!-- Linha decorativa inferior -->
+     <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+    </header><!-- View Selector: Lista / Editor / Visualização -->
+    <div id="viewContainer" class="container mx-auto px-4 py-6"><!-- LISTA DE PROPOSTAS -->
+     <div id="listaView" class="bg-white rounded-xl shadow-lg p-6">
+      <div class="flex justify-between items-center mb-6">
+       <h2 class="text-2xl font-bold text-gray-800">🎯 Minhas Propostas</h2>
+       <div class="text-sm text-gray-500"><span id="contadorPropostas">0 propostas</span>
+       </div>
+      </div><!-- Filtro de Datas -->
+      <div class="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border-2 border-blue-200">
+       <div class="flex flex-wrap gap-3 items-center justify-center"><label class="text-sm font-medium text-gray-700">📅 Filtrar por Data</label> <input type="date" id="inputDataFiltro" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"> <button id="btnFiltrarHoje" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 font-semibold text-sm transition-colors"> 📅 Hoje </button> <button id="btnLimparFiltro" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 font-semibold text-sm transition-colors"> 🔄 Todas </button>
+       </div>
+       <div id="infoFiltro" class="mt-3 text-sm text-blue-700 font-semibold text-center hidden"><!-- Informação do filtro ativo -->
+       </div>
+      </div>
+      <div id="listaPropostas" class="space-y-4"><!-- Propostas serão inseridas aqui -->
+      </div>
+      <div id="emptyState" class="text-center py-12">
+       <div class="text-6xl mb-4">
+        📄
+       </div>
+       <h3 class="text-xl font-semibold text-gray-700 mb-2">Nenhuma proposta criada ainda</h3>
+       <p class="text-gray-500 mb-6">Clique em "Nova Proposta" para começar</p>
+      </div>
+     </div><!-- EDITOR DE PROPOSTA -->
+     <div id="editorView" class="hidden">
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+       <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">✏️ Propostas</h2><button id="btnVoltarLista" class="text-gray-600 hover:text-gray-800 font-semibold"> ← Voltar para Lista </button>
+       </div><!-- Dados Básicos -->
+       <div class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">📝 Dados Básicos</h3>
+        <div class="bg-blue-50 p-4 rounded-lg mb-4 border border-blue-200">
+         <p class="text-sm text-blue-800 font-medium">🏪 Iguatu 3 - Ao lado do Bradesco</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputVendedorNome">Nome do Vendedor</label> <input type="text" id="inputVendedorNome" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Digite o nome do vendedor">
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputClienteNome">Nome do Cliente</label> <input type="text" id="inputClienteNome" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Digite o nome do cliente">
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputClienteContato">Contato do Cliente (com DDD)</label> <input type="text" id="inputClienteContato" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="(11) 98765-4321" required>
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputDataProposta">📅 Data Atual</label> <input type="date" id="inputDataProposta" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-100" readonly>
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputValidadeProposta">⏰ Validade da Proposta</label> <input type="date" id="inputValidadeProposta" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+         </div>
+        </div>
+        <div class="mt-4"><label class="block text-sm font-medium text-gray-700 mb-2" for="inputTituloProposta">Título da Proposta</label> <input type="text" id="inputTituloProposta" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+       </div><!-- Produtos / Planos -->
+       <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+         <h3 class="text-lg font-semibold text-gray-700 border-b pb-2">🛒 Produtos / Planos</h3><button id="btnAdicionarProduto" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 font-semibold text-sm"> + Adicionar Produto </button>
+        </div>
+        <div id="listaProdutos" class="space-y-4"><!-- Produtos serão inseridas aqui -->
+        </div>
+       </div><!-- Botão para Abrir Planos Exclusivos -->
+       <div id="containerBotaoPlanoExclusivo" class="mb-8 hidden"><button id="btnAbrirPlanoExclusivo" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-pink-600 shadow-lg transition-all flex items-center justify-center gap-3"> <span class="text-2xl">🎁</span> <span>Plano Exclusivo Gerente</span> </button>
+       </div><!-- Planos Exclusivos (Parcelamento Sem Juros) -->
+       <div id="secaoPlanoExclusivo" class="mb-8 bg-purple-50 p-6 rounded-lg border border-purple-200 hidden">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4 border-b border-purple-300 pb-2">🎁 Planos Exclusivos (Solicitação de Cliente)</h3>
+        <div id="infoModalidadePlanoExclusivo" class="mb-3 p-2 bg-blue-100 rounded text-sm text-blue-800 text-center font-semibold"><!-- Modalidade será exibida aqui -->
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputValorPlanoExclusivo">Preço de Tabela com Benefícios Zenir</label> <input type="text" id="inputValorPlanoExclusivo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-100" readonly placeholder="R$ 0,00">
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputParcelasPlanoExclusivo">Parcelamento</label> <select id="inputParcelasPlanoExclusivo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" onchange="calcularParcelaPlanoExclusivo()"> <option value="1">1x</option> <option value="2">2x</option> <option value="3">3x</option> <option value="4">4x</option> <option value="5">5x</option> <option value="6">6x</option> <option value="7">7x</option> <option value="8">8x</option> <option value="9">9x</option> <option value="10">10x</option> <option value="11">11x</option> <option value="12">12x</option> </select>
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2">Valor da Parcela</label> <input type="text" id="displayParcelaPlanoExclusivo" class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100" readonly value="R$ 0,00">
+         </div>
+        </div>
+        <div id="infoParcelamentoExclusivo" class="mt-3 p-3 bg-purple-100 rounded text-sm text-purple-800">
+         <p class="font-semibold">💡 Calculado automaticamente com base nos produtos e serviços</p>
+        </div>
+       </div><!-- Botão para Abrir Observações Internas -->
+       <div id="containerBotaoObservacoesInternas" class="mb-8 hidden"><button id="btnAbrirObservacoesInternas" class="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-4 rounded-lg font-bold text-lg hover:from-yellow-600 hover:to-orange-600 shadow-lg transition-all flex items-center justify-center gap-3"> <span class="text-2xl">🔒</span> <span>Solicitação Nível Diretoria</span> </button>
+       </div><!-- Observações Internas (apenas Diretoria) -->
+       <div id="secaoObservacoesInternas" class="mb-8 bg-yellow-50 p-6 rounded-lg border border-yellow-200 hidden">
+        <div class="space-y-4">
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputHistorico">Solicitante/Informações</label> <textarea id="inputHistorico" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Descreva as informações do solicitante..."></textarea>
+         </div>
+         <div id="campoParcelamentoCarne" class="hidden"><label class="block text-sm font-medium text-gray-700 mb-2" for="inputOpcoesParcelamentoCarne">📝 Carnê - Sem Juros</label> <textarea id="inputOpcoesParcelamentoCarne" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 1x, 2x, 3x, 4x, 5x sem juros"></textarea>
+         </div>
+         <div id="campoParcelamentoCartao" class="hidden"><label class="block text-sm font-medium text-gray-700 mb-2" for="inputOpcoesParcelamentoCartao">💳 Cart����o - Sem Juros</label> <textarea id="inputOpcoesParcelamentoCartao" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 1x, 2x, 3x, 4x, 5x, 6x sem juros"></textarea>
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputSimulacao">Proposta da Gerência 💼</label> <textarea id="inputSimulacao" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+         </div>
+         <div><label class="block text-sm font-medium text-gray-700 mb-2" for="inputOportunidades">Observações importantes</label> <textarea id="inputOportunidades" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+         </div>
+        </div>
+       </div><!-- Botões de Ação -->
+       <div class="flex gap-4"><button id="btnSalvarProposta" class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700"> 💾 Salvar Proposta </button> <button id="btnVisualizarProposta" class="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700"> 👁️ Visualizar Proposta </button>
+       </div>
+      </div>
+     </div><!-- VISUALIZAÇÃO DA PROPOSTA -->
+     <div id="visualizacaoView" class="hidden">
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+       <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">👁️ Visualizacao da Proposta</h2><button id="btnVoltarEditor" class="text-gray-600 hover:text-gray-800 font-semibold"> ← Voltar ao Editor </button>
+       </div><!-- Tabs: Visão Cliente / Visão Diretoria -->
+       <div class="flex border-b mb-6"><button id="tabCliente" class="tab-button tab-active px-6 py-3 font-semibold text-gray-700"> 👤 Visão Cliente </button> <button id="tabDiretoria" class="tab-button px-6 py-3 font-semibold text-gray-700"> 🏢 Visão Diretoria </button>
+       </div><!-- Conteúdo das Tabs -->
+       <div id="contentCliente" class="tab-content"><!-- Visão Cliente será renderizada aqui -->
+       </div>
+       <div id="contentDiretoria" class="tab-content hidden"><!-- Visão Diretoria será renderizada aqui -->
+       </div><!-- Botões de Acao -->
+       <div class="mt-6 no-print"><button id="btnGerarImagemCliente" class="w-full bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600"> 👁️ Visualizar e Enviar - Visão Cliente </button> <button id="btnGerarImagemDiretoria" class="hidden w-full bg-purple-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-600"> ����️ Visualizar e Enviar - Visão Diretoria </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // ========== CONFIG & STATE ==========
+    const defaultConfig = {
+      app_title: "Planos e Cotações",
+      primary_button_text: "Nova Proposta",
+      background_color: "#eff6ff",
+      surface_color: "#ffffff",
+      text_color: "#1f2937",
+      primary_action_color: "#2563eb",
+      secondary_action_color: "#6366f1",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    // Tabelas de taxas de juros
+    const TAXAS_CARNE = [1.0690, 0.5523, 0.3804, 0.2946, 0.2432, 0.2091, 0.1849, 0.1668, 0.1528, 0.1417, 0.1327, 0.1252];
+    const TAXAS_CARTAO = [1.0292, 0.5220, 0.3530, 0.2685, 0.2179, 0.1841, 0.1600, 0.1420, 0.1280, 0.1168, 0.1076, 0.1000];
+
+    let currentProposalId = null;
+    let currentProposalData = null;
+    let produtos = [];
+    let allProposals = [];
+    let filtroDataInicio = null;
+    let filtroDataFim = null;
+    let nomeVendedorLogado = '';
+
+    // ========== DATA SDK SETUP ==========
+    const dataHandler = {
+      onDataChanged(data) {
+        allProposals = data;
+        renderListaPropostas(data);
+        updateContador(data.length);
+      }
+    };
+
+    async function initializeApp() {
+      const initResult = await window.dataSdk.init(dataHandler);
+      if (!initResult.isOk) {
+        console.error("Erro ao inicializar Data SDK");
+        document.getElementById('loading').innerHTML = '<p class="text-red-600">Erro ao carregar o módulo.</p>';
+        return;
+      }
+
+      // Inicializar Element SDK
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            applyConfigToUI(config);
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () => config.background_color || defaultConfig.background_color,
+                set: (value) => {
+                  config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                }
+              },
+              {
+                get: () => config.surface_color || defaultConfig.surface_color,
+                set: (value) => {
+                  config.surface_color = value;
+                  window.elementSdk.setConfig({ surface_color: value });
+                }
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              },
+              {
+                get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                set: (value) => {
+                  config.primary_action_color = value;
+                  window.elementSdk.setConfig({ primary_action_color: value });
+                }
+              },
+              {
+                get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                set: (value) => {
+                  config.secondary_action_color = value;
+                  window.elementSdk.setConfig({ secondary_action_color: value });
+                }
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => config.font_family || defaultConfig.font_family,
+              set: (value) => {
+                config.font_family = value;
+                window.elementSdk.setConfig({ font_family: value });
+              }
+            },
+            fontSizeable: {
+              get: () => config.font_size || defaultConfig.font_size,
+              set: (value) => {
+                config.font_size = value;
+                window.elementSdk.setConfig({ font_size: value });
+              }
+            }
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ["app_title", config.app_title || defaultConfig.app_title],
+            ["primary_button_text", config.primary_button_text || defaultConfig.primary_button_text]
+          ])
+        });
+
+        applyConfigToUI(window.elementSdk.config);
+      }
+
+      document.getElementById('loading').classList.add('hidden');
+      
+      // Mostra a tela de boas-vindas
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+      
+      // Configura o botão de entrada
+      document.getElementById('btnEntrarSistema').addEventListener('click', entrarNoSistema);
+      
+      // Permite entrar com Enter
+      document.getElementById('inputNomeVendedorInicial').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          entrarNoSistema();
+        }
+      });
+      
+      // Foca no input
+      setTimeout(() => {
+        document.getElementById('inputNomeVendedorInicial').focus();
+      }, 300);
+    }
+    
+    function entrarNoSistema() {
+      const nomeInput = document.getElementById('inputNomeVendedorInicial');
+      const nome = nomeInput.value.trim();
+      
+      if (!nome) {
+        // Anima o input para indicar erro
+        nomeInput.classList.add('border-red-500');
+        nomeInput.placeholder = '⚠️ Por favor, digite seu nome';
+        nomeInput.focus();
+        
+        setTimeout(() => {
+          nomeInput.classList.remove('border-red-500');
+          nomeInput.placeholder = 'Digite seu nome completo';
+        }, 2000);
+        return;
+      }
+      
+      // Salva o nome do vendedor
+      nomeVendedorLogado = nome;
+      
+      // Esconde a tela de boas-vindas
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      
+      // Mostra o conteúdo principal
+      document.getElementById('mainContent').classList.remove('hidden');
+      
+      // Configura os event listeners
+      setupEventListeners();
+      setDataAtual();
+      
+      // Mostra mensagem de boas-vindas
+      showToast(`🎉 Bem-vindo(a), ${nome}!`, 'success');
+    }
+
+    function applyConfigToUI(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      document.body.style.fontFamily = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+      document.body.style.fontSize = `${baseSize}px`;
+      document.body.style.background = `linear-gradient(to bottom right, ${bgColor}, ${secondaryColor}20)`;
+
+      const appTitle = document.getElementById('appTitle');
+      if (appTitle) {
+        appTitle.textContent = config.app_title || defaultConfig.app_title;
+        appTitle.style.fontSize = `${baseSize * 1.875}px`;
+        appTitle.style.color = surfaceColor;
+      }
+
+      const btnNovaProposta = document.getElementById('btnNovaProposta');
+      if (btnNovaProposta) {
+        btnNovaProposta.textContent = `➕ ${config.primary_button_text || defaultConfig.primary_button_text}`;
+        btnNovaProposta.style.backgroundColor = surfaceColor;
+        btnNovaProposta.style.color = primaryColor;
+        btnNovaProposta.style.fontSize = `${baseSize}px`;
+      }
+
+      const allSurfaces = document.querySelectorAll('.bg-white');
+      allSurfaces.forEach(el => {
+        el.style.backgroundColor = surfaceColor;
+      });
+
+      const allTexts = document.querySelectorAll('h1, h2, h3, p, label, span, button, input, textarea');
+      allTexts.forEach(el => {
+        if (!el.classList.contains('text-white') && !el.style.color) {
+          el.style.color = textColor;
+        }
+      });
+    }
+
+    // ========== EVENT LISTENERS ==========
+    function setupEventListeners() {
+      document.getElementById('btnNovaProposta').addEventListener('click', novaProposta);
+      document.getElementById('btnVoltarLista').addEventListener('click', voltarParaLista);
+      document.getElementById('btnAdicionarProduto').addEventListener('click', adicionarProduto);
+      document.getElementById('btnSalvarProposta').addEventListener('click', salvarProposta);
+      document.getElementById('btnVisualizarProposta').addEventListener('click', visualizarProposta);
+      document.getElementById('btnVoltarEditor').addEventListener('click', voltarParaEditor);
+      document.getElementById('tabCliente').addEventListener('click', () => switchTab('cliente'));
+      document.getElementById('tabDiretoria').addEventListener('click', () => switchTab('diretoria'));
+      document.getElementById('btnGerarImagemCliente').addEventListener('click', () => gerarImagem('cliente'));
+      document.getElementById('btnGerarImagemDiretoria').addEventListener('click', () => gerarImagem('diretoria'));
+      document.getElementById('btnAbrirPlanoExclusivo').addEventListener('click', togglePlanoExclusivo);
+      document.getElementById('btnAbrirObservacoesInternas').addEventListener('click', toggleObservacoesInternas);
+      
+      // Filtros de data
+      document.getElementById('btnFiltrarHoje').addEventListener('click', filtrarHoje);
+      document.getElementById('btnLimparFiltro').addEventListener('click', limparFiltro);
+      document.getElementById('inputDataFiltro').addEventListener('change', aplicarFiltroData);
+    }
+
+    function setDataAtual() {
+      // Obtém a data e hora atual no fuso horário de Brasília (UTC-3)
+      const agora = new Date();
+      const brasiliaOffset = -3 * 60; // Brasília é UTC-3 (em minutos)
+      const localOffset = agora.getTimezoneOffset(); // Offset local em minutos
+      const diffOffset = brasiliaOffset - localOffset;
+      
+      // Ajusta para o horário de Brasília
+      const horarioBrasilia = new Date(agora.getTime() + diffOffset * 60 * 1000);
+      
+      // Formata a data no padrão YYYY-MM-DD
+      const ano = horarioBrasilia.getFullYear();
+      const mes = String(horarioBrasilia.getMonth() + 1).padStart(2, '0');
+      const dia = String(horarioBrasilia.getDate()).padStart(2, '0');
+      const dataFormatada = `${ano}-${mes}-${dia}`;
+      
+      document.getElementById('inputDataProposta').value = dataFormatada;
+    }
+
+    function togglePlanoExclusivo() {
+      const secao = document.getElementById('secaoPlanoExclusivo');
+      const botao = document.getElementById('btnAbrirPlanoExclusivo');
+      
+      if (secao.classList.contains('hidden')) {
+        secao.classList.remove('hidden');
+        botao.innerHTML = `
+          <span class="text-2xl">���</span>
+          <span>Remover Plano Exclusivo</span>
+        `;
+        botao.classList.remove('from-purple-500', 'to-pink-500', 'hover:from-purple-600', 'hover:to-pink-600');
+        botao.classList.add('from-red-500', 'to-red-600', 'hover:from-red-600', 'hover:to-red-700');
+      } else {
+        secao.classList.add('hidden');
+        botao.innerHTML = `
+          <span class="text-2xl">🎁</span>
+          <span>Plano Exclusivo Gerente</span>
+        `;
+        botao.classList.remove('from-red-500', 'to-red-600', 'hover:from-red-600', 'hover:to-red-700');
+        botao.classList.add('from-purple-500', 'to-pink-500', 'hover:from-purple-600', 'hover:to-pink-600');
+      }
+    }
+
+    function toggleObservacoesInternas() {
+      const secao = document.getElementById('secaoObservacoesInternas');
+      const botao = document.getElementById('btnAbrirObservacoesInternas');
+      
+      if (secao.classList.contains('hidden')) {
+        secao.classList.remove('hidden');
+        botao.innerHTML = `
+          <span class="text-2xl">❌</span>
+          <span>Remover Observações Internas</span>
+        `;
+        botao.classList.remove('from-yellow-500', 'to-orange-500', 'hover:from-yellow-600', 'hover:to-orange-600');
+        botao.classList.add('from-red-500', 'to-red-600', 'hover:from-red-600', 'hover:to-red-700');
+      } else {
+        secao.classList.add('hidden');
+        botao.innerHTML = `
+          <span class="text-2xl">🔒</span>
+          <span>Solicitação Nível Diretoria</span>
+        `;
+        botao.classList.remove('from-red-500', 'to-red-600', 'hover:from-red-600', 'hover:to-red-700');
+        botao.classList.add('from-yellow-500', 'to-orange-500', 'hover:from-yellow-600', 'hover:to-orange-600');
+      }
+    }
+
+    // ========== NAVIGATION ==========
+    function showView(viewName) {
+      document.getElementById('listaView').classList.add('hidden');
+      document.getElementById('editorView').classList.add('hidden');
+      document.getElementById('visualizacaoView').classList.add('hidden');
+      document.getElementById(viewName + 'View').classList.remove('hidden');
+    }
+
+    function novaProposta() {
+      currentProposalId = null;
+      currentProposalData = null;
+      produtos = [];
+      limparFormulario();
+      setDataAtual();
+      
+      // Preenche automaticamente o nome do vendedor
+      if (nomeVendedorLogado) {
+        document.getElementById('inputVendedorNome').value = nomeVendedorLogado;
+      }
+      
+      showView('editor');
+    }
+
+    function voltarParaLista() {
+      showView('lista');
+    }
+
+    function voltarParaEditor() {
+      showView('editor');
+    }
+
+    // ========== PRODUTOS ==========
+    function adicionarProduto() {
+      // Fecha todos os produtos existentes
+      produtos.forEach(p => {
+        p.expanded = false;
+      });
+      
+      // Adiciona novo produto já expandido
+      const produto = {
+        id: Date.now().toString(),
+        produto_completo: '',
+        codigo: '',
+        nome: '',
+        descricao: '',
+        preco_normal: 0,
+        preco_promo: 0,
+        modalidade: 'avista',
+        parcelas: 1,
+        valor_parcela: 0,
+        expanded: true,  // Novo produto já vem aberto
+        tem_servicos: null,  // null = não perguntou ainda, true = sim, false = não
+        valor_ge: 0,
+        usa_pm: false,
+        preco_com_ge: 0,
+        preco_com_pm: 0
+      };
+      produtos.push(produto);
+      renderProdutos();
+    }
+
+
+
+    function removerProduto(id) {
+      produtos = produtos.filter(p => p.id !== id);
+      renderProdutos();
+      atualizarCamposParcelamento();
+    }
+
+    function renderProdutos() {
+      const container = document.getElementById('listaProdutos');
+      if (produtos.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-4">Nenhum produto adicionado. Clique em "Adicionar Produto".</p>';
+        atualizarValorPlanoExclusivo();
+        atualizarCamposParcelamento();
+        return;
+      }
+      
+      atualizarValorPlanoExclusivo();
+      atualizarCamposParcelamento();
+
+      container.innerHTML = produtos.map((p, index) => {
+        const isExpanded = p.expanded === true;
+        const desc = calcularDesconto(p);
+        
+        return `
+        <div class="produto-item bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-md p-5 border-2 border-blue-200">
+          <!-- Cabeçalho do Produto -->
+          <div class="cursor-pointer" onclick="toggleProduto('${p.id}')">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">${isExpanded ? '📂' : '📁'}</span>
+              <div class="flex-1">
+                <h4 class="font-bold text-gray-800">${p.produto_completo || `Produto #${index + 1}`}</h4>
+                <p class="text-xs text-gray-500">${isExpanded ? 'Clique para recolher' : 'Clique para expandir'}</p>
+              </div>
+              <button onclick="event.stopPropagation(); removerProduto('${p.id}')" class="text-red-500 hover:text-red-700 text-2xl transition-colors" title="Remover produto">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <!-- Campo de Código/Nome do Produto (visível apenas quando expandido) -->
+          <div class="mt-4 mb-4 ${isExpanded ? '' : 'hidden'}">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Código / Nome do Produto</label>
+            <input type="text" value="${p.produto_completo || ''}" onchange="updateProduto('${p.id}', 'produto_completo', this.value)" onclick="event.stopPropagation()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: COD123 - Nome do Produto">
+          </div>
+
+          <!-- Conteúdo Expansível -->
+          <div id="produto-content-${p.id}" class="${isExpanded ? '' : 'hidden'}">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Preço Normal (R$)</label>
+                <input type="text" value="${formatarMoeda(p.preco_normal)}" onfocus="limparMoeda(this)" onblur="aplicarMoeda(this, '${p.id}', 'preco_normal')" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="R$ 0,00">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Preço Promocional (R$)</label>
+                <input type="text" id="input-preco-promo-${p.id}" value="${formatarMoeda(p.preco_promo)}" onfocus="limparMoeda(this)" onblur="aplicarMoeda(this, '${p.id}', 'preco_promo')" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="R$ 0,00">
+              </div>
+            </div>
+
+            <!-- Pergunta sobre Serviços (só aparece em Carnê ou Cartão) -->
+            <div id="pergunta-servicos-${p.id}" class="${(p.tem_servicos === null && (p.modalidade === 'carne' || p.modalidade === 'cartao')) ? '' : 'hidden'} mb-4 bg-yellow-50 p-4 rounded-lg border-2 border-yellow-300">
+              <p class="text-sm font-semibold text-gray-800 mb-3">🛠️ Este orçamento tem serviços (G.E${p.modalidade === 'carne' ? ' ou P.M' : ''})?</p>
+              <div class="flex gap-3">
+                <button onclick="event.stopPropagation(); responderServicos('${p.id}', true)" class="flex-1 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 font-semibold">
+                  ✅ Sim
+                </button>
+                <button onclick="event.stopPropagation(); responderServicos('${p.id}', false)" class="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-semibold">
+                  ❌ Não
+                </button>
+              </div>
+            </div>
+
+            <!-- Área de Serviços (G.E e P.M) -->
+            <div id="area-servicos-${p.id}" class="${p.tem_servicos === true ? '' : 'hidden'} mb-4 bg-purple-50 p-4 rounded-lg border-2 border-purple-300">
+              
+              <!-- Valor G.E (Garantia Estendida) -->
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">💎 Benefícios Zenir G.E +12</label>
+                <input type="text" id="input-ge-${p.id}" value="${formatarMoeda(p.valor_ge || 0)}" onfocus="limparMoeda(this)" onblur="aplicarValorGE(this, '${p.id}')" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="R$ 0,00">
+              </div>
+
+              <!-- Opção P.M (Presta Mista) - Apenas para Carnê -->
+              <div id="opcao-pm-${p.id}" class="${(p.modalidade === 'carne') ? '' : 'hidden'} mb-4">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="checkbox-pm-${p.id}" ${p.usa_pm ? 'checked' : ''} onchange="togglePM('${p.id}', this.checked)" class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                  <span class="text-sm font-medium text-gray-700">📋 P.M - Adiciona 6% na parcela</span>
+                </label>
+              </div>
+
+              <!-- Resumo dos Valores com Serviços -->
+              <div class="bg-white p-3 rounded-lg border border-purple-300">
+                <p class="text-sm font-semibold text-gray-700 mb-3">💎 Resumo de Valores:</p>
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600 text-sm">Preço Promocional:</span>
+                    <span class="font-bold text-green-600 text-lg">${formatarMoedaBR(p.preco_promo || 0)}</span>
+                  </div>
+                  <div class="flex justify-between text-purple-600 text-xs">
+                    <span>+ G.E:</span>
+                    <span class="font-semibold">${formatarMoedaBR(p.valor_ge || 0)}</span>
+                  </div>
+                  <div class="flex justify-between border-t pt-1 font-bold text-green-600 text-sm">
+                    <span>Total com G.E:</span>
+                    <span>${formatarMoedaBR(calcularPrecoComGE(p))}</span>
+                  </div>
+                  ${p.usa_pm && p.modalidade === 'carne' ? `
+                    <div class="flex justify-between text-orange-600 mt-2 pt-2 border-t text-xs">
+                      <span>+ P.M (6% na parcela):</span>
+                      <span class="font-semibold">${formatarMoedaBR(calcularAdicionalPM(p))}</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-blue-600 text-sm">
+                      <span>Total com G.E + P.M:</span>
+                      <span>${formatarMoedaBR(calcularPrecoComPM(p))}</span>
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Modalidade de Pagamento</label>
+                <select onchange="updateModalidade('${p.id}', this.value)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  <option value="avista" ${(p.modalidade || 'avista') === 'avista' ? 'selected' : ''}>À Vista</option>
+                  <option value="carne" ${p.modalidade === 'carne' ? 'selected' : ''}>Carnê</option>
+                  <option value="cartao" ${p.modalidade === 'cartao' ? 'selected' : ''}>Cartão</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Número de Parcelas</label>
+                <select onchange="updateProduto('${p.id}', 'parcelas', parseInt(this.value))" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" ${(p.modalidade || 'avista') === 'avista' ? 'disabled' : ''}>
+                  <option value="1" ${p.parcelas === 1 ? 'selected' : ''}>1x</option>
+                  <option value="2" ${p.parcelas === 2 ? 'selected' : ''}>2x</option>
+                  <option value="3" ${p.parcelas === 3 ? 'selected' : ''}>3x</option>
+                  <option value="4" ${p.parcelas === 4 ? 'selected' : ''}>4x</option>
+                  <option value="5" ${p.parcelas === 5 ? 'selected' : ''}>5x</option>
+                  <option value="6" ${p.parcelas === 6 ? 'selected' : ''}>6x</option>
+                  <option value="7" ${p.parcelas === 7 ? 'selected' : ''}>7x</option>
+                  <option value="8" ${p.parcelas === 8 ? 'selected' : ''}>8x</option>
+                  <option value="9" ${p.parcelas === 9 ? 'selected' : ''}>9x</option>
+                  <option value="10" ${p.parcelas === 10 ? 'selected' : ''}>10x</option>
+                  <option value="11" ${p.parcelas === 11 ? 'selected' : ''}>11x</option>
+                  <option value="12" ${p.parcelas === 12 ? 'selected' : ''}>12x</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Resumo Financeiro do Produto -->
+            <div class="bg-white p-4 rounded-lg border border-blue-300">
+              <h5 class="font-semibold text-gray-700 mb-3 text-center">💰 Resumo Financeiro</h5>
+              ${(p.modalidade || 'avista') === 'avista' ? `
+                <!-- Resumo À Vista -->
+                <div class="grid grid-cols-3 gap-4 text-center">
+                  <div class="bg-blue-50 rounded-lg p-3">
+                    <p class="text-xs text-gray-600 mb-1">🏷️ Desconto</p>
+                    <p class="font-bold text-blue-600 text-lg">${desc.percentual}%</p>
+                  </div>
+                  <div class="bg-green-50 rounded-lg p-3">
+                    <p class="text-xs text-gray-600 mb-1">✅ Economia</p>
+                    <p class="font-bold text-green-600 text-lg">${formatarMoedaBR(desc.valor)}</p>
+                  </div>
+                  <div class="bg-purple-50 rounded-lg p-3">
+                    <p class="text-xs text-gray-600 mb-1">💵 Valor À Vista</p>
+                    <p class="font-bold text-purple-600 text-lg">${formatarMoedaBR(p.preco_promo)}</p>
+                    <p class="text-xs text-gray-400 line-through mt-1">${formatarMoedaBR(p.preco_normal)}</p>
+                  </div>
+                </div>
+              ` : `
+                <!-- Resumo Parcelado (Carnê ou Cartão) -->
+                <div class="space-y-3">
+                  <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="bg-purple-50 rounded-lg p-3">
+                      <p class="text-xs text-gray-600 mb-1">💳 Parcela no ${p.modalidade === 'carne' ? 'Carnê' : 'Cartão'}</p>
+                      <p class="font-bold text-purple-600 text-lg">${formatarMoedaBR(calcularParcela(p))}</p>
+                      <p class="text-xs text-gray-500 mt-1">${p.parcelas}x</p>
+                    </div>
+                    <div class="bg-indigo-50 rounded-lg p-3">
+                      <p class="text-xs text-gray-600 mb-1">💵 Valor Total</p>
+                      <p class="font-bold text-indigo-600 text-lg">${formatarMoedaBR(calcularValorTotal(p))}</p>
+                      <p class="text-xs text-gray-400 line-through mt-1">${formatarMoedaBR(calcularValorTotalNormal(p))}</p>
+                    </div>
+                  </div>
+                  <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-300">
+                    <p class="text-sm font-semibold text-gray-700 mb-2 text-center">💰 Economia Total no ${p.modalidade === 'carne' ? 'Carnê' : 'Cartão'}</p>
+                    <div class="text-center">
+                      <p class="text-2xl font-bold text-green-600">${formatarMoedaBR(calcularDescontoParcelado(p).valor)}</p>
+                      <p class="text-xs text-gray-600 mt-1">(${calcularDescontoParcelado(p).percentual}% de desconto)</p>
+                    </div>
+                  </div>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    function toggleProduto(id) {
+      const produto = produtos.find(p => p.id === id);
+      if (produto) {
+        const novoEstado = produto.expanded === false ? true : false;
+        
+        // Se está abrindo este produto, fecha todos os outros
+        if (novoEstado === true) {
+          produtos.forEach(p => {
+            p.expanded = false;
+          });
+        }
+        
+        // Define o estado do produto clicado
+        produto.expanded = novoEstado;
+        renderProdutos();
+      }
+    }
+
+    function updateProduto(id, campo, valor) {
+      const produto = produtos.find(p => p.id === id);
+      if (produto) {
+        produto[campo] = valor;
+        renderProdutos();
+      }
+    }
+
+    function updateModalidade(id, valor) {
+      const produto = produtos.find(p => p.id === id);
+      if (produto) {
+        produto.modalidade = valor;
+        // Reseta o estado de serviços para perguntar novamente
+        produto.tem_servicos = null;
+        // Se mudou para outra modalidade que não carnê, desativa P.M
+        if (valor !== 'carne') {
+          produto.usa_pm = false;
+        }
+        renderProdutos();
+        atualizarCamposParcelamento();
+      }
+    }
+
+    function responderServicos(id, temServicos) {
+      const produto = produtos.find(p => p.id === id);
+      if (produto) {
+        produto.tem_servicos = temServicos;
+        renderProdutos();
+      }
+    }
+
+    function aplicarValorGE(input, id) {
+      const valor = parseFloat(input.value.replace(',', '.')) || 0;
+      const produto = produtos.find(p => p.id === id);
+      if (produto) {
+        produto.valor_ge = valor;
+        produto.preco_com_ge = (parseFloat(produto.preco_promo) || 0) + valor;
+        renderProdutos();
+      }
+      input.value = formatarMoeda(valor);
+    }
+
+    function togglePM(id, usaPM) {
+      const produto = produtos.find(p => p.id === id);
+      if (produto) {
+        produto.usa_pm = usaPM;
+        renderProdutos();
+      }
+    }
+
+    function calcularPrecoComGE(produto) {
+      return (parseFloat(produto.preco_promo) || 0) + (parseFloat(produto.valor_ge) || 0);
+    }
+
+    function calcularAdicionalPM(produto) {
+      // P.M adiciona 6% no valor da parcela
+      const precoBase = calcularPrecoComGE(produto);
+      const parcelas = parseInt(produto.parcelas) || 1;
+      const modalidade = produto.modalidade || 'avista';
+      
+      if (modalidade !== 'carne' || parcelas === 0) {
+        return 0;
+      }
+      
+      // Calcula a parcela base (sem P.M)
+      let coeficiente = 0;
+      if (parcelas >= 1 && parcelas <= 12) {
+        coeficiente = TAXAS_CARNE[parcelas - 1];
+      }
+      
+      const parcelaBase = precoBase * coeficiente;
+      
+      // Adiciona 6% na parcela
+      const parcelaComPM = parcelaBase * 1.06;
+      
+      // Retorna o adicional total (diferença entre total com PM e total sem PM)
+      return (parcelaComPM * parcelas) - (parcelaBase * parcelas);
+    }
+
+    function calcularPrecoComPM(produto) {
+      return calcularPrecoComGE(produto) + calcularAdicionalPM(produto);
+    }
+
+    function formatarMoeda(valor) {
+      const numero = parseFloat(valor) || 0;
+      return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function formatarMoedaBR(valor) {
+      const numero = parseFloat(valor) || 0;
+      return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function limparMoeda(input) {
+      // Remove a formatação e deixa apenas números
+      const valorAtual = input.value.replace(/[^\d,]/g, '').replace(',', '.');
+      const numero = parseFloat(valorAtual) || 0;
+      // Mostra apenas o número sem formatação para facilitar a digitação
+      input.value = numero > 0 ? numero.toString() : '';
+      input.select(); // Seleciona todo o texto para facilitar a substituição
+    }
+
+    function aplicarMoeda(input, id, campo) {
+      const valor = parseFloat(input.value.replace(',', '.')) || 0;
+      updateProduto(id, campo, valor);
+      input.value = formatarMoeda(valor);
+    }
+
+    // Funções para Plano Exclusivo
+    let valorPlanoExclusivo = 0;
+
+    function limparMoedaPlanoExclusivo(input) {
+      const valorAtual = input.value.replace(/[^\d,]/g, '').replace(',', '.');
+      const numero = parseFloat(valorAtual) || 0;
+      input.value = numero > 0 ? numero.toString() : '';
+      input.select();
+    }
+
+    function aplicarMoedaPlanoExclusivo(input) {
+      const valor = parseFloat(input.value.replace(',', '.')) || 0;
+      valorPlanoExclusivo = valor;
+      input.value = formatarMoeda(valor);
+      calcularParcelaPlanoExclusivo();
+    }
+
+    function calcularParcelaPlanoExclusivo() {
+      const parcelas = parseInt(document.getElementById('inputParcelasPlanoExclusivo').value) || 1;
+      
+      // Verifica se tem produtos no carnê ou cartão
+      const temCarne = produtos.some(p => p.modalidade === 'carne');
+      const temCartao = produtos.some(p => p.modalidade === 'cartao');
+      
+      let valorParcela = 0;
+      let temJuros = false;
+      let modalidadeTexto = '';
+      
+      if (temCarne) {
+        modalidadeTexto = 'Carnê';
+        // CARNÊ: Até 5x sem juros, a partir da 6ª com juros
+        if (parcelas <= 5) {
+          // Sem juros: divide o valor total
+          valorParcela = valorPlanoExclusivo / parcelas;
+          temJuros = false;
+        } else {
+          // Com juros: aplica fator do carnê
+          const coeficiente = TAXAS_CARNE[parcelas - 1] || 0;
+          valorParcela = valorPlanoExclusivo * coeficiente;
+          temJuros = true;
+        }
+      } else if (temCartao) {
+        modalidadeTexto = 'Cartão';
+        // CARTÃO: Até 6x sem juros, a partir da 7ª com juros
+        if (parcelas <= 6) {
+          // Sem juros: divide o valor total
+          valorParcela = valorPlanoExclusivo / parcelas;
+          temJuros = false;
+        } else {
+          // Com juros: aplica fator do cartão
+          const coeficiente = TAXAS_CARTAO[parcelas - 1] || 0;
+          valorParcela = valorPlanoExclusivo * coeficiente;
+          temJuros = true;
+        }
+      } else {
+        modalidadeTexto = 'À Vista';
+        // À vista ou sem modalidade definida: sem juros
+        valorParcela = valorPlanoExclusivo / parcelas;
+        temJuros = false;
+      }
+      
+      document.getElementById('displayParcelaPlanoExclusivo').value = formatarMoedaBR(valorParcela);
+      
+      // Atualiza a mensagem de modalidade no topo
+      const infoModalidadeDiv = document.getElementById('infoModalidadePlanoExclusivo');
+      if (infoModalidadeDiv) {
+        infoModalidadeDiv.innerHTML = `📋 Modalidade: <strong>${modalidadeTexto}</strong>`;
+      }
+      
+      // Atualiza a mensagem informativa
+      const infoDiv = document.getElementById('infoParcelamentoExclusivo');
+      if (infoDiv) {
+        if (temJuros) {
+          const valorTotal = valorParcela * parcelas;
+          infoDiv.innerHTML = `<p class="font-semibold">���� ${modalidadeTexto}: ${parcelas}x COM JUROS = ${formatarMoedaBR(valorTotal)} (Total com juros)</p>`;
+          infoDiv.className = 'mt-3 p-3 bg-orange-100 rounded text-sm text-orange-800';
+        } else {
+          if (temCarne && parcelas <= 5) {
+            infoDiv.innerHTML = `<p class="font-semibold">✨ Carnê: Até 5x SEM JUROS - Condição especial!</p>`;
+          } else if (temCartao && parcelas <= 6) {
+            infoDiv.innerHTML = `<p class="font-semibold">✨ Cartão: Até 6x SEM JUROS - Condição especial!</p>`;
+          } else {
+            infoDiv.innerHTML = `<p class="font-semibold">������ Calculado automaticamente com base nos produtos e serviços</p>`;
+          }
+          infoDiv.className = 'mt-3 p-3 bg-purple-100 rounded text-sm text-purple-800';
+        }
+      }
+    }
+
+    function atualizarCamposParcelamento() {
+      // Verifica quais modalidades existem nos produtos
+      const temCarne = produtos.some(p => p.modalidade === 'carne');
+      const temCartao = produtos.some(p => p.modalidade === 'cartao');
+      
+      const campoCarne = document.getElementById('campoParcelamentoCarne');
+      const campoCartao = document.getElementById('campoParcelamentoCartao');
+      
+      // Mostra/oculta campos conforme modalidades presentes
+      if (campoCarne) {
+        if (temCarne) {
+          campoCarne.classList.remove('hidden');
+        } else {
+          campoCarne.classList.add('hidden');
+        }
+      }
+      
+      if (campoCartao) {
+        if (temCartao) {
+          campoCartao.classList.remove('hidden');
+        } else {
+          campoCartao.classList.add('hidden');
+        }
+      }
+    }
+
+    function atualizarValorPlanoExclusivo() {
+      // Verifica se tem produtos com carnê ou cartão
+      const temCarneOuCartao = produtos.some(p => p.modalidade === 'carne' || p.modalidade === 'cartao');
+      
+      const containerBotao = document.getElementById('containerBotaoPlanoExclusivo');
+      const containerBotaoObservacoes = document.getElementById('containerBotaoObservacoesInternas');
+      
+      // Só mostra o BOTÃO se tiver carnê ou cartão
+      if (!temCarneOuCartao) {
+        if (containerBotao) {
+          containerBotao.classList.add('hidden');
+        }
+        if (containerBotaoObservacoes) {
+          containerBotaoObservacoes.classList.add('hidden');
+        }
+        return;
+      } else {
+        if (containerBotao) {
+          containerBotao.classList.remove('hidden');
+        }
+        if (containerBotaoObservacoes) {
+          containerBotaoObservacoes.classList.remove('hidden');
+        }
+      }
+      
+      // Calcula o valor total baseado nas modalidades e serviços
+      let valorTotal = 0;
+      
+      produtos.forEach(p => {
+        const modalidade = p.modalidade || 'avista';
+        const precoPromo = parseFloat(p.preco_promo) || 0;
+        const valorGE = parseFloat(p.valor_ge) || 0;
+        const temServicos = p.tem_servicos === true;
+        
+        if (modalidade === 'avista') {
+          // À vista: produto + G.E
+          valorTotal += precoPromo;
+          if (temServicos && valorGE > 0) {
+            valorTotal += valorGE;
+          }
+        } else if (modalidade === 'cartao') {
+          // Cartão: produto + G.E
+          valorTotal += precoPromo;
+          if (temServicos && valorGE > 0) {
+            valorTotal += valorGE;
+          }
+        } else if (modalidade === 'carne') {
+          // Carnê: produto + G.E
+          valorTotal += precoPromo;
+          if (temServicos) {
+            if (valorGE > 0) {
+              valorTotal += valorGE;
+            }
+            // Se usa P.M, adiciona 6% do total (produto + G.E)
+            if (p.usa_pm) {
+              valorTotal += (precoPromo + valorGE) * 0.06;
+            }
+          }
+        }
+      });
+      
+      valorPlanoExclusivo = valorTotal;
+      
+      const inputValor = document.getElementById('inputValorPlanoExclusivo');
+      if (inputValor) {
+        inputValor.value = formatarMoeda(valorTotal);
+        calcularParcelaPlanoExclusivo();
+      }
+    }
+
+    function calcularDesconto(produto) {
+      const normal = parseFloat(produto.preco_normal) || 0;
+      const promo = parseFloat(produto.preco_promo) || 0;
+      
+      if (normal === 0 || promo === 0) {
+        return { valor: 0, percentual: '0.0' };
+      }
+      
+      const valor = normal - promo;
+      
+      // Se o valor for negativo ou zero, retorna zero
+      if (valor <= 0) {
+        return { valor: 0, percentual: '0.0' };
+      }
+      
+      const percentual = ((valor / normal) * 100).toFixed(1);
+      return { valor, percentual };
+    }
+
+    function calcularDescontoParcelado(produto) {
+      const totalNormal = calcularValorTotalNormal(produto);
+      const totalPromo = calcularValorTotal(produto);
+      
+      if (totalNormal === 0 || totalPromo === 0) {
+        return { valor: 0, percentual: '0.0' };
+      }
+      
+      const valor = totalNormal - totalPromo;
+      
+      // Se o valor for negativo ou zero, retorna zero
+      if (valor <= 0) {
+        return { valor: 0, percentual: '0.0' };
+      }
+      
+      const percentual = ((valor / totalNormal) * 100).toFixed(1);
+      return { valor, percentual };
+    }
+
+    function calcularParcela(produto) {
+      // Usa o preço base correto dependendo se tem serviços
+      let precoBase = parseFloat(produto.preco_promo) || 0;
+      
+      // Se tem serviços, usa o preço com G.E ou com G.E + P.M
+      if (produto.tem_servicos === true) {
+        if (produto.usa_pm && produto.modalidade === 'carne') {
+          // Calcula com G.E + P.M
+          precoBase = calcularPrecoComGE(produto);
+          const parcelas = parseInt(produto.parcelas) || 1;
+          
+          if (parcelas === 0) return 0;
+          
+          let coeficiente = 0;
+          if (parcelas >= 1 && parcelas <= 12) {
+            coeficiente = TAXAS_CARNE[parcelas - 1];
+          }
+          
+          const parcelaBase = precoBase * coeficiente;
+          // Adiciona 6% na parcela
+          return parcelaBase * 1.06;
+        } else {
+          // Usa apenas com G.E
+          precoBase = calcularPrecoComGE(produto);
+        }
+      }
+      
+      const parcelas = parseInt(produto.parcelas) || 1;
+      const modalidade = produto.modalidade || 'avista';
+      
+      if (precoBase === 0 || parcelas === 0) {
+        return 0;
+      }
+      
+      // À vista não tem juros
+      if (modalidade === 'avista') {
+        return precoBase;
+      }
+      
+      // Aplica coeficiente conforme modalidade
+      let coeficiente = 0;
+      if (modalidade === 'carne' && parcelas >= 1 && parcelas <= 12) {
+        coeficiente = TAXAS_CARNE[parcelas - 1];
+      } else if (modalidade === 'cartao' && parcelas >= 1 && parcelas <= 12) {
+        coeficiente = TAXAS_CARTAO[parcelas - 1];
+      }
+      
+      // O coeficiente já representa o valor da parcela quando multiplicado pelo valor total
+      return precoBase * coeficiente;
+    }
+    
+    function calcularValorTotal(produto) {
+      const promo = parseFloat(produto.preco_promo) || 0;
+      const parcelas = parseInt(produto.parcelas) || 1;
+      const modalidade = produto.modalidade || 'avista';
+      
+      if (promo === 0) {
+        return 0;
+      }
+      
+      // À vista não tem juros
+      if (modalidade === 'avista') {
+        return promo;
+      }
+      
+      // Valor total = valor da parcela * número de parcelas
+      const valorParcela = calcularParcela(produto);
+      return valorParcela * parcelas;
+    }
+
+    function calcularValorTotalNormal(produto) {
+      const normal = parseFloat(produto.preco_normal) || 0;
+      const parcelas = parseInt(produto.parcelas) || 1;
+      const modalidade = produto.modalidade || 'avista';
+      
+      if (normal === 0) {
+        return 0;
+      }
+      
+      // À vista não tem juros
+      if (modalidade === 'avista') {
+        return normal;
+      }
+      
+      // Aplica coeficiente conforme modalidade usando preço normal
+      let coeficiente = 0;
+      if (modalidade === 'carne' && parcelas >= 1 && parcelas <= 12) {
+        coeficiente = TAXAS_CARNE[parcelas - 1];
+      } else if (modalidade === 'cartao' && parcelas >= 1 && parcelas <= 12) {
+        coeficiente = TAXAS_CARTAO[parcelas - 1];
+      }
+      
+      const valorParcela = normal * coeficiente;
+      return valorParcela * parcelas;
+    }
+
+    // ========== SALVAR PROPOSTA ==========
+    async function salvarProposta() {
+      const btn = document.getElementById('btnSalvarProposta');
+      
+      // Validar contato do cliente com DDD
+      const clienteContato = document.getElementById('inputClienteContato').value;
+      
+      if (!validarContato(clienteContato)) {
+        showToast('⚠️ Contato do cliente deve incluir DDD. Ex: (11) 91234-5678', 'error');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.textContent = '💾 Salvando...';
+
+      const agora = new Date().toISOString();
+      const proposta = {
+        loja_nome: 'Iguatu 3 - Ao lado do Bradesco',
+        vendedor_nome: document.getElementById('inputVendedorNome').value,
+        vendedor_contato: '',
+        titulo_proposta: document.getElementById('inputTituloProposta').value,
+        data_proposta: document.getElementById('inputDataProposta').value,
+        validade_proposta: document.getElementById('inputValidadeProposta').value,
+        cliente_nome: document.getElementById('inputClienteNome').value,
+        cliente_contato: clienteContato,
+        produtos: JSON.stringify(produtos),
+        plano_exclusivo_valor: valorPlanoExclusivo,
+        plano_exclusivo_parcelas: parseInt(document.getElementById('inputParcelasPlanoExclusivo').value) || 1,
+        historico_negociacao: document.getElementById('inputHistorico').value,
+        opcoes_parcelamento_carne: document.getElementById('inputOpcoesParcelamentoCarne').value,
+        opcoes_parcelamento_cartao: document.getElementById('inputOpcoesParcelamentoCartao').value,
+        simulacao_perdas_ganhos: document.getElementById('inputSimulacao').value,
+        oportunidades_melhoria: document.getElementById('inputOportunidades').value,
+
+        status: 'Em an��lise',
+        created_at: currentProposalId ? (allProposals.find(p => p.__backendId === currentProposalId)?.created_at || agora) : agora,
+        updated_at: agora
+      };
+
+      let result;
+      if (currentProposalId) {
+        proposta.__backendId = currentProposalId;
+        result = await window.dataSdk.update(proposta);
+      } else {
+        result = await window.dataSdk.create(proposta);
+      }
+
+      btn.disabled = false;
+      btn.textContent = '💾 Salvar Proposta';
+
+      if (result.isOk) {
+        showToast('✅ Proposta salva com sucesso!', 'success');
+        setTimeout(() => voltarParaLista(), 1500);
+      } else {
+        showToast('❌ Erro ao salvar proposta. Tente novamente.', 'error');
+      }
+    }
+
+    // ========== VISUALIZAR PROPOSTA ==========
+    function visualizarProposta() {
+      // Validação básica
+      if (produtos.length === 0) {
+        showToast('⚠️ Adicione pelo menos um produto antes de visualizar', 'error');
+        return;
+      }
+
+      currentProposalData = {
+        loja_nome: 'Iguatu 3 - Ao lado do Bradesco',
+        vendedor_nome: document.getElementById('inputVendedorNome').value,
+        vendedor_contato: '',
+        titulo_proposta: document.getElementById('inputTituloProposta').value,
+        data_proposta: document.getElementById('inputDataProposta').value,
+        validade_proposta: document.getElementById('inputValidadeProposta').value,
+        cliente_nome: document.getElementById('inputClienteNome').value,
+        cliente_contato: document.getElementById('inputClienteContato').value,
+        produtos: produtos,
+        plano_exclusivo_valor: valorPlanoExclusivo,
+        plano_exclusivo_parcelas: parseInt(document.getElementById('inputParcelasPlanoExclusivo').value) || 1,
+        historico_negociacao: document.getElementById('inputHistorico').value,
+        opcoes_parcelamento_carne: document.getElementById('inputOpcoesParcelamentoCarne').value,
+        opcoes_parcelamento_cartao: document.getElementById('inputOpcoesParcelamentoCartao').value,
+        simulacao_perdas_ganhos: document.getElementById('inputSimulacao').value,
+        oportunidades_melhoria: document.getElementById('inputOportunidades').value
+      };
+
+      renderVisaoCliente(currentProposalData);
+      renderVisaoDiretoria(currentProposalData);
+      showView('visualizacao');
+      switchTab('cliente');
+    }
+
+    // ========== TABS ==========
+    function switchTab(tab) {
+      document.getElementById('tabCliente').classList.remove('tab-active');
+      document.getElementById('tabDiretoria').classList.remove('tab-active');
+      document.getElementById('contentCliente').classList.add('hidden');
+      document.getElementById('contentDiretoria').classList.add('hidden');
+
+      if (tab === 'cliente') {
+        document.getElementById('tabCliente').classList.add('tab-active');
+        document.getElementById('contentCliente').classList.remove('hidden');
+        document.getElementById('btnGerarImagemCliente').classList.remove('hidden');
+        document.getElementById('btnGerarImagemDiretoria').classList.add('hidden');
+      } else {
+        document.getElementById('tabDiretoria').classList.add('tab-active');
+        document.getElementById('contentDiretoria').classList.remove('hidden');
+        document.getElementById('btnGerarImagemCliente').classList.add('hidden');
+        document.getElementById('btnGerarImagemDiretoria').classList.remove('hidden');
+      }
+    }
+
+    // ========== RENDER VISÃO CLIENTE ==========
+    function renderVisaoCliente(data) {
+      const totalNormal = data.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_normal) || 0), 0);
+      const totalPromo = data.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_promo) || 0), 0);
+      const economiaTotal = totalNormal - totalPromo;
+      const descontoPercentual = totalNormal > 0 ? ((economiaTotal / totalNormal) * 100).toFixed(1) : 0;
+
+      const html = `
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-lg border-2 border-blue-200">
+          <!-- Cabeçalho -->
+          <div class="text-center mb-6 pb-4 border-b-2 border-blue-300">
+            <div class="text-2xl font-bold text-blue-600 mb-2">${data.loja_nome || 'Loja'}</div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">${data.titulo_proposta || 'Proposta Comercial'}</h2>
+            ${data.cliente_nome ? `<p class="text-xs text-gray-500 mt-2">Proposta para: <strong>${data.cliente_nome}</strong></p>` : ''}
+            <p class="text-xs text-gray-500">Data: ${formatarData(data.data_proposta)}</p>
+            ${data.validade_proposta ? `
+              <div class="mt-3 bg-gradient-to-r from-orange-100 to-red-100 border-2 border-orange-400 rounded-lg px-4 py-2 inline-block">
+                <p class="text-sm font-bold text-orange-800">⏰ Proposta válida até: ${formatarData(data.validade_proposta)}</p>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Produtos -->
+          <div class="mb-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+              <span class="bg-blue-500 text-white rounded-full w-7 h-7 flex items-center justify-center mr-2 text-sm">🛒</span>
+              Produtos Inclusos
+            </h3>
+            <div class="space-y-4">
+              ${data.produtos.map(p => {
+                const desc = calcularDesconto(p);
+                const modalidade = p.modalidade || 'avista';
+                
+                // Verifica se tem benefícios (G.E ou P.M)
+                const temBeneficios = p.tem_servicos === true && ((p.valor_ge && p.valor_ge > 0) || p.usa_pm);
+                
+                // Calcula valores considerando serviços
+                let precoFinalCliente = parseFloat(p.preco_promo) || 0;
+                let precoNormalCliente = parseFloat(p.preco_normal) || 0;
+                
+                if (temBeneficios && modalidade === 'avista') {
+                  // À vista com G.E: soma o G.E ao preço
+                  precoFinalCliente = calcularPrecoComGE(p);
+                  precoNormalCliente = (parseFloat(p.preco_normal) || 0) + (parseFloat(p.valor_ge) || 0);
+                }
+                
+                // Calcula economia específica por modalidade
+                let economiaModalidade = 0;
+                if (modalidade === 'avista') {
+                  economiaModalidade = precoNormalCliente - precoFinalCliente;
+                } else {
+                  economiaModalidade = calcularValorTotalNormal(p) - calcularValorTotal(p);
+                }
+                
+                // Se a economia for negativa ou zero, zera
+                if (economiaModalidade <= 0) {
+                  economiaModalidade = 0;
+                }
+                
+                // Calcula desconto percentual correto
+                const descontoPercentualProduto = (precoNormalCliente > 0 && economiaModalidade > 0) ? ((economiaModalidade / precoNormalCliente) * 100).toFixed(1) : '0.0';
+                
+                // Calcula parcelamento sem juros baseado no preço à vista promocional
+                const precoAvistaPromo = parseFloat(p.preco_promo) || 0;
+                const parcelaCarne2x = precoAvistaPromo / 2;
+                const parcelaCartao3x = precoAvistaPromo / 3;
+                
+                return `
+                  <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex justify-between items-start mb-2">
+                      <div class="flex-1">
+                        <h4 class="text-sm font-bold text-gray-800">${p.produto_completo || 'Produto'}</h4>
+                        <p class="text-xs text-gray-600">${p.descricao || ''}</p>
+                        ${temBeneficios ? `<p class="text-xs text-purple-600 font-semibold mt-1 bg-purple-50 px-2 py-1 rounded inline-block">✨ Com benefícios Zenir</p>` : ''}
+                      </div>
+                    </div>
+                    <div class="flex justify-between items-center mt-2 pt-2 border-t">
+                      <div>
+                        ${modalidade === 'avista' 
+                          ? `<p class="text-xs text-gray-500">De <span class="line-through">${formatarMoedaBR(precoNormalCliente)}</span></p>
+                             <p class="text-lg font-bold text-green-600">${formatarMoedaBR(precoFinalCliente)}</p>
+                             <p class="text-xs text-blue-600 font-semibold mt-1">À Vista</p>
+                             <p class="text-xs text-green-600 font-bold mt-1">💰 Economia: ${formatarMoedaBR(economiaModalidade)}</p>` 
+                          : `<p class="text-xs text-gray-500">De <span class="line-through">${p.parcelas}x ${formatarMoedaBR(calcularParcela({...p, preco_promo: p.preco_normal}))}</span></p>
+                             <p class="text-base font-bold text-green-600">${p.parcelas}x de ${formatarMoedaBR(calcularParcela(p))}</p>
+                             <p class="text-xs text-gray-600 mt-1">no ${modalidade === 'carne' ? 'Carnê' : 'Cartão'}</p>`
+                        }
+                      </div>
+                      <div class="text-right">
+                        <div class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold">
+                          ${descontoPercentualProduto}% OFF
+                        </div>
+                        <p class="text-xs text-green-600 mt-1">Economize ${formatarMoedaBR(economiaModalidade)}</p>
+                      </div>
+                    </div>
+                    
+
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Resumo Financeiro -->
+          ${(() => {
+            // Calcula totais baseados na modalidade de cada produto
+            let totalNormalGeral = 0;
+            let totalPromoGeral = 0;
+            let temAvista = false;
+            let temParcelado = false;
+            let parcelaNormalTotal = 0;
+            let parcelaPromoTotal = 0;
+            let numParcelas = 0;
+            
+            data.produtos.forEach(p => {
+              const modalidade = p.modalidade || 'avista';
+              const temBeneficios = p.tem_servicos === true && ((p.valor_ge && p.valor_ge > 0) || p.usa_pm);
+              
+              if (modalidade === 'avista') {
+                temAvista = true;
+                if (temBeneficios) {
+                  // À vista com G.E
+                  totalNormalGeral += (parseFloat(p.preco_normal) || 0) + (parseFloat(p.valor_ge) || 0);
+                  totalPromoGeral += calcularPrecoComGE(p);
+                } else {
+                  // �� vista sem serviços
+                  totalNormalGeral += parseFloat(p.preco_normal) || 0;
+                  totalPromoGeral += parseFloat(p.preco_promo) || 0;
+                }
+              } else {
+                temParcelado = true;
+                totalNormalGeral += calcularValorTotalNormal(p);
+                totalPromoGeral += calcularValorTotal(p);
+                // Soma as parcelas
+                parcelaNormalTotal += calcularParcela({...p, preco_promo: p.preco_normal});
+                parcelaPromoTotal += calcularParcela(p);
+                numParcelas = p.parcelas; // Assume que todos têm o mesmo número de parcelas
+              }
+            });
+            
+            let economiaGeral = totalNormalGeral - totalPromoGeral;
+            // Se a economia for negativa ou zero, zera
+            if (economiaGeral <= 0) {
+              economiaGeral = 0;
+            }
+            const descontoPercentualGeral = (totalNormalGeral > 0 && economiaGeral > 0) ? ((economiaGeral / totalNormalGeral) * 100).toFixed(1) : 0;
+            
+            let economiaParcela = parcelaNormalTotal - parcelaPromoTotal;
+            // Se a economia for negativa ou zero, zera
+            if (economiaParcela <= 0) {
+              economiaParcela = 0;
+            }
+            const descontoPercentualParcela = (parcelaNormalTotal > 0 && economiaParcela > 0) ? ((economiaParcela / parcelaNormalTotal) * 100).toFixed(1) : 0;
+            
+            // Define o título baseado nas modalidades
+            let tituloValorPromo = 'Valor Total';
+            if (temAvista && !temParcelado) {
+              tituloValorPromo = 'Valor à Vista';
+            } else if (temParcelado && !temAvista) {
+              tituloValorPromo = 'Valor Total Parcelado';
+            }
+            
+            return `
+              <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg border-2 border-green-300 mb-6">
+                <h3 class="text-base font-bold text-gray-800 mb-3 text-center">💰 Resumo da Proposta</h3>
+                
+                ${temParcelado ? `
+                  <!-- Destaque para Parcelas -->
+                  <div class="bg-white p-4 rounded-lg shadow-lg mb-3 border-2 border-green-400">
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <p class="text-xs text-gray-600 mb-1">Parcela Normal</p>
+                        <p class="text-base font-bold text-gray-500 line-through">${numParcelas}x ${formatarMoedaBR(parcelaNormalTotal)}</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-600 mb-1">Sua Parcela</p>
+                        <p class="text-2xl font-bold text-green-600">${numParcelas}x ${formatarMoedaBR(parcelaPromoTotal)}</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-600 mb-1">Economia por Parcela</p>
+                        <p class="text-xl font-bold text-red-600">${formatarMoedaBR(economiaParcela)}</p>
+                        <p class="text-xs text-gray-600 font-semibold">(${descontoPercentualParcela}% de desconto)</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Valores Totais (menor) - Oculta se não houver economia -->
+                  ${economiaGeral > 0 ? `
+                  <div class="bg-gray-50 p-3 rounded-lg">
+                    <p class="text-xs text-gray-500 text-center mb-2">Valores Totais</p>
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                      <div>
+                        <p class="text-xs text-gray-500">Total Normal</p>
+                        <p class="text-sm font-semibold text-gray-400 line-through">${formatarMoedaBR(totalNormalGeral)}</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-500">${tituloValorPromo}</p>
+                        <p class="text-sm font-semibold text-green-600">${formatarMoedaBR(totalPromoGeral)}</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-500">Economia Total</p>
+                        <p class="text-sm font-semibold text-red-600">${formatarMoedaBR(economiaGeral)} (${descontoPercentualGeral}%)</p>
+                      </div>
+                    </div>
+                  </div>
+                  ` : ''}
+                ` : `
+                  <!-- Resumo À Vista (mantém formato original) -->
+                  <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <p class="text-sm text-gray-600">Valor Normal</p>
+                      <p class="text-xl font-bold text-gray-500 line-through">${formatarMoedaBR(totalNormalGeral)}</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-600">${tituloValorPromo}</p>
+                      <p class="text-2xl font-bold text-green-600">${formatarMoedaBR(totalPromoGeral)}</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-600">Você Economiza</p>
+                      <p class="text-2xl font-bold text-red-600">${formatarMoedaBR(economiaGeral)}</p>
+                      <p class="text-xs text-gray-600">(${descontoPercentualGeral}% de desconto)</p>
+                    </div>
+                  </div>
+                `}
+              </div>
+            `;
+          })()}
+
+
+
+          <!-- Plano Exclusivo -->
+          ${(() => {
+            // Verifica se tem produtos com carnê ou cartão E se tem parcelas selecionadas
+            const temCarneOuCartao = data.produtos.some(p => p.modalidade === 'carne' || p.modalidade === 'cartao');
+            const parcelas = data.plano_exclusivo_parcelas || 1;
+            
+            if (!temCarneOuCartao || parcelas <= 1) {
+              return '';
+            }
+            
+            const valorBase = data.plano_exclusivo_valor || 0;
+            const temCarne = data.produtos.some(p => p.modalidade === 'carne');
+            const temCartao = data.produtos.some(p => p.modalidade === 'cartao');
+            
+            let valorParcela = 0;
+            let temJuros = false;
+            let modalidade = '';
+            
+            if (temCarne) {
+              modalidade = 'Carnê';
+              if (parcelas <= 5) {
+                valorParcela = valorBase / parcelas;
+                temJuros = false;
+              } else {
+                const coeficiente = TAXAS_CARNE[parcelas - 1] || 0;
+                valorParcela = valorBase * coeficiente;
+                temJuros = true;
+              }
+            } else if (temCartao) {
+              modalidade = 'Cartão';
+              if (parcelas <= 6) {
+                valorParcela = valorBase / parcelas;
+                temJuros = false;
+              } else {
+                const coeficiente = TAXAS_CARTAO[parcelas - 1] || 0;
+                valorParcela = valorBase * coeficiente;
+                temJuros = true;
+              }
+            } else {
+              modalidade = 'À Vista';
+              valorParcela = valorBase / parcelas;
+              temJuros = false;
+            }
+            
+            const valorTotal = temJuros ? (valorParcela * parcelas) : valorBase;
+            
+            return `
+            <div class="mb-8 bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg border-2 border-purple-300">
+              <h3 class="text-xl font-bold text-purple-700 mb-4 flex items-center">
+                <span class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">🎁</span>
+                Plano Exclusivo para Você - Tabela + G.E
+              </h3>
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                  <p class="text-sm text-gray-600 mb-1">Preço de Tabela com Benefícios Zenir</p>
+                  <p class="text-2xl font-bold text-purple-600">${formatarMoedaBR(valorBase)}</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                  <p class="text-sm text-gray-600 mb-1">Parcelamentos</p>
+                  <p class="text-2xl font-bold ${temJuros ? 'text-orange-600' : 'text-green-600'}">${parcelas}x de ${formatarMoedaBR(valorParcela)}</p>
+                  ${temJuros ? `<p class="text-xs text-gray-500 mt-1">Total: ${formatarMoedaBR(valorTotal)}</p>` : ''}
+                </div>
+              </div>
+              <div class="mt-4 text-center">
+                ${temJuros 
+                  ? `<p class="text-sm text-orange-700 font-semibold">⚠️ ${modalidade}: A partir da ${temCarne ? '6ª' : '7ª'} parcela com juros</p>`
+                  : `<p class="text-sm text-purple-700 font-semibold">✨ Planos Exclusivos Autorização Gerente</p>`
+                }
+              </div>
+            </div>
+            `;
+          })()}
+
+          <!-- Opções de Parcelamento Sem Juros (só aparece se TODOS os produtos forem à vista) -->
+          ${(() => {
+            // Verifica se TODOS os produtos são à vista
+            const todosAvista = data.produtos.every(p => (p.modalidade || 'avista') === 'avista');
+            
+            if (!todosAvista) {
+              return ''; // Não mostra a seção se houver produtos parcelados
+            }
+            
+            const totalAvistaPromo = data.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_promo) || 0), 0);
+            const totalCarne2x = totalAvistaPromo / 2;
+            const totalCartao3x = totalAvistaPromo / 3;
+            
+            return `
+              <div class="mb-6 bg-gradient-to-r from-cyan-50 to-blue-50 p-3 rounded-lg border-2 border-cyan-300">
+                <h3 class="text-xs font-bold text-cyan-700 mb-2 flex items-center justify-center">
+                  <span class="bg-cyan-500 text-white rounded-full w-5 h-5 flex items-center justify-center mr-2 text-xs">💳</span>
+                  Facilite seu Pagamento - Parcelamento Sem Juros
+                </h3>
+                <p class="text-center text-xs text-gray-600 mb-2">Baseado no preço à vista promocional de cada produto</p>
+                
+                <!-- Resumo Total -->
+                <div class="bg-gradient-to-br from-purple-100 to-pink-100 p-2 rounded-lg border-2 border-purple-400 mb-3 shadow-lg">
+                  <h4 class="text-center font-bold text-purple-800 mb-2 text-xs">📊 Resumo Total - Parcelamento Sem Juros</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <div class="bg-white p-2 rounded-lg shadow-md text-center">
+                      <p class="text-xs text-gray-600 mb-1">💰 Total à Vista</p>
+                      <p class="text-sm font-bold text-green-600">${formatarMoedaBR(totalAvistaPromo)}</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-2 rounded-lg shadow-md border-2 border-orange-300 text-center">
+                      <div class="flex items-center justify-center gap-1 mb-1">
+                        <span class="text-xs">📝</span>
+                        <p class="text-xs font-semibold text-orange-700">Carnê</p>
+                      </div>
+                      <p class="text-sm font-bold text-orange-600">2x ${formatarMoedaBR(totalCarne2x)}</p>
+                      <p class="text-xs text-gray-600 mt-1">Sem juros</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-2 rounded-lg shadow-md border-2 border-blue-300 text-center">
+                      <div class="flex items-center justify-center gap-1 mb-1">
+                        <span class="text-xs">💳</span>
+                        <p class="text-xs font-semibold text-blue-700">Cartão</p>
+                      </div>
+                      <p class="text-sm font-bold text-blue-600">3x ${formatarMoedaBR(totalCartao3x)}</p>
+                      <p class="text-xs text-gray-600 mt-1">Sem juros</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Tabela de Produtos -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                  <table class="w-full">
+                    <thead>
+                      <tr class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
+                        <th class="px-4 py-3 text-left font-bold">Produto</th>
+                        <th class="px-4 py-3 text-center font-bold">💰 À Vista</th>
+                        <th class="px-4 py-3 text-center font-bold">📝 Carnê 2x</th>
+                        <th class="px-4 py-3 text-center font-bold">💳 Cartão 3x</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${data.produtos.map((p, index) => {
+                        const precoAvistaPromo = parseFloat(p.preco_promo) || 0;
+                        const parcelaCarne2x = precoAvistaPromo / 2;
+                        const parcelaCartao3x = precoAvistaPromo / 3;
+                        const bgColor = index % 2 === 0 ? 'bg-gray-50' : 'bg-white';
+                        
+                        return `
+                          <tr class="${bgColor} border-b border-gray-200 hover:bg-cyan-50 transition-colors">
+                            <td class="px-3 py-2">
+                              <p class="text-xs font-bold text-gray-800">${p.produto_completo || 'Produto'}</p>
+                            </td>
+                            <td class="px-3 py-2 text-center">
+                              <p class="text-sm font-bold text-green-600">${formatarMoedaBR(precoAvistaPromo)}</p>
+                            </td>
+                            <td class="px-3 py-2 text-center">
+                              <p class="text-sm font-bold text-orange-600">2x ${formatarMoedaBR(parcelaCarne2x)}</p>
+                              <p class="text-xs text-gray-500 mt-1">Sem juros</p>
+                            </td>
+                            <td class="px-3 py-2 text-center">
+                              <p class="text-sm font-bold text-blue-600">3x ${formatarMoedaBR(parcelaCartao3x)}</p>
+                              <p class="text-xs text-gray-500 mt-1">Sem juros</p>
+                            </td>
+                          </tr>
+                        `;
+                      }).join('')}
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div class="mt-4 bg-cyan-100 p-3 rounded-lg text-center">
+                  <p class="text-sm font-semibold text-cyan-800">✨ Condições especiais para facilitar sua compra!</p>
+                </div>
+              </div>
+            `;
+          })()}
+
+          <!-- Rodapé -->
+          <div class="mt-8 pt-6 border-t-2 border-blue-300 text-center">
+            <p class="font-semibold text-gray-800">${data.vendedor_nome || 'Vendedor'}</p>
+            <p class="text-xs text-gray-500 mt-4">Proposta exclusiva e personalizada • ${data.loja_nome || 'Loja'}</p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('contentCliente').innerHTML = html;
+    }
+
+    // ========== RENDER VISÃO DIRETORIA ==========
+    function renderVisaoDiretoria(data) {
+      // Calcula totais SEM considerar serviços (G.E e P.M)
+      const totalNormal = data.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_normal) || 0), 0);
+      const totalPromo = data.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_promo) || 0), 0);
+      const economiaTotal = totalNormal - totalPromo;
+
+      // Verifica quais modalidades existem nos produtos
+      const temCarne = data.produtos.some(p => p.modalidade === 'carne');
+      const temCartao = data.produtos.some(p => p.modalidade === 'cartao');
+
+      const html = `
+        <div class="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-300">
+          <!-- Cabeçalho Interno -->
+          <div class="mb-3 pb-2 border-b-2 border-yellow-400">
+            <div class="flex justify-between items-start">
+              <div>
+                <h2 class="text-base font-bold text-gray-800">🔒 VISAO DIRETORIA</h2>
+                <p class="text-xs text-gray-600 mt-1">Analise Completa da Proposta</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs text-gray-600">Loja: <strong>${data.loja_nome || 'N/A'}</strong></p>
+                <p class="text-xs text-gray-600">Vendedor: <strong>${data.vendedor_nome || 'N/A'}</strong></p>
+                <p class="text-xs text-gray-600">Data: <strong>${formatarData(data.data_proposta)}</strong></p>
+                ${data.validade_proposta ? `<p class="text-xs text-gray-600">Validade: <strong class="text-orange-600">⏰ ${formatarData(data.validade_proposta)}</strong></p>` : ''}
+                ${data.cliente_nome ? `<p class="text-xs text-gray-600">Cliente: <strong>${data.cliente_nome}</strong></p>` : ''}
+                ${data.cliente_contato ? `<p class="text-xs text-gray-600">Contato Cliente: <strong>${data.cliente_contato}</strong></p>` : ''}
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabela Completa de Produtos (SEM SERVIÇOS) -->
+          <div class="mb-4">
+            <h3 class="text-sm font-bold text-gray-800 mb-2">📊 Tabela Completa de Produtos</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-2 py-1 text-left">Código / Produto</th>
+                    <th class="border border-gray-300 px-2 py-1 text-center">Modalidade</th>
+                    <th class="border border-gray-300 px-2 py-1 text-right">Preço Normal</th>
+                    <th class="border border-gray-300 px-2 py-1 text-right">Preço Promo</th>
+                    <th class="border border-gray-300 px-2 py-1 text-right">Desconto R$</th>
+                    <th class="border border-gray-300 px-2 py-1 text-right">Desconto %</th>
+                    <th class="border border-gray-300 px-2 py-1 text-center">Parcelas</th>
+                    <th class="border border-gray-300 px-2 py-1 text-right">Valor Total</th>
+                    <th class="border border-gray-300 px-2 py-1 text-right">Valor Parcela</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${data.produtos.map(p => {
+                    const desc = calcularDesconto(p);
+                    const modalidadeTexto = (p.modalidade || 'avista') === 'avista' ? 'À Vista' : (p.modalidade === 'carne' ? 'Carnê' : 'Cartão');
+                    
+                    // Calcula valores SEM serviços (apenas produto base)
+                    const precoNormal = parseFloat(p.preco_normal) || 0;
+                    const precoPromo = parseFloat(p.preco_promo) || 0;
+                    const parcelas = parseInt(p.parcelas) || 1;
+                    const modalidade = p.modalidade || 'avista';
+                    
+                    let valorTotal = precoPromo;
+                    let valorParcela = precoPromo;
+                    
+                    if (modalidade !== 'avista') {
+                      // Aplica taxa de juros apenas no produto base
+                      let coeficiente = 0;
+                      if (modalidade === 'carne' && parcelas >= 1 && parcelas <= 12) {
+                        coeficiente = TAXAS_CARNE[parcelas - 1];
+                      } else if (modalidade === 'cartao' && parcelas >= 1 && parcelas <= 12) {
+                        coeficiente = TAXAS_CARTAO[parcelas - 1];
+                      }
+                      valorParcela = precoPromo * coeficiente;
+                      valorTotal = valorParcela * parcelas;
+                    }
+                    
+                    return `
+                      <tr class="bg-white">
+                        <td class="border border-gray-300 px-2 py-1">${p.produto_completo || 'N/A'}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-center font-semibold">${modalidadeTexto}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-right">${formatarMoedaBR(precoNormal)}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-right font-semibold text-green-600">${formatarMoedaBR(precoPromo)}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-right text-red-600">${formatarMoedaBR(desc.valor)}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-right text-red-600">${desc.percentual}%</td>
+                        <td class="border border-gray-300 px-2 py-1 text-center">${modalidade === 'avista' ? '-' : parcelas + 'x'}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-right font-semibold text-purple-600">${formatarMoedaBR(valorTotal)}</td>
+                        <td class="border border-gray-300 px-2 py-1 text-right">${modalidade === 'avista' ? '-' : formatarMoedaBR(valorParcela)}</td>
+                      </tr>
+                    `;
+                  }).join('')}
+                  <!-- Linha de espaçamento -->
+                  <tr class="bg-white">
+                    <td colspan="9" class="border-0 py-1"></td>
+                  </tr>
+                  <!-- Linha de TOTAL -->
+                  <tr class="bg-gray-100 font-bold">
+                    <td colspan="2" class="border border-gray-300 px-2 py-1">TOTAL</td>
+                    <td class="border border-gray-300 px-2 py-1 text-right">${formatarMoedaBR(totalNormal)}</td>
+                    <td class="border border-gray-300 px-2 py-1 text-right text-green-600">${formatarMoedaBR(totalPromo)}</td>
+                    <td class="border border-gray-300 px-2 py-1 text-right text-red-600">${formatarMoedaBR(economiaTotal)}</td>
+                    <td class="border border-gray-300 px-2 py-1 text-right text-red-600">${(() => {
+                      // Calcula a média de desconto percentual
+                      let somaDescontos = 0;
+                      let countProdutos = 0;
+                      data.produtos.forEach(p => {
+                        const desc = calcularDesconto(p);
+                        const percentual = parseFloat(desc.percentual) || 0;
+                        if (percentual > 0) {
+                          somaDescontos += percentual;
+                          countProdutos++;
+                        }
+                      });
+                      const mediaDesconto = countProdutos > 0 ? (somaDescontos / countProdutos).toFixed(1) : '0.0';
+                      return mediaDesconto + '%';
+                    })()}</td>
+                    <td colspan="3" class="border border-gray-300 px-2 py-1"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Análise Interna -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+            ${data.historico_negociacao ? `
+              <div class="bg-gradient-to-br from-yellow-100 to-orange-100 p-3 rounded-lg border-2 border-orange-400 shadow-lg">
+                <h4 class="text-xs font-semibold text-orange-800 mb-2 flex items-center">
+                  <span class="text-base mr-1">📋</span>
+                  Solicitante / Informações
+                </h4>
+                <p class="text-xs text-gray-800 font-semibold whitespace-pre-line leading-relaxed">${data.historico_negociacao}</p>
+              </div>
+            ` : ''}
+            ${temCarne && data.opcoes_parcelamento_carne ? `
+              <div class="bg-white p-2 rounded-lg border border-gray-300">
+                <h4 class="text-xs font-semibold text-gray-700 mb-1">📝 Carnê - Sem Juros</h4>
+                <p class="text-lg text-gray-800 font-bold whitespace-pre-line">${data.opcoes_parcelamento_carne}</p>
+              </div>
+            ` : ''}
+            ${temCartao && data.opcoes_parcelamento_cartao ? `
+              <div class="bg-white p-2 rounded-lg border border-gray-300">
+                <h4 class="text-xs font-semibold text-gray-700 mb-1">💳 Cartão - Sem Juros</h4>
+                <p class="text-lg text-gray-800 font-bold whitespace-pre-line">${data.opcoes_parcelamento_cartao}</p>
+              </div>
+            ` : ''}
+            ${data.simulacao_perdas_ganhos ? `
+              <div class="bg-white p-2 rounded-lg border border-gray-300">
+                <h4 class="text-xs font-semibold text-gray-700 mb-1">💼 Proposta da Gerência</h4>
+                <p class="text-xs text-gray-800 font-semibold whitespace-pre-line">${data.simulacao_perdas_ganhos}</p>
+              </div>
+            ` : ''}
+            ${data.oportunidades_melhoria ? `
+              <div class="bg-white p-2 rounded-lg border border-gray-300">
+                <h4 class="text-xs font-semibold text-gray-700 mb-1">📝 Observações importantes</h4>
+                <p class="text-xs text-gray-600 whitespace-pre-line">${data.oportunidades_melhoria}</p>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Rodapé Interno -->
+          <div class="mt-4 pt-2 border-t-2 border-yellow-400 text-center text-xs text-gray-600">
+            <p>🎯 Demonstrativo das Solicitações de Clientes</p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('contentDiretoria').innerHTML = html;
+    }
+
+    // ========== FILTROS DE DATA ==========
+    function filtrarHoje() {
+      // Obtém a data atual no fuso horário de Brasília
+      const agora = new Date();
+      const brasiliaOffset = -3 * 60;
+      const localOffset = agora.getTimezoneOffset();
+      const diffOffset = brasiliaOffset - localOffset;
+      const horarioBrasilia = new Date(agora.getTime() + diffOffset * 60 * 1000);
+      
+      const ano = horarioBrasilia.getFullYear();
+      const mes = String(horarioBrasilia.getMonth() + 1).padStart(2, '0');
+      const dia = String(horarioBrasilia.getDate()).padStart(2, '0');
+      const hoje = `${ano}-${mes}-${dia}`;
+      
+      document.getElementById('inputDataFiltro').value = hoje;
+      filtroDataInicio = hoje;
+      filtroDataFim = hoje;
+      aplicarFiltros();
+      mostrarInfoFiltro('📅 Mostrando propostas de Hoje');
+    }
+
+    function aplicarFiltroData() {
+      const dataSelecionada = document.getElementById('inputDataFiltro').value;
+      
+      if (dataSelecionada) {
+        filtroDataInicio = dataSelecionada;
+        filtroDataFim = dataSelecionada;
+        aplicarFiltros();
+        
+        // Obtém a data atual no fuso horário de Bras��lia
+        const agora = new Date();
+        const brasiliaOffset = -3 * 60;
+        const localOffset = agora.getTimezoneOffset();
+        const diffOffset = brasiliaOffset - localOffset;
+        const horarioBrasilia = new Date(agora.getTime() + diffOffset * 60 * 1000);
+        
+        const ano = horarioBrasilia.getFullYear();
+        const mes = String(horarioBrasilia.getMonth() + 1).padStart(2, '0');
+        const dia = String(horarioBrasilia.getDate()).padStart(2, '0');
+        const hoje = `${ano}-${mes}-${dia}`;
+        
+        const textoData = dataSelecionada === hoje ? 'Hoje' : formatarData(dataSelecionada);
+        
+        mostrarInfoFiltro(`📅 Mostrando propostas de ${textoData}`);
+      } else {
+        limparFiltro();
+      }
+    }
+
+    function limparFiltro() {
+      filtroDataInicio = null;
+      filtroDataFim = null;
+      document.getElementById('inputDataFiltro').value = '';
+      aplicarFiltros();
+      esconderInfoFiltro();
+    }
+
+    function aplicarFiltros() {
+      renderListaPropostas(allProposals);
+    }
+
+    function mostrarInfoFiltro(texto) {
+      const infoDiv = document.getElementById('infoFiltro');
+      infoDiv.textContent = texto;
+      infoDiv.classList.remove('hidden');
+    }
+
+    function esconderInfoFiltro() {
+      const infoDiv = document.getElementById('infoFiltro');
+      infoDiv.classList.add('hidden');
+    }
+
+    function filtrarPropostasPorData(propostas) {
+      if (!filtroDataInicio && !filtroDataFim) {
+        return propostas;
+      }
+
+      return propostas.filter(p => {
+        const dataProposta = p.data_proposta;
+        
+        if (!dataProposta) return false;
+
+        if (filtroDataInicio && filtroDataFim) {
+          return dataProposta >= filtroDataInicio && dataProposta <= filtroDataFim;
+        } else if (filtroDataInicio) {
+          return dataProposta >= filtroDataInicio;
+        } else if (filtroDataFim) {
+          return dataProposta <= filtroDataFim;
+        }
+
+        return true;
+      });
+    }
+
+    // ========== LISTA DE PROPOSTAS ==========
+    function renderListaPropostas(propostas) {
+      const container = document.getElementById('listaPropostas');
+      const emptyState = document.getElementById('emptyState');
+
+      // Aplica filtro de data
+      const propostasFiltradas = filtrarPropostasPorData(propostas);
+
+      // Atualiza contador com propostas filtradas
+      updateContador(propostasFiltradas.length);
+
+      if (propostasFiltradas.length === 0) {
+        container.innerHTML = '';
+        if (filtroDataInicio || filtroDataFim) {
+          emptyState.innerHTML = `
+            <div class="text-center py-12">
+              <div class="text-6xl mb-4">😢</div>
+              <h3 class="text-xl font-semibold text-gray-700 mb-2">Nenhuma Negociação Aqui</h3>
+            </div>
+          `;
+        } else {
+          emptyState.innerHTML = `
+            <div class="text-center py-12">
+              <div class="text-6xl mb-4">📄</div>
+              <h3 class="text-xl font-semibold text-gray-700 mb-2">Nenhuma proposta criada ainda</h3>
+              <p class="text-gray-500 mb-6">Clique em "Nova Proposta" para começar</p>
+            </div>
+          `;
+        }
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = propostasFiltradas.map(p => {
+        const produtosArray = JSON.parse(p.produtos || '[]');
+        const totalPromo = produtosArray.reduce((sum, prod) => sum + (parseFloat(prod.preco_promo) || 0), 0);
+        
+        return `
+          <div class="bg-white p-5 rounded-lg shadow hover:shadow-lg transition-shadow border border-gray-200">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-800 mb-1">${p.titulo_proposta || 'Proposta sem título'}</h3>
+                <div class="flex gap-4 text-xs text-gray-500 mb-3">
+                  <span>🏪 ${p.loja_nome || 'N/A'}</span>
+                  <span>👤 ${p.vendedor_nome || 'N/A'}</span>
+                  <span>📅 ${formatarData(p.data_proposta)}</span>
+                  ${p.cliente_nome ? `<span>🎯 ${p.cliente_nome}</span>` : ''}
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                  <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    ${produtosArray.length} produto(s)
+                  </span>
+                  <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    ${formatarMoedaBR(totalPromo)}
+                  </span>
+                  <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    ${p.status || 'Em análise'}
+                  </span>
+                  ${p.data_envio_cliente ? `
+                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold" title="Enviado ao cliente em ${formatarDataHora(p.data_envio_cliente)}">
+                      📱 Cliente: ${formatarDataHora(p.data_envio_cliente)}
+                    </span>
+                  ` : ''}
+                  ${p.data_envio_diretoria ? `
+                    <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold" title="Enviado à diretoria em ${formatarDataHora(p.data_envio_diretoria)}">
+                      🏢 Diretoria: ${formatarDataHora(p.data_envio_diretoria)}
+                    </span>
+                  ` : ''}
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="editarProposta('${p.__backendId}')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold">
+                  ✏️ Editar
+                </button>
+                <button onclick="excluirProposta('${p.__backendId}')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm font-semibold">
+                  🗑️
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateContador(count) {
+      const contador = document.getElementById('contadorPropostas');
+      contador.textContent = count === 1 ? '1 proposta' : `${count} propostas`;
+    }
+
+    async function editarProposta(id) {
+      const proposta = allProposals.find(p => p.__backendId === id);
+      if (!proposta) return;
+
+      currentProposalId = id;
+      produtos = JSON.parse(proposta.produtos || '[]');
+
+      document.getElementById('inputVendedorNome').value = proposta.vendedor_nome || '';
+      document.getElementById('inputTituloProposta').value = proposta.titulo_proposta || '';
+      document.getElementById('inputDataProposta').value = proposta.data_proposta || '';
+      document.getElementById('inputValidadeProposta').value = proposta.validade_proposta || '';
+      document.getElementById('inputClienteNome').value = proposta.cliente_nome || '';
+      document.getElementById('inputClienteContato').value = proposta.cliente_contato || '';
+      valorPlanoExclusivo = parseFloat(proposta.plano_exclusivo_valor) || 0;
+      document.getElementById('inputValorPlanoExclusivo').value = formatarMoeda(valorPlanoExclusivo);
+      document.getElementById('inputParcelasPlanoExclusivo').value = proposta.plano_exclusivo_parcelas || 1;
+      calcularParcelaPlanoExclusivo();
+      document.getElementById('inputHistorico').value = proposta.historico_negociacao || '';
+      document.getElementById('inputOpcoesParcelamentoCarne').value = proposta.opcoes_parcelamento_carne || '';
+      document.getElementById('inputOpcoesParcelamentoCartao').value = proposta.opcoes_parcelamento_cartao || '';
+      document.getElementById('inputSimulacao').value = proposta.simulacao_perdas_ganhos || '';
+      document.getElementById('inputOportunidades').value = proposta.oportunidades_melhoria || '';
+
+      renderProdutos();
+      atualizarCamposParcelamento();
+      showView('editor');
+    }
+
+    async function excluirProposta(id) {
+      const proposta = allProposals.find(p => p.__backendId === id);
+      if (!proposta) return;
+
+      const confirmDiv = document.createElement('div');
+      confirmDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+      confirmDiv.innerHTML = `
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-md">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">Confirmar Exclusão</h3>
+          <p class="text-gray-600 mb-6">Tem certeza que deseja excluir esta proposta? Esta ação não pode ser desfeita.</p>
+          <div class="flex gap-3">
+            <button id="btnCancelarExclusao" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 font-semibold">
+              Cancelar
+            </button>
+            <button id="btnConfirmarExclusao" class="flex-1 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 font-semibold">
+              Excluir
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(confirmDiv);
+
+      document.getElementById('btnCancelarExclusao').addEventListener('click', () => {
+        document.body.removeChild(confirmDiv);
+      });
+
+      document.getElementById('btnConfirmarExclusao').addEventListener('click', async () => {
+        const btnConfirmar = document.getElementById('btnConfirmarExclusao');
+        btnConfirmar.disabled = true;
+        btnConfirmar.textContent = 'Excluindo...';
+
+        const result = await window.dataSdk.delete(proposta);
+        
+        document.body.removeChild(confirmDiv);
+
+        if (result.isOk) {
+          showToast('✅ Proposta excluída com sucesso!', 'success');
+        } else {
+          showToast('❌ Erro ao excluir proposta.', 'error');
+        }
+      });
+    }
+
+    // ========== GERAR IMAGEM ==========
+    function gerarImagem(tipo) {
+      const content = tipo === 'cliente' ? document.getElementById('contentCliente') : document.getElementById('contentDiretoria');
+      const contentHTML = content.innerHTML;
+      
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4';
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-2xl w-full h-full max-w-6xl max-h-[95%] flex flex-col">
+          <!-- Cabeçalho do Modal -->
+          <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 rounded-t-lg flex justify-between items-center flex-shrink-0">
+            <div>
+              <h3 class="text-xl font-bold">📄 Preview da Proposta - ${tipo === 'cliente' ? 'Visão Cliente' : 'Visão Diretoria'}</h3>
+              <p class="text-sm text-blue-100 mt-1">Visualize antes de enviar via WhatsApp</p>
+            </div>
+            <button id="btnFecharModal" class="text-white hover:bg-white hover:bg-opacity-20 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold transition-colors">
+              ✕
+            </button>
+          </div>
+
+          <!-- Área de Preview (Formato A4) -->
+          <div class="flex-1 overflow-auto bg-gray-100 p-6">
+            <div id="previewContent" class="bg-white mx-auto shadow-2xl" style="width: 210mm; min-height: 297mm; padding: 20mm;">
+              ${contentHTML}
+            </div>
+          </div>
+
+          <!-- Rodapé com Ações -->
+          <div class="bg-gray-50 p-4 rounded-b-lg border-t flex-shrink-0">
+            <div class="flex gap-3">
+              <button id="btnEnviarWhatsApp" class="flex-1 ${tipo === 'cliente' ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'} text-white px-6 py-4 rounded-lg font-bold text-lg transition-colors flex items-center justify-center gap-2">
+                <span class="text-2xl">${tipo === 'cliente' ? '📱' : '📥'}</span>
+                <span>${tipo === 'cliente' ? 'Enviar via WhatsApp' : 'Baixar como Imagem'}</span>
+              </button>
+              ${tipo === 'cliente' ? `
+              <button id="btnBaixarPDF" class="flex-1 bg-blue-600 text-white px-6 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                <span class="text-2xl">📥</span>
+                <span>Baixar como Imagem</span>
+              </button>
+              ` : ''}
+              <button id="btnCancelarModal" class="bg-gray-300 text-gray-700 px-6 py-4 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
+                Cancelar
+              </button>
+            </div>
+            <div class="mt-3 text-center">
+              <p class="text-xs text-gray-500">💡 ${tipo === 'cliente' ? 'A proposta será formatada em tamanho A4 para melhor visualização' : 'Baixe a imagem e envie manualmente para a diretoria'}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      // Fechar modal
+      document.getElementById('btnFecharModal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+
+      document.getElementById('btnCancelarModal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+
+      // Enviar via WhatsApp (apenas para cliente)
+      document.getElementById('btnEnviarWhatsApp').addEventListener('click', async () => {
+        if (tipo === 'cliente') {
+          await enviarWhatsApp(tipo);
+        } else {
+          await baixarComoImagem(tipo);
+        }
+      });
+
+      // Baixar como imagem
+      document.getElementById('btnBaixarPDF').addEventListener('click', async () => {
+        await baixarComoImagem(tipo);
+      });
+
+      // Fechar ao clicar fora (no fundo escuro)
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          document.body.removeChild(modal);
+        }
+      });
+    }
+
+    async function enviarWhatsApp(tipo) {
+      if (!currentProposalData) {
+        showToast('❌ Dados da proposta não encontrados', 'error');
+        return;
+      }
+
+      const clienteContato = currentProposalData.cliente_contato || '';
+      const clienteNome = currentProposalData.cliente_nome || 'Cliente';
+      const tituloProposta = currentProposalData.titulo_proposta || 'Proposta Comercial';
+      const vendedorNome = currentProposalData.vendedor_nome || 'Vendedor';
+      const lojaNome = currentProposalData.loja_nome || 'Loja';
+      
+      // Para diretoria, não precisa de número do cliente
+      let numeroLimpo = '';
+      if (tipo === 'cliente') {
+        // Remove caracteres não numéricos do contato
+        numeroLimpo = clienteContato.replace(/\D/g, '');
+        
+        if (!numeroLimpo || numeroLimpo.length < 10) {
+          showToast('��️ Número de WhatsApp do cliente inválido ou não informado', 'error');
+          return;
+        }
+      }
+
+      // Mostra mensagem de processamento
+      showToast('📸 Gerando imagem da proposta...', 'success');
+
+      // Captura a imagem
+      const previewContent = document.getElementById('previewContent');
+      
+      try {
+        const canvas = await html2canvas(previewContent, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: true,
+          backgroundColor: '#ffffff',
+          windowWidth: previewContent.scrollWidth,
+          windowHeight: previewContent.scrollHeight,
+          onclone: (clonedDoc) => {
+            const clonedContent = clonedDoc.getElementById('previewContent');
+            if (clonedContent) {
+              clonedContent.style.display = 'block';
+              clonedContent.style.width = '210mm';
+            }
+          }
+        });
+
+        // Converte para blob
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            showToast('❌ Erro ao criar arquivo de imagem', 'error');
+            return;
+          }
+
+          // Cria um link temporário para download
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          const timestamp = new Date().getTime();
+          const nomeArquivo = tipo === 'cliente' 
+            ? `proposta_cliente_${clienteNome.replace(/\s+/g, '_')}_${timestamp}.png`
+            : `proposta_diretoria_${vendedorNome.replace(/\s+/g, '_')}_${timestamp}.png`;
+          
+          link.href = url;
+          link.download = nomeArquivo;
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          
+          // Aguarda um momento e força o download
+          setTimeout(() => {
+            try {
+              link.click();
+              showToast('✅ Download iniciado! Verifique seus downloads', 'success');
+            } catch (e) {
+              showToast('❌ Erro ao iniciar download', 'error');
+            }
+            
+            setTimeout(() => {
+              try {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              } catch (e) {
+                // Ignora erros de limpeza
+              }
+            }, 1000);
+          }, 100);
+
+          // Calcula valores para a mensagem
+          const totalNormal = currentProposalData.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_normal) || 0), 0);
+          const totalPromo = currentProposalData.produtos.reduce((sum, p) => sum + (parseFloat(p.preco_promo) || 0), 0);
+          const economia = totalNormal - totalPromo;
+          
+          // Verifica se tem produtos parcelados
+          const temParcelado = currentProposalData.produtos.some(p => p.modalidade !== 'avista');
+          
+          let mensagem = '';
+          
+          if (tipo === 'cliente') {
+            // Mensagem para CLIENTE (com nome do cliente)
+            mensagem = `Olá *${clienteNome}*! 👋\n\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `👤 *${vendedorNome}*\n`;
+            mensagem += `🏪 *${lojaNome}*\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n\n`;
+            mensagem += `Preparei uma *${tituloProposta}* especial para você! 🎁\n\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `📦 *RESUMO DA PROPOSTA*\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            // Lista produtos
+            currentProposalData.produtos.forEach((p, index) => {
+              mensagem += `${index + 1}. *${p.produto_completo || 'Produto'}*\n`;
+              
+              if (p.modalidade === 'avista') {
+                mensagem += `   💰 ${formatarMoedaBR(p.preco_promo)} à vista\n`;
+              } else {
+                const parcela = calcularParcela(p);
+                mensagem += `   💳 ${p.parcelas}x de ${formatarMoedaBR(parcela)}\n`;
+                mensagem += `   📊 Total: ${formatarMoedaBR(calcularValorTotal(p))}\n`;
+              }
+              mensagem += `\n`;
+            });
+            
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `💎 *VALORES TOTAIS*\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            if (temParcelado) {
+              mensagem += `💰 *Valor Total:* ${formatarMoedaBR(totalPromo)}\n`;
+            } else {
+              mensagem += `💰 *Valor à Vista:* ${formatarMoedaBR(totalPromo)}\n`;
+            }
+            
+            if (economia > 0) {
+              const percentualDesconto = ((economia / totalNormal) * 100).toFixed(0);
+              mensagem += `✨ *Você Economiza:* ${formatarMoedaBR(economia)} (${percentualDesconto}% OFF)\n`;
+            }
+            
+            mensagem += `\n━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            // Validade da proposta
+            if (currentProposalData.validade_proposta) {
+              mensagem += `⏰ *Proposta válida até:* ${formatarData(currentProposalData.validade_proposta)}\n\n`;
+            }
+            
+            mensagem += `📸 *Veja todos os detalhes na imagem!*\n\n`;
+            mensagem += `Estou à disposição para esclarecer qualquer dúvida! 😊\n\n`;
+            mensagem += `_${vendedorNome} - ${lojaNome}_`;
+          } else {
+            // Mensagem para DIRETORIA (SEM nome do cliente, foco comercial)
+            mensagem = `🏢 *SOLICITAÇÃO DIRETORIA*\n\n`;
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+            mensagem += `👤 *Vendedor:* ${vendedorNome}\n`;
+            mensagem += `🏪 *Loja:* ${lojaNome}\n`;
+            mensagem += `📅 *Data:* ${formatarData(currentProposalData.data_proposta)}\n`;
+            if (currentProposalData.validade_proposta) {
+              mensagem += `⏰ *Validade:* ${formatarData(currentProposalData.validade_proposta)}\n`;
+            }
+            mensagem += `━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            mensagem += `📋 *${tituloProposta}*\n\n`;
+            
+            // Informações da negociação
+            if (currentProposalData.historico_negociacao) {
+              mensagem += `━━━━━━━━━━━━━━━━���━━\n`;
+              mensagem += `📝 *SOLICITANTE/INFORMAÇÕES*\n`;
+              mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+              mensagem += `${currentProposalData.historico_negociacao}\n\n`;
+            }
+            
+            // Proposta da gerência
+            if (currentProposalData.simulacao_perdas_ganhos) {
+              mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+              mensagem += `💼 *PROPOSTA DA GERÊNCIA*\n`;
+              mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+              mensagem += `${currentProposalData.simulacao_perdas_ganhos}\n\n`;
+            }
+            
+            // Parcelamentos sem juros
+            const temCarne = currentProposalData.produtos.some(p => p.modalidade === 'carne');
+            const temCartao = currentProposalData.produtos.some(p => p.modalidade === 'cartao');
+            
+            if (temCarne && currentProposalData.opcoes_parcelamento_carne) {
+              mensagem += `📝 *Carnê - Sem Juros:*\n${currentProposalData.opcoes_parcelamento_carne}\n\n`;
+            }
+            
+            if (temCartao && currentProposalData.opcoes_parcelamento_cartao) {
+              mensagem += `💳 *Cartão - Sem Juros:*\n${currentProposalData.opcoes_parcelamento_cartao}\n\n`;
+            }
+            
+            // Observações
+            if (currentProposalData.oportunidades_melhoria) {
+              mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+              mensagem += `📌 *OBSERVAÇÕES*\n`;
+              mensagem += `━━━━━━━━━━━━━━━━━━━\n`;
+              mensagem += `${currentProposalData.oportunidades_melhoria}\n\n`;
+            }
+            
+            // Resumo comercial
+            mensagem += `━��━━━━━━━��━━━━━━━━━\n`;
+            mensagem += `💰 *RESUMO COMERCIAL*\n`;
+            mensagem += `━━━━━━━━━━━━━━��━━━━\n`;
+            mensagem += `📦 *Produtos:* ${currentProposalData.produtos.length}\n`;
+            mensagem += `💵 *Valor Total:* ${formatarMoedaBR(totalPromo)}\n`;
+            if (economia > 0) {
+              const percentualDesconto = ((economia / totalNormal) * 100).toFixed(0);
+              mensagem += `📉 *Desconto:* ${formatarMoedaBR(economia)} (${percentualDesconto}%)\n`;
+            }
+            mensagem += `\n📸 *Detalhes completos na imagem anexa*\n\n`;
+            mensagem += `_Aguardo análise e aprovação_`;
+          }
+
+          // Codifica a mensagem para URL
+          const mensagemCodificada = encodeURIComponent(mensagem);
+          
+          // Registra o envio na proposta
+          if (currentProposalId) {
+            const proposta = allProposals.find(p => p.__backendId === currentProposalId);
+            if (proposta) {
+              const dataEnvio = new Date().toISOString();
+              const campoEnvio = tipo === 'cliente' ? 'data_envio_cliente' : 'data_envio_diretoria';
+              proposta[campoEnvio] = dataEnvio;
+              proposta.updated_at = dataEnvio;
+              await window.dataSdk.update(proposta);
+            }
+          }
+          
+          // Abre o WhatsApp Web
+          let urlWhatsApp = '';
+          if (tipo === 'cliente') {
+            urlWhatsApp = `https://wa.me/55${numeroLimpo}?text=${mensagemCodificada}`;
+          } else {
+            // Para diretoria, abre WhatsApp sem número específico (usuário escolhe o contato)
+            urlWhatsApp = `https://wa.me/?text=${mensagemCodificada}`;
+          }
+          
+          window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
+          
+          const dataHoraEnvio = formatarDataHora(new Date());
+          showToast(`✅ Imagem baixada! Agora anexe no WhatsApp. Registrado em ${dataHoraEnvio}`, 'success');
+        }, 'image/png');
+
+      } catch (error) {
+        console.error('Erro ao gerar imagem:', error);
+        showToast('❌ Erro ao gerar imagem. Tente novamente.', 'error');
+      }
+    }
+
+    async function baixarComoImagem(tipo) {
+      showToast('📸 Gerando imagem da proposta...', 'success');
+
+      const previewContent = document.getElementById('previewContent');
+      
+      try {
+        const canvas = await html2canvas(previewContent, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: true,
+          backgroundColor: '#ffffff',
+          windowWidth: previewContent.scrollWidth,
+          windowHeight: previewContent.scrollHeight,
+          onclone: (clonedDoc) => {
+            const clonedContent = clonedDoc.getElementById('previewContent');
+            if (clonedContent) {
+              clonedContent.style.display = 'block';
+              clonedContent.style.width = '210mm';
+            }
+          }
+        });
+
+        // Converte para blob e faz download
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            showToast('❌ Erro ao criar arquivo de imagem', 'error');
+            return;
+          }
+
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          const clienteNome = currentProposalData?.cliente_nome || 'Cliente';
+          const vendedorNome = currentProposalData?.vendedor_nome || 'Vendedor';
+          const timestamp = new Date().getTime();
+          const nomeArquivo = tipo === 'cliente'
+            ? `proposta_cliente_${clienteNome.replace(/\s+/g, '_')}_${timestamp}.png`
+            : `proposta_diretoria_${vendedorNome.replace(/\s+/g, '_')}_${timestamp}.png`;
+          
+          link.href = url;
+          link.download = nomeArquivo;
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          
+          setTimeout(() => {
+            try {
+              link.click();
+              showToast('✅ Download iniciado! Verifique seus downloads', 'success');
+            } catch (e) {
+              showToast('❌ Erro ao iniciar download', 'error');
+            }
+            
+            setTimeout(() => {
+              try {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              } catch (e) {
+                // Ignora erros de limpeza
+              }
+            }, 1000);
+          }, 100);
+        }, 'image/png');
+
+      } catch (error) {
+        console.error('Erro ao gerar imagem:', error);
+        showToast('❌ Erro ao gerar imagem. Tente novamente.', 'error');
+      }
+    }
+
+    // ========== UTILS ==========
+    function validarContato(contato) {
+      // Verifica se o contato tem DDD (formato com parênteses ou números)
+      // Aceita formatos: (11) 98765-4321, 11987654321, (11)987654321, etc.
+      const regex = /\(?\d{2}\)?[\s-]?\d{4,5}[\s-]?\d{4}/;
+      return regex.test(contato);
+    }
+
+    function limparFormulario() {
+      document.getElementById('inputVendedorNome').value = '';
+      document.getElementById('inputTituloProposta').value = '';
+      document.getElementById('inputClienteNome').value = '';
+      document.getElementById('inputClienteContato').value = '';
+      document.getElementById('inputValidadeProposta').value = '';
+      valorPlanoExclusivo = 0;
+      document.getElementById('inputValorPlanoExclusivo').value = '';
+      document.getElementById('inputParcelasPlanoExclusivo').value = '1';
+      document.getElementById('displayParcelaPlanoExclusivo').value = 'R$ 0,00';
+      document.getElementById('inputHistorico').value = '';
+      document.getElementById('inputOpcoesParcelamentoCarne').value = '';
+      document.getElementById('inputOpcoesParcelamentoCartao').value = '';
+      document.getElementById('inputSimulacao').value = '';
+      document.getElementById('inputOportunidades').value = '';
+      renderProdutos();
+      atualizarCamposParcelamento();
+    }
+
+    function formatarData(dataStr) {
+      if (!dataStr) return 'N/A';
+      const [ano, mes, dia] = dataStr.split('-');
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    function formatarDataHora(data) {
+      if (!data) return 'N/A';
+      const d = typeof data === 'string' ? new Date(data) : data;
+      const dia = String(d.getDate()).padStart(2, '0');
+      const mes = String(d.getMonth() + 1).padStart(2, '0');
+      const ano = d.getFullYear();
+      const hora = String(d.getHours()).padStart(2, '0');
+      const minuto = String(d.getMinutes()).padStart(2, '0');
+      return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+    }
+
+    function showToast(message, type) {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-semibold z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+
+    // ========== INIT ==========
+    initializeApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3abd10431327f5',t:'MTc2NDAwNjUyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html> -->
+        <iframe src="planos_cotacoes_app.html" class="app-frame"></iframe>
+    </div>
+
+    <!-- BOTÃO VOLTAR PARA A TELA INICIAL -->
+    <button class="btn-voltar" onclick="window.location.href='index.html'">
+        ← Voltar
+    </button>
+
+</body>
+</html>
