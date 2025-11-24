@@ -57,10 +57,14 @@
             transform: scale(1.02);
         }
 
-        .card img {
+        .emoji-box {
             width: 100%;
             height: 180px;
-            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 85px;
+            background: linear-gradient(135deg, #eef2f3, #d9dde1);
         }
 
         .card-content {
@@ -91,27 +95,30 @@
 
         <div class="cards">
 
-            <a href="orca.html" class="card">
-                <img src="https://i.imgur.com/4u9CvRp.jpeg" />
+            <!-- Orçamentos -->
+            <a href="orcamentos.html" class="card">
+                <div class="emoji-box">🧾</div>
                 <div class="card-content">
-                    <div class="card-title">FS Orça+</div>
+                    <div class="card-title">Orçamentos</div>
                     <div class="card-desc">Orçamentos rápidos e inteligentes.</div>
                 </div>
             </a>
 
-            <a href="simula.html" class="card">
-                <img src="https://i.imgur.com/FQjprpT.jpeg" />
+            <!-- Planos e Cotações -->
+            <a href="Planos-e-Cotacoes.html" class="card">
+                <div class="emoji-box">📊</div>
                 <div class="card-content">
-                    <div class="card-title">FS Simula+</div>
-                    <div class="card-desc">Simulações completas para clientes.</div>
+                    <div class="card-title">Planos e Cotações</div>
+                    <div class="card-desc">Ferramentas completas para simulações.</div>
                 </div>
             </a>
 
-            <a href="negocia.html" class="card">
-                <img src="https://i.imgur.com/nQ0ZIcA.jpeg" />
+            <!-- Parcelamentos e Planos -->
+            <a href="Parcelamentos-e-Planos.html" class="card">
+                <div class="emoji-box">💳</div>
                 <div class="card-content">
-                    <div class="card-title">FS Negocia+</div>
-                    <div class="card-desc">Ferramentas de planos e parcelamentos.</div>
+                    <div class="card-title">Parcelamentos e Planos</div>
+                    <div class="card-desc">Análises de parcelamentos e negociações.</div>
                 </div>
             </a>
 
