@@ -14,61 +14,105 @@
             margin: 0;
             padding: 0;
             font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: #f5f5f5;
-            color: #222;
+            background: #f3f4f6;
+            color: #111827;
         }
 
         /* HEADER SUPERIOR */
         .header {
-            padding: 16px 24px;
+            padding: 14px 24px;
             background: #ffffff;
-            border-bottom: 1px solid #ddd;
-            font-size: 20px;
-            font-weight: 600;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .header-left {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         .logo-3d {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 20% 20%, #60a5fa, #1d4ed8);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: #f9fafb;
             font-weight: 800;
             font-size: 18px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
         }
 
         .header-sub {
             font-size: 13px;
             font-weight: 400;
-            color: #666;
+            color: #6b7280;
+        }
+
+        .header-right {
+            font-size: 12px;
+            color: #4b5563;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+        }
+
+        /* STATUS BAR (DATA / FRASE) */
+        .status-bar {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 10px 24px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .status-datetime {
+            font-weight: 500;
+        }
+
+        .status-motivacao {
+            font-style: italic;
+            opacity: 0.9;
+            text-align: right;
+            flex: 1;
         }
 
         /* CONTEÚDO PRINCIPAL (CARDS) */
         .container {
-            padding: 32px 24px 40px;
+            padding: 16px 24px 40px;
             max-width: 960px;
             margin: 0 auto;
         }
 
         .welcome {
-            margin-bottom: 24px;
+            margin: 18px 0;
         }
 
         .welcome h2 {
             font-size: 26px;
-            margin: 0 0 6px;
+            margin: 0 0 4px;
         }
 
         .welcome p {
             margin: 0;
-            color: #555;
+            color: #6b7280;
+            font-size: 14px;
         }
 
         .cards {
@@ -78,10 +122,10 @@
         }
 
         .card {
-            background: #fff;
-            border-radius: 16px;
+            background: #ffffff;
+            border-radius: 20px;
             padding: 18px 18px 20px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
             text-decoration: none;
             color: inherit;
             display: flex;
@@ -92,8 +136,8 @@
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
         }
 
         .card-icon {
@@ -104,37 +148,37 @@
             align-items: center;
             justify-content: center;
             font-size: 38px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.20);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.25);
         }
 
         .card-icon.orc {
-            background: linear-gradient(135deg, #0d6efd, #4dabf7);
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
         }
 
         .card-icon.planos {
-            background: linear-gradient(135deg, #20c997, #12b886);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
         }
 
         .card-icon.parc {
-            background: linear-gradient(135deg, #f59f00, #f76707);
+            background: linear-gradient(135deg, #f59e0b, #f97316);
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
         }
 
         .card-desc {
             font-size: 14px;
-            color: #666;
+            color: #6b7280;
         }
 
-        /* ====== LOGIN OVERLAY ====== */
+        /* LOGIN OVERLAY */
         .login-overlay {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at top, rgba(13,110,253,0.25), transparent 55%),
-                        radial-gradient(circle at bottom, rgba(121,80,242,0.55), #050816);
+            background: radial-gradient(circle at top, rgba(59,130,246,0.35), transparent 55%),
+                        radial-gradient(circle at bottom, rgba(79,70,229,0.75), #020617);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -146,10 +190,10 @@
             width: 100%;
             max-width: 420px;
             background: rgba(255,255,255,0.96);
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 26px 22px 24px;
-            box-shadow: 0 18px 45px rgba(0,0,0,0.45);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 22px 55px rgba(15,23,42,0.65);
+            backdrop-filter: blur(12px);
         }
 
         .login-logo {
@@ -160,7 +204,7 @@
         }
 
         .login-logo .logo-3d {
-            box-shadow: 0 10px 24px rgba(13,110,253,0.7);
+            box-shadow: 0 12px 28px rgba(37,99,235,0.85);
         }
 
         .login-title {
@@ -170,7 +214,7 @@
 
         .login-subtitle {
             font-size: 13px;
-            color: #555;
+            color: #4b5563;
             margin-bottom: 14px;
         }
 
@@ -182,21 +226,21 @@
             display: block;
             font-size: 13px;
             margin-bottom: 4px;
-            color: #444;
+            color: #374151;
         }
 
         .input-group input {
             width: 100%;
             padding: 9px 10px;
             border-radius: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #d1d5db;
             font-size: 14px;
             outline: none;
         }
 
         .input-group input:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 2px rgba(13,110,253,0.25);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
         }
 
         .btn-primary {
@@ -204,13 +248,13 @@
             margin-top: 6px;
             padding: 10px 0;
             border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-            color: #fff;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 18px rgba(13,110,253,0.6);
+            box-shadow: 0 10px 24px rgba(37,99,235,0.7);
         }
 
         .btn-primary:hover {
@@ -220,7 +264,7 @@
         .login-footer {
             margin-top: 10px;
             font-size: 12px;
-            color: #666;
+            color: #6b7280;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -231,7 +275,7 @@
         .login-footer button {
             border: none;
             background: transparent;
-            color: #0d6efd;
+            color: #2563eb;
             font-size: 12px;
             cursor: pointer;
             padding: 0;
@@ -241,18 +285,81 @@
         .error-msg {
             margin-top: 6px;
             font-size: 12px;
-            color: #c92a2a;
+            color: #b91c1c;
         }
 
         /* Esconde conteúdo principal até logar */
         .app-wrapper {
             display: none;
         }
+
+        /* STANDBY OVERLAY */
+        .standby-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(15,23,42,0.8), rgba(15,23,42,0.95));
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            padding: 24px;
+        }
+
+        .standby-card {
+            max-width: 480px;
+            width: 100%;
+            background: rgba(15,23,42,0.9);
+            border-radius: 24px;
+            padding: 26px 22px;
+            box-shadow: 0 24px 50px rgba(0,0,0,0.8);
+            text-align: center;
+            color: #e5e7eb;
+        }
+
+        .standby-clock {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #9ca3af;
+        }
+
+        .standby-message {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        .standby-tip {
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-bar {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ===== LOGIN (primeiro acesso ou quando limpar) ===== -->
+    <!-- LOGIN -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-card">
             <div class="login-logo">
@@ -277,61 +384,126 @@
             <div id="erroLogin" class="error-msg" style="display:none;"></div>
 
             <div class="login-footer">
-                <span>Senha gerencial configurada pelo administrador.</span>
+                <span>Senha definida pelo administrador local.</span>
                 <button type="button" onclick="trocarUsuario()">Trocar usuário</button>
             </div>
         </div>
     </div>
 
-    <!-- ===== CONTEÚDO PRINCIPAL (só aparece depois do login) ===== -->
+    <!-- STANDBY -->
+    <div id="standbyOverlay" class="standby-overlay">
+        <div class="standby-card">
+            <div id="standbyClock" class="standby-clock"></div>
+            <div id="standbyMessage" class="standby-message">
+                Mantenha o foco: grandes resultados nascem da constância.
+            </div>
+            <p class="standby-tip">Toque ou clique em qualquer lugar para voltar ao FS Soluções.</p>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
     <div id="appWrapper" class="app-wrapper">
         <div class="header">
-            <div class="logo-3d">FS</div>
-            <div>
-                FS Soluções
-                <div class="header-sub" id="saudacaoHeader">
-                    Sistema interno de orçamentos, planos & parcelamentos.
+            <div class="header-left">
+                <div class="logo-3d">FS</div>
+                <div>
+                    <div class="header-title">FS Soluções</div>
+                    <div class="header-sub" id="saudacaoHeader">
+                        Ferramentas internas para orçamentos, planos e parcelamentos.
+                    </div>
                 </div>
             </div>
+            <div class="header-right">
+                Acesso liberado para este dispositivo.
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div id="dateTime" class="status-datetime"></div>
+            <div id="motivacao" class="status-motivacao"></div>
         </div>
 
         <div class="container">
             <div class="welcome">
                 <h2 id="saudacaoPrincipal">Bem-vindo!</h2>
-                <p>Escolha abaixo a ferramenta que deseja utilizar.</p>
+                <p>Escolha abaixo a ferramenta que deseja utilizar agora.</p>
             </div>
 
             <div class="cards">
-                <!-- orcamentos -->
+                <!-- Orçamentos -->
                 <a href="orcamentos.html" class="card">
                     <div class="card-icon orc">📋</div>
-                    <div class="card-title">orçamentos</div>
-                    <div class="card-desc">orçamentos rápidos e inteligentes.</div>
+                    <div class="card-title">Orçamentos</div>
+                    <div class="card-desc">Orçamentos rápidos, claros e inteligentes.</div>
                 </a>
 
-                <!-- Planos-e-Cotacoes -->
-                <a href="Planos-e-Cotacoes.html" class="card">
+                <!-- Planos e Cotações -->
+                <a href="planos_cotacoes.html" class="card">
                     <div class="card-icon planos">📊</div>
-                    <div class="card-title">Planos e Cotacoes</div>
-                    <div class="card-desc">Ferramentas estratégicas para múltiplas opções.</div>
+                    <div class="card-title">Planos e Cotações</div>
+                    <div class="card-desc">Simulações estratégicas para múltiplas opções.</div>
                 </a>
 
                 <!-- Parcelamentos e Planos -->
-                <a href="Parcelamentos_e_Planos.html" class="card">
+                <a href="parcelamentos_planos.html" class="card">
                     <div class="card-icon parc">💳</div>
                     <div class="card-title">Parcelamentos e Planos</div>
-                    <div class="card-desc">Análises de parcelamentos e combinações.</div>
+                    <div class="card-desc">Análise completa de parcelas e combinações.</div>
                 </a>
             </div>
         </div>
     </div>
 
     <script>
-        // 🔐 Altere AQUI a sua senha mestre
-        const MASTER_PASSWORD = "FSsolucoes@2024";
+        // 🔐 Altere AQUI a sua senha mestre, se quiser outra
+        const MASTER_PASSWORD = "@fildO1060";
 
         const STORAGE_KEY_LOGGED = "fs_solucoes_logged";
         const STORAGE_KEY_NOME = "fs_solucoes_nome";
+
+        const INACTIVITY_LIMIT = 20 * 60 * 1000; // 20 minutos em ms
+        let inactivityTimer = null;
+        let listenersAdded = false;
+
+        const FRASES_MOTIVACIONAIS = [
+            "Venda é confiança: entregue valor em cada atendimento.",
+            "Disciplina diária gera resultados extraordinários.",
+            "Foque no cliente. O resultado foca em você.",
+            "Pequenas melhorias constantes criam grandes mudanças.",
+            "Atitude certa hoje constrói o sucesso de amanhã.",
+            "Cada simulação é uma oportunidade de fechar um ótimo negócio."
+        ];
+        let fraseIndex = 0;
+
+        function atualizarDataHora() {
+            const agora = new Date();
+            const opcoes = {
+                weekday: "long",
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            };
+            const texto = agora.toLocaleString("pt-BR", opcoes);
+
+            const dt = document.getElementById("dateTime");
+            const standbyClock = document.getElementById("standbyClock");
+
+            if (dt) dt.textContent = texto;
+            if (standbyClock) standbyClock.textContent = texto;
+        }
+
+        function atualizarFrase() {
+            const frase = FRASES_MOTIVACIONAIS[fraseIndex];
+            const motivacao = document.getElementById("motivacao");
+            const standbyMessage = document.getElementById("standbyMessage");
+
+            if (motivacao) motivacao.textContent = frase;
+            if (standbyMessage) standbyMessage.textContent = frase;
+
+            fraseIndex = (fraseIndex + 1) % FRASES_MOTIVACIONAIS.length;
+        }
 
         function mostrarApp(nome) {
             const overlay = document.getElementById("loginOverlay");
@@ -348,6 +520,8 @@
             if (nome && saudacaoHeader) {
                 saudacaoHeader.textContent = "Acesso liberado para " + nome + ". Bons negócios!";
             }
+
+            iniciarMonitoramentoInatividade();
         }
 
         function fazerLogin() {
@@ -370,7 +544,6 @@
                 return;
             }
 
-            // Guarda no dispositivo
             try {
                 localStorage.setItem(STORAGE_KEY_LOGGED, "true");
                 localStorage.setItem(STORAGE_KEY_NOME, nome);
@@ -387,7 +560,6 @@
                 localStorage.removeItem(STORAGE_KEY_NOME);
             } catch (e) {}
 
-            // Apenas limpa campos, para nova pessoa logar
             const nomeInput = document.getElementById("nomeUsuario");
             const senhaInput = document.getElementById("senhaMestra");
             const erroLogin = document.getElementById("erroLogin");
@@ -397,7 +569,37 @@
             if (erroLogin) erroLogin.style.display = "none";
         }
 
-        // Quando a página carrega, verifica se já está logado neste dispositivo
+        function mostrarStandby() {
+            const standby = document.getElementById("standbyOverlay");
+            if (standby) standby.style.display = "flex";
+        }
+
+        function esconderStandby() {
+            const standby = document.getElementById("standbyOverlay");
+            if (standby) standby.style.display = "none";
+        }
+
+        function resetarInatividade() {
+            esconderStandby();
+            if (inactivityTimer) {
+                clearTimeout(inactivityTimer);
+            }
+            inactivityTimer = setTimeout(mostrarStandby, INACTIVITY_LIMIT);
+        }
+
+        function iniciarMonitoramentoInatividade() {
+            if (listenersAdded) return;
+            listenersAdded = true;
+
+            const eventos = ["click", "mousemove", "keydown", "touchstart"];
+            eventos.forEach(ev => {
+                window.addEventListener(ev, resetarInatividade, { passive: true });
+            });
+
+            resetarInatividade();
+        }
+
+        // Verifica login ao carregar
         (function initLogin() {
             let logged = false;
             let nome = "";
@@ -412,12 +614,16 @@
             if (logged && nome) {
                 mostrarApp(nome);
             } else {
-                // Mostra tela de login
                 const overlay = document.getElementById("loginOverlay");
                 if (overlay) overlay.style.display = "flex";
             }
         })();
+
+        // Relógio e frases
+        atualizarDataHora();
+        atualizarFrase();
+        setInterval(atualizarDataHora, 1000);
+        setInterval(atualizarFrase, 15000);
     </script>
 </body>
 </html>
-
