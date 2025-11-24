@@ -1,14 +1,793 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FS Soluções - Sistema de Gestão</title>
-  <!-- Conteúdo completo do index aqui -->
-  <p>Substitua este placeholder pelo código completo que você e o assistente combinaram.</p>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FS Soluções - Sistema de Gestão</title>
+<style>
+* { box-sizing: border-box; }
+body {
+margin: 0;
+padding: 0;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+background: #f3f4f6;
+color: #111827;
+}
+/* HEADER */
+.header {
+padding: 14px 24px;
+background: #ffffff;
+border-bottom: 1px solid #e5e7eb;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 16px;
+}
+.header-left {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.logo-3d {
+width: 40px;
+height: 40px;
+border-radius: 14px;
+background: radial-gradient(circle at 20% 20%, #60a5fa, #1d4ed8);
+box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
+display: flex;
+align-items: center;
+justify-content: center;
+color: #f9fafb;
+font-weight: 800;
+font-size: 18px;
+}
+.header-title {
+font-size: 18px;
+font-weight: 600;
+}
+.header-sub {
+font-size: 13px;
+font-weight: 400;
+color: #6b7280;
+}
+.header-right {
+position: relative;
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 12px;
+color: #4b5563;
+padding: 6px 10px;
+border-radius: 999px;
+background: #eef2ff;
+border: 1px solid #c7d2fe;
+}
+.menu-button {
+border: none;
+background: transparent;
+cursor: pointer;
+font-size: 18px;
+padding: 0 4px;
+color: #1f2937;
+}
+.menu-dropdown {
+position: absolute;
+top: 110%;
+right: 0;
+min-width: 170px;
+background: #ffffff;
+border-radius: 10px;
+box-shadow: 0 12px 30px rgba(15,23,42,0.25);
+padding: 6px 0;
+display: none;
+z-index: 20;
+}
+.menu-dropdown button {
+width: 100%;
+padding: 8px 12px;
+border: none;
+background: transparent;
+text-align: left;
+font-size: 13px;
+cursor: pointer;
+color: #111827;
+}
+.menu-dropdown button:hover {
+background: #f3f4f6;
+}
+/* STATUS BAR: data/hora + frase */
+.status-bar {
+max-width: 1100px;
+margin: 0 auto;
+padding: 10px 24px 0;
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+gap: 8px;
+font-size: 13px;
+color: #4b5563;
+}
+.status-datetime {
+font-weight: 500;
+}
+.status-motivacao {
+flex: 1;
+text-align: right;
+font-size: 15px;
+font-weight: 700;
+color: #111827;
+text-shadow:
+0 1px 0 #ffffff,
+0 2px 4px rgba(15,23,42,0.35);
+}
+/* CONTEÚDO PRINCIPAL */
+.container {
+padding: 20px 24px 40px;
+max-width: 1100px;
+margin: 0 auto;
+}
+.welcome {
+margin-bottom: 18px;
+}
+.welcome h1 {
+font-size: 26px;
+margin: 0 0 4px;
+}
+.welcome p {
+margin: 0;
+color: #6b7280;
+font-size: 14px;
+}
+.cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 24px;
+}
+.card {
+background: #ffffff;
+border-radius: 18px;
+overflow: hidden;
+box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+display: flex;
+flex-direction: column;
+cursor: pointer;
+text-decoration: none;
+color: inherit;
+transition: transform 0.17s ease, box-shadow 0.17s ease;
+}
+.card:hover {
+transform: translateY(-4px);
+box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+}
+.card-img-wrapper {
+width: 100%;
+height: 170px;
+overflow: hidden;
+}
+.card-img-wrapper img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+transform: scale(1.02);
+transition: transform 0.5s ease;
+}
+.card:hover .card-img-wrapper img {
+transform: scale(1.06);
+}
+.card-body {
+padding: 14px 16px 16px;
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+.card-title {
+font-size: 17px;
+font-weight: 600;
+}
+.card-footer {
+margin-top: 8px;
+display: flex;
+justify-content: flex-end;
+align-items: center;
+font-size: 13px;
+color: #1d4ed8;
+font-weight: 500;
+}
+.link-acessar {
+color: #1d4ed8;
+}
+/* LOGIN OVERLAY */
+.login-overlay {
+position: fixed;
+inset: 0;
+background: radial-gradient(circle at top, rgba(59,130,246,0.35), transparent 55%),
+radial-gradient(circle at bottom, rgba(79,70,229,0.75), #020617);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+z-index: 9999;
+}
+.login-card {
+width: 100%;
+max-width: 420px;
+background: rgba(255,255,255,0.96);
+border-radius: 22px;
+padding: 26px 22px 24px;
+box-shadow: 0 22px 55px rgba(15,23,42,0.65);
+backdrop-filter: blur(12px);
+}
+.login-logo {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 18px;
+}
+.login-logo .logo-3d {
+box-shadow: 0 12px 28px rgba(37,99,235,0.85);
+}
+.login-title { font-size: 20px; font-weight: 600; }
+.login-subtitle {
+font-size: 13px;
+color: #4b5563;
+margin-bottom: 14px;
+}
+.input-group { margin-bottom: 14px; }
+.input-group label {
+display: block;
+font-size: 13px;
+margin-bottom: 4px;
+color: #374151;
+}
+.input-group input {
+width: 100%;
+padding: 9px 10px;
+border-radius: 10px;
+border: 1px solid #d1d5db;
+font-size: 14px;
+outline: none;
+}
+.input-group input:focus {
+border-color: #3b82f6;
+box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
+}
+.btn-primary {
+width: 100%;
+margin-top: 6px;
+padding: 10px 0;
+border: none;
+border-radius: 12px;
+background: linear-gradient(135deg, #2563eb, #1d4ed8);
+color: #ffffff;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 10px 24px rgba(37,99,235,0.7);
+}
+.btn-primary:hover { filter: brightness(1.05); }
+.login-footer {
+margin-top: 10px;
+font-size: 12px;
+color: #6b7280;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+flex-wrap: wrap;
+}
+.login-footer button {
+border: none;
+background: transparent;
+color: #2563eb;
+font-size: 12px;
+cursor: pointer;
+padding: 0;
+text-decoration: underline;
+}
+.error-msg {
+margin-top: 6px;
+font-size: 12px;
+color: #b91c1c;
+}
+/* Esconde conteúdo principal até logar */
+.app-wrapper { display: none; }
+/* STANDBY OVERLAY */
+.standby-overlay {
+position: fixed;
+inset: 0;
+background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,1));
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 9998;
+padding: 24px;
+}
+.standby-card {
+max-width: 480px;
+width: 100%;
+background: rgba(15,23,42,0.96);
+border-radius: 24px;
+padding: 26px 22px;
+box-shadow: 0 24px 60px rgba(0,0,0,0.9);
+text-align: center;
+color: #e5e7eb;
+position: relative;
+overflow: hidden;
+}
+.standby-card::before {
+content: "";
+position: absolute;
+inset: -40%;
+background: conic-gradient(
+from 0deg,
+rgba(59,130,246,0.15),
+transparent,
+rgba(236,72,153,0.18),
+transparent,
+rgba(59,130,246,0.15)
+);
+animation: rotateGlow 12s linear infinite;
+opacity: 0.9;
+}
+.standby-inner {
+position: relative;
+z-index: 1;
+}
+.standby-clock {
+font-size: 16px;
+margin-bottom: 6px;
+color: #9ca3af;
+}
+.standby-user {
+font-size: 18px;
+margin-bottom: 6px;
+}
+.standby-message {
+font-size: 19px;
+font-weight: 600;
+line-height: 1.4;
+margin-bottom: 12px;
+animation: pulse 2.6s ease-in-out infinite;
+}
+.standby-tip {
+font-size: 13px;
+color: #9ca3af;
+}
+/* CALCULADORA OVERLAY */
+.calc-overlay {
+position: fixed;
+inset: 0;
+background: rgba(15,23,42,0.55);
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 9999;
+padding: 16px;
+}
+.calc-card {
+background: #ffffff;
+border-radius: 18px;
+padding: 16px 16px 14px;
+max-width: 320px;
+width: 100%;
+box-shadow: 0 18px 40px rgba(15,23,42,0.5);
+}
+.calc-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 10px;
+}
+.calc-header h3 {
+margin: 0;
+font-size: 16px;
+}
+.calc-close {
+border: none;
+background: transparent;
+cursor: pointer;
+font-size: 18px;
+}
+.calc-input {
+width: 100%;
+padding: 8px 10px;
+border-radius: 10px;
+border: 1px solid #d1d5db;
+font-size: 14px;
+margin-bottom: 8px;
+}
+.calc-btn {
+width: 100%;
+padding: 8px 0;
+border-radius: 10px;
+border: none;
+background: #2563eb;
+color: #ffffff;
+font-size: 14px;
+cursor: pointer;
+margin-bottom: 6px;
+}
+.calc-result {
+font-size: 13px;
+color: #374151;
+}
+@keyframes pulse {
+0% { transform: scale(1); opacity: 0.9; }
+50% { transform: scale(1.03); opacity: 1; }
+100% { transform: scale(1); opacity: 0.9; }
+}
+@keyframes rotateGlow {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+@media (max-width: 700px) {
+.header {
+flex-direction: column;
+align-items: flex-start;
+}
+.status-bar {
+padding-left: 16px;
+padding-right: 16px;
+}
+.container {
+padding-left: 16px;
+padding-right: 16px;
+}
+}
+</style>
 </head>
 <body>
-  <h1>FS Soluções</h1>
-  <p>Arquivo gerado. Agora basta substituir pelo conteúdo final quando aprovado.</p>
+<!-- LOGIN -->
+<div id="loginOverlay" class="login-overlay">
+<div class="login-card">
+<div class="login-logo">
+<div class="logo-3d">FS</div>
+<div>
+<div class="login-title">FS Soluções</div>
+<div class="login-subtitle">Acesse com sua credencial gerencial.</div>
+</div>
+</div>
+<div class="input-group">
+<label for="nomeUsuario">Seu nome</label>
+<input type="text" id="nomeUsuario" placeholder="Ex.: Sobral" />
+</div>
+<div class="input-group">
+<label for="senhaMestra">Senha gerencial</label>
+<input type="password" id="senhaMestra" placeholder="••••••••" />
+</div>
+<button class="btn-primary" onclick="fazerLogin()">Entrar</button>
+<div id="erroLogin" class="error-msg" style="display:none;"></div>
+<div class="login-footer">
+<span>Senha exigida apenas no primeiro acesso deste dispositivo.</span>
+<button type="button" onclick="trocarUsuario()">Trocar usuário</button>
+</div>
+</div>
+</div>
+<!-- STANDBY -->
+<div id="standbyOverlay" class="standby-overlay">
+<div class="standby-card" onclick="resetarInatividade()">
+<div class="standby-inner">
+<div id="standbyClock" class="standby-clock"></div>
+<div id="standbyUser" class="standby-user"></div>
+<div id="standbyMessage" class="standby-message">
+Mantenha o foco: grandes resultados nascem da constância.
+</div>
+<p class="standby-tip">Toque ou clique em qualquer lugar para voltar ao FS
+Soluções.</p>
+</div>
+</div>
+</div>
+<!-- CALCULADORA -->
+<div id="calcOverlay" class="calc-overlay">
+<div class="calc-card">
+<div class="calc-header">
+<h3>Calculadora rápida</h3>
+<button class="calc-close" onclick="fecharCalculadora()">×</button>
+</div>
+<input id="calcInput" class="calc-input" placeholder="Ex.: 1200*1.18/10" />
+<button class="calc-btn" onclick="calcularExpressao()">Calcular</button>
+<div id="calcResultado" class="calc-result">Digite uma expressão e pressione
+Calcular.</div>
+</div>
+</div>
+<!-- APP PRINCIPAL -->
+<div id="appWrapper" class="app-wrapper">
+<div class="header">
+<div class="header-left">
+<div class="logo-3d">FS</div>
+<div>
+<div class="header-title">FS Soluções – Sistema de Gestão</div>
+<div class="header-sub" id="saudacaoHeader">
+Ferramentas internas para orçamentos, planos e parcelamentos.
+</div>
+</div>
+</div>
+<div class="header-right">
+<span>Acesso seguro liberado para este dispositivo.</span>
+<button class="menu-button" onclick="toggleMenu()">⋮</button>
+<div id="menuDropdown" class="menu-dropdown">
+<button onclick="ativarStandbyDireto()">Ativar modo standby</button>
+<button onclick="abrirCalculadora()">Abrir calculadora</button>
+<button onclick="sairSistema()">Sair do sistema</button>
+</div>
+</div>
+</div>
+<div class="status-bar">
+<div id="dateTime" class="status-datetime"></div>
+<div id="motivacao" class="status-motivacao"></div>
+</div>
+<div class="container">
+<div class="welcome">
+<h1 id="saudacaoPrincipal">Bem-vindo!</h1>
+<p>Selecione a área que deseja utilizar agora.</p>
+</div>
+<div class="cards">
+<!-- ORÇAMENTOS: negociação com cliente -->
+<a href="orcamentos.html" class="card">
+<div class="card-img-wrapper">
+<img
+src="https://images.pexels.com/photos/5716005/pexels-photo-5716005.jpeg?auto=compres
+s&cs=tinysrgb&w=1200"
+alt="Vendedor e cliente em negociação de orçamento" />
+</div>
+<div class="card-body">
+<div class="card-title">Orçamentos</div>
+<div class="card-footer">
+<span class="link-acessar">Acessar →</span>
+</div>
+</div>
+</a>
+<!-- PLANOS E COTAÇÕES: análise de gráficos e propostas -->
+<a href="Planos-e-Cotacoes.html" class="card">
+<div class="card-img-wrapper">
+<img
+src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compres
+s&cs=tinysrgb&w=1200"
+alt="Equipe analisando gráficos e planos de cotações" />
+</div>
+<div class="card-body">
+<div class="card-title">Planos &amp; Cotações</div>
+<div class="card-footer">
+<span class="link-acessar">Acessar →</span>
+</div>
+</div>
+</a>
+<!-- PARCELAMENTOS E PLANOS: calculadora e planilha -->
+<a href="Parcelamentos_e_Planos.html" class="card">
+<div class="card-img-wrapper">
+<img
+src="https://images.pexels.com/photos/8296978/pexels-photo-8296978.jpeg?auto=compres
+s&cs=tinysrgb&w=1200"
+alt="Calculadora e planilha de parcelamentos sendo apresentadas a um cliente"
+/>
+</div>
+<div class="card-body">
+<div class="card-title">Parcelamentos &amp; Planos</div>
+<div class="card-footer">
+<span class="link-acessar">Acessar →</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<script>
+// 🔐 SENHA MESTRA (exigida apenas uma vez por dispositivo)
+const MASTER_PASSWORD = "@fildO1060";
+const STORAGE_KEY_LOGGED = "fs_solucoes_logged";
+const STORAGE_KEY_NOME = "fs_solucoes_nome";
+// 5 minutos de inatividade
+const INACTIVITY_LIMIT = 5 * 60 * 1000;
+let inactivityTimer = null;
+let listenersAdded = false;
+let nomeUsuarioAtual = "";
+const FRASES_MOTIVACIONAIS = [
+"Venda é confiança: entregue valor em cada atendimento.",
+"Disciplina diária gera resultados extraordinários.",
+"Foque no cliente. O resultado foca em você.",
+"Pequenas melhorias constantes criam grandes mudanças.",
+"Atitude certa hoje constrói o sucesso de amanhã.",
+"Cada simulação é uma oportunidade de fechar um ótimo negócio."
+];
+function atualizarDataHora() {
+const agora = new Date();
+const opcoes = {
+weekday: "long",
+day: "2-digit",
+month: "2-digit",
+year: "numeric",
+hour: "2-digit",
+minute: "2-digit"
+};
+const texto = agora.toLocaleString("pt-BR", opcoes);
+const dt = document.getElementById("dateTime");
+const standbyClock = document.getElementById("standbyClock");
+if (dt) dt.textContent = texto;
+if (standbyClock) standbyClock.textContent = texto;
+}
+// frase diária (não troca toda hora)
+function atualizarFraseDiaria() {
+const hoje = new Date();
+const chave = hoje.getFullYear() * 10000 +
+(hoje.getMonth() + 1) * 100 +
+hoje.getDate();
+const idx = chave % FRASES_MOTIVACIONAIS.length;
+const frase = FRASES_MOTIVACIONAIS[idx];
+const motivacao = document.getElementById("motivacao");
+const standbyMessage = document.getElementById("standbyMessage");
+if (motivacao) motivacao.textContent = frase;
+if (standbyMessage) standbyMessage.textContent = frase;
+}
+function mostrarApp(nome) {
+nomeUsuarioAtual = nome || "";
+const overlay = document.getElementById("loginOverlay");
+const appWrapper = document.getElementById("appWrapper");
+const saudacaoPrincipal = document.getElementById("saudacaoPrincipal");
+const saudacaoHeader = document.getElementById("saudacaoHeader");
+const standbyUser = document.getElementById("standbyUser");
+if (overlay) overlay.style.display = "none";
+if (appWrapper) appWrapper.style.display = "block";
+if (nome && saudacaoPrincipal) {
+saudacaoPrincipal.textContent = "Bem-vindo, " + nome + "!";
+}
+if (nome && saudacaoHeader) {
+saudacaoHeader.textContent = "Acesso liberado para " + nome + ". Bons negócios!";
+}
+if (nome && standbyUser) {
+standbyUser.textContent = nome + ", essa tela é sua.";
+}
+iniciarMonitoramentoInatividade();
+}
+function fazerLogin() {
+const nomeInput = document.getElementById("nomeUsuario");
+const senhaInput = document.getElementById("senhaMestra");
+const erroLogin = document.getElementById("erroLogin");
+const nome = (nomeInput?.value || "").trim();
+const senha = senhaInput?.value || "";
+if (!nome) {
+erroLogin.style.display = "block";
+erroLogin.textContent = "Informe o seu nome.";
+return;
+}
+if (senha !== MASTER_PASSWORD) {
+erroLogin.style.display = "block";
+erroLogin.textContent = "Senha gerencial incorreta.";
+return;
+}
+try {
+localStorage.setItem(STORAGE_KEY_LOGGED, "true");
+localStorage.setItem(STORAGE_KEY_NOME, nome);
+} catch (e) {
+console.warn("Não foi possível usar localStorage:", e);
+}
+mostrarApp(nome);
+}
+function trocarUsuario() {
+try {
+localStorage.removeItem(STORAGE_KEY_LOGGED);
+localStorage.removeItem(STORAGE_KEY_NOME);
+} catch (e) {}
+const nomeInput = document.getElementById("nomeUsuario");
+const senhaInput = document.getElementById("senhaMestra");
+const erroLogin = document.getElementById("erroLogin");
+if (nomeInput) nomeInput.value = "";
+if (senhaInput) senhaInput.value = "";
+if (erroLogin) erroLogin.style.display = "none";
+}
+function mostrarStandby() {
+const standby = document.getElementById("standbyOverlay");
+if (standby) standby.style.display = "flex";
+}
+function esconderStandby() {
+const standby = document.getElementById("standbyOverlay");
+if (standby) standby.style.display = "none";
+}
+function resetarInatividade() {
+esconderStandby();
+if (inactivityTimer) clearTimeout(inactivityTimer);
+inactivityTimer = setTimeout(mostrarStandby, INACTIVITY_LIMIT);
+}
+function iniciarMonitoramentoInatividade() {
+if (listenersAdded) return;
+listenersAdded = true;
+const eventos = ["click", "mousemove", "keydown", "touchstart"];
+eventos.forEach(ev => {
+window.addEventListener(ev, resetarInatividade, { passive: true });
+});
+resetarInatividade();
+}
+// MENU
+function toggleMenu() {
+const menu = document.getElementById("menuDropdown");
+if (!menu) return;
+menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+function fecharMenu() {
+const menu = document.getElementById("menuDropdown");
+if (menu) menu.style.display = "none";
+}
+function ativarStandbyDireto() {
+fecharMenu();
+if (inactivityTimer) clearTimeout(inactivityTimer);
+mostrarStandby();
+}
+// CALCULADORA
+function abrirCalculadora() {
+fecharMenu();
+const overlay = document.getElementById("calcOverlay");
+if (overlay) overlay.style.display = "flex";
+}
+function fecharCalculadora() {
+const overlay = document.getElementById("calcOverlay");
+if (overlay) overlay.style.display = "none";
+}
+function calcularExpressao() {
+const input = document.getElementById("calcInput");
+const resultSpan = document.getElementById("calcResultado");
+if (!input || !resultSpan) return;
+try {
+const expr = (input.value || "").replace(/[^0-9+\-*/().,]/g, "").replace(/,/g, ".");
+if (!expr) {
+resultSpan.textContent = "Digite uma expressão para calcular.";
+return;
+}
+const valor = Function('"use strict";return (' + expr + ')')();
+if (isNaN(valor)) {
+resultSpan.textContent = "Expressão inválida.";
+} else {
+resultSpan.textContent = "Resultado: " + valor.toLocaleString("pt-BR", {
+maximumFractionDigits: 2
+});
+}
+} catch (e) {
+resultSpan.textContent = "Expressão inválida.";
+}
+}
+// SAIR DO SISTEMA
+function sairSistema() {
+fecharMenu();
+try {
+localStorage.removeItem(STORAGE_KEY_LOGGED);
+localStorage.removeItem(STORAGE_KEY_NOME);
+} catch (e) {}
+const appWrapper = document.getElementById("appWrapper");
+const loginOverlay = document.getElementById("loginOverlay");
+if (appWrapper) appWrapper.style.display = "none";
+if (loginOverlay) loginOverlay.style.display = "flex";
+esconderStandby();
+if (inactivityTimer) clearTimeout(inactivityTimer);
+}
+// Fecha menu ao clicar fora
+window.addEventListener("click", (event) => {
+const menu = document.getElementById("menuDropdown");
+const button = document.querySelector(".menu-button");
+if (!menu || !button) return;
+if (!menu.contains(event.target) && !button.contains(event.target)) {
+menu.style.display = "none";
+}
+});
+// Verifica login ao carregar
+(function initLogin() {
+let logged = false;
+let nome = "";
+try {
+logged = localStorage.getItem(STORAGE_KEY_LOGGED) === "true";
+nome = localStorage.getItem(STORAGE_KEY_NOME) || "";
+} catch (e) {
+logged = false;
+}
+atualizarFraseDiaria();
+if (logged && nome) {
+mostrarApp(nome);
+} else {
+const overlay = document.getElementById("loginOverlay");
+if (overlay) overlay.style.display = "flex";
+}
+})();
+// Relógio
+atualizarDataHora();
+setInterval(atualizarDataHora, 1000);
+</script>
 </body>
 </html>
