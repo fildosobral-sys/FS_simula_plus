@@ -1,129 +1,422 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FS Soluções</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: #f5f5f5;
+            color: #222;
         }
 
+        /* HEADER SUPERIOR */
         .header {
-            padding: 20px 40px;
-            background: white;
-            font-size: 22px;
-            font-weight: 600;
+            padding: 16px 24px;
+            background: #ffffff;
             border-bottom: 1px solid #ddd;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
+        .logo-3d {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .header-sub {
+            font-size: 13px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        /* CONTEÚDO PRINCIPAL (CARDS) */
         .container {
-            padding: 40px;
+            padding: 32px 24px 40px;
+            max-width: 960px;
+            margin: 0 auto;
         }
 
-        h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
+        .welcome {
+            margin-bottom: 24px;
         }
 
-        p.subtitle {
-            font-size: 16px;
+        .welcome h2 {
+            font-size: 26px;
+            margin: 0 0 6px;
+        }
+
+        .welcome p {
+            margin: 0;
             color: #555;
-            margin-bottom: 30px;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
         }
 
         .card {
-            background: white;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-            cursor: pointer;
-            transition: 0.2s;
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px 18px 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
             text-decoration: none;
-            color: black;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.16s ease, box-shadow 0.16s ease;
         }
 
         .card:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
         }
 
-        .emoji-box {
-            width: 100%;
-            height: 180px;
+        .card-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 85px;
-            background: linear-gradient(135deg, #eef2f3, #d9dde1);
+            font-size: 38px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.20);
         }
 
-        .card-content {
-            padding: 18px;
+        .card-icon.orc {
+            background: linear-gradient(135deg, #0d6efd, #4dabf7);
+        }
+
+        .card-icon.planos {
+            background: linear-gradient(135deg, #20c997, #12b886);
+        }
+
+        .card-icon.parc {
+            background: linear-gradient(135deg, #f59f00, #f76707);
         }
 
         .card-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 6px;
         }
 
         .card-desc {
             font-size: 14px;
-            color: #777;
+            color: #666;
+        }
+
+        /* ====== LOGIN OVERLAY ====== */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(13,110,253,0.25), transparent 55%),
+                        radial-gradient(circle at bottom, rgba(121,80,242,0.55), #050816);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255,255,255,0.96);
+            border-radius: 20px;
+            padding: 26px 22px 24px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.45);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .login-logo .logo-3d {
+            box-shadow: 0 10px 24px rgba(13,110,253,0.7);
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #444;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 9px 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 2px rgba(13,110,253,0.25);
+        }
+
+        .btn-primary {
+            width: 100%;
+            margin-top: 6px;
+            padding: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(13,110,253,0.6);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.05);
+        }
+
+        .login-footer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .login-footer button {
+            border: none;
+            background: transparent;
+            color: #0d6efd;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #c92a2a;
+        }
+
+        /* Esconde conteúdo principal até logar */
+        .app-wrapper {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        FS Soluções
-    </div>
-
-    <div class="container">
-        <h2>Bem-vindo, Sobral!</h2>
-        <p class="subtitle">Escolha abaixo a ferramenta que deseja utilizar.</p>
-
-        <div class="cards">
-
-            <!-- Orçamentos -->
-            <a href="orcamentos.html" class="card">
-                <div class="emoji-box">🧾</div>
-                <div class="card-content">
-                    <div class="card-title">Orçamentos</div>
-                    <div class="card-desc">Orçamentos rápidos e inteligentes.</div>
+    <!-- ===== LOGIN (primeiro acesso ou quando limpar) ===== -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="logo-3d">FS</div>
+                <div>
+                    <div class="login-title">FS Soluções</div>
+                    <div class="login-subtitle">Acesse com sua credencial gerencial.</div>
                 </div>
-            </a>
+            </div>
 
-            <!-- Planos e Cotações -->
-            <a href="Planos-e-Cotacoes.html" class="card">
-                <div class="emoji-box">📊</div>
-                <div class="card-content">
-                    <div class="card-title">Planos e Cotações</div>
-                    <div class="card-desc">Ferramentas completas para simulações.</div>
-                </div>
-            </a>
+            <div class="input-group">
+                <label for="nomeUsuario">Seu nome</label>
+                <input type="text" id="nomeUsuario" placeholder="Ex.: Sobral" />
+            </div>
 
-            <!-- Parcelamentos e Planos -->
-            <a href="Parcelamentos-e-Planos.html" class="card">
-                <div class="emoji-box">💳</div>
-                <div class="card-content">
-                    <div class="card-title">Parcelamentos e Planos</div>
-                    <div class="card-desc">Análises de parcelamentos e negociações.</div>
-                </div>
-            </a>
+            <div class="input-group">
+                <label for="senhaMestra">Senha gerencial</label>
+                <input type="password" id="senhaMestra" placeholder="••••••••" />
+            </div>
 
+            <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
+            <div id="erroLogin" class="error-msg" style="display:none;"></div>
+
+            <div class="login-footer">
+                <span>Senha gerencial configurada pelo administrador.</span>
+                <button type="button" onclick="trocarUsuario()">Trocar usuário</button>
+            </div>
         </div>
     </div>
 
+    <!-- ===== CONTEÚDO PRINCIPAL (só aparece depois do login) ===== -->
+    <div id="appWrapper" class="app-wrapper">
+        <div class="header">
+            <div class="logo-3d">FS</div>
+            <div>
+                FS Soluções
+                <div class="header-sub" id="saudacaoHeader">
+                    Sistema interno de orçamentos, planos & parcelamentos.
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="welcome">
+                <h2 id="saudacaoPrincipal">Bem-vindo!</h2>
+                <p>Escolha abaixo a ferramenta que deseja utilizar.</p>
+            </div>
+
+            <div class="cards">
+                <!-- ORÇAMENTOS -->
+                <a href="Orcamentos.html" class="card">
+                    <div class="card-icon orc">📋</div>
+                    <div class="card-title">Orçamentos</div>
+                    <div class="card-desc">Orçamentos rápidos e inteligentes.</div>
+                </a>
+
+                <!-- PLANOS E COTAÇÕES -->
+                <a href="Planos-e-Cotacoes.html" class="card">
+                    <div class="card-icon planos">📊</div>
+                    <div class="card-title">Planos e Cotações</div>
+                    <div class="card-desc">Ferramentas estratégicas para múltiplas opções.</div>
+                </a>
+
+                <!-- PARCELAMENTOS E PLANOS -->
+                <a href="Parcelamentos_e_Planos.html" class="card">
+                    <div class="card-icon parc">💳</div>
+                    <div class="card-title">Parcelamentos e Planos</div>
+                    <div class="card-desc">Análises de parcelamentos e combinações.</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🔐 Altere AQUI a sua senha mestre
+        const MASTER_PASSWORD = "FSsolucoes@2024";
+
+        const STORAGE_KEY_LOGGED = "fs_solucoes_logged";
+        const STORAGE_KEY_NOME = "fs_solucoes_nome";
+
+        function mostrarApp(nome) {
+            const overlay = document.getElementById("loginOverlay");
+            const appWrapper = document.getElementById("appWrapper");
+            const saudacaoPrincipal = document.getElementById("saudacaoPrincipal");
+            const saudacaoHeader = document.getElementById("saudacaoHeader");
+
+            if (overlay) overlay.style.display = "none";
+            if (appWrapper) appWrapper.style.display = "block";
+
+            if (nome && saudacaoPrincipal) {
+                saudacaoPrincipal.textContent = "Bem-vindo, " + nome + "!";
+            }
+            if (nome && saudacaoHeader) {
+                saudacaoHeader.textContent = "Acesso liberado para " + nome + ". Bons negócios!";
+            }
+        }
+
+        function fazerLogin() {
+            const nomeInput = document.getElementById("nomeUsuario");
+            const senhaInput = document.getElementById("senhaMestra");
+            const erroLogin = document.getElementById("erroLogin");
+
+            const nome = (nomeInput?.value || "").trim();
+            const senha = senhaInput?.value || "";
+
+            if (!nome) {
+                erroLogin.style.display = "block";
+                erroLogin.textContent = "Informe o seu nome.";
+                return;
+            }
+
+            if (senha !== MASTER_PASSWORD) {
+                erroLogin.style.display = "block";
+                erroLogin.textContent = "Senha gerencial incorreta.";
+                return;
+            }
+
+            // Guarda no dispositivo
+            try {
+                localStorage.setItem(STORAGE_KEY_LOGGED, "true");
+                localStorage.setItem(STORAGE_KEY_NOME, nome);
+            } catch (e) {
+                console.warn("Não foi possível usar localStorage:", e);
+            }
+
+            mostrarApp(nome);
+        }
+
+        function trocarUsuario() {
+            try {
+                localStorage.removeItem(STORAGE_KEY_LOGGED);
+                localStorage.removeItem(STORAGE_KEY_NOME);
+            } catch (e) {}
+
+            // Apenas limpa campos, para nova pessoa logar
+            const nomeInput = document.getElementById("nomeUsuario");
+            const senhaInput = document.getElementById("senhaMestra");
+            const erroLogin = document.getElementById("erroLogin");
+
+            if (nomeInput) nomeInput.value = "";
+            if (senhaInput) senhaInput.value = "";
+            if (erroLogin) erroLogin.style.display = "none";
+        }
+
+        // Quando a página carrega, verifica se já está logado neste dispositivo
+        (function initLogin() {
+            let logged = false;
+            let nome = "";
+
+            try {
+                logged = localStorage.getItem(STORAGE_KEY_LOGGED) === "true";
+                nome = localStorage.getItem(STORAGE_KEY_NOME) || "";
+            } catch (e) {
+                logged = false;
+            }
+
+            if (logged && nome) {
+                mostrarApp(nome);
+            } else {
+                // Mostra tela de login
+                const overlay = document.getElementById("loginOverlay");
+                if (overlay) overlay.style.display = "flex";
+            }
+        })();
+    </script>
 </body>
 </html>
