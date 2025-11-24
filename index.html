@@ -8,46 +8,870 @@
   <script src="/_sdk/element_sdk.js"></script>
   <script src="/_sdk/data_sdk.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
     body {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
     }
+    
     html, body {
       width: 100%;
       height: 100%;
+      overflow-x: hidden;
     }
 
-    /* Pequenos ajustes visuais adicionais */
+    /* Sombras Material Design 3 */
+    .card-shadow {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-shadow-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-shadow-hover:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 15px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .logo-3d {
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Cards horizontais premium */
+    .premium-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: white;
+      border-radius: 16px;
+      height: 100%;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-content {
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Foco visível para acessibilidade */
+    .focus-outline:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Animações suaves */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .fade-in-delay-1 {
+      animation: fadeIn 0.5s ease-out 0.1s both;
+    }
+
+    .fade-in-delay-2 {
+      animation: fadeIn 0.5s ease-out 0.2s both;
+    }
+
+    .fade-in-delay-3 {
+      animation: fadeIn 0.5s ease-out 0.3s both;
+    }
+
+    /* Gradientes para imagens dos cards */
+    .gradient-blue {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .gradient-green {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .gradient-orange {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    /* Botão de ação premium */
+    .btn-premium {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-premium:hover {
+      background: #2563eb;
+      transform: translateX(4px);
+    }
+
+    /* Avatar do usuário */
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .user-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="m-0 p-0 antialiased"><!-- TELA DE LOGIN -->
+  <div id="loginScreen" class="fixed inset-0 w-full h-full bg-gradient-to-br from-[#dbeafe] via-[#bfdbfe] to-[#93c5fd] flex items-center justify-center z-50">
+   <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-md w-full mx-4">
+    <div class="flex flex-col items-center gap-4 mb-6">
+     <div class="w-20 h-20 rounded-3xl flex items-center justify-center text-white font-extrabold text-3xl logo-3d bg-gradient-to-br from-[#3b82f6] to-[#60a5fa]"><span>FS</span>
+     </div>
+     <h1 class="text-2xl sm:text-3xl font-bold text-[#1e3a8a] text-center">Bem-vindo ao FS Soluções</h1>
+     <p class="text-sm text-slate-600 text-center">Configure sua senha mestre para acessar o painel</p>
+    </div>
+    <form id="loginForm" class="flex flex-col gap-4">
+     <div><label for="username" class="block text-sm font-medium text-slate-700 mb-1">Nome de usuário</label> <input type="text" id="username" name="username" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all" placeholder="Digite seu nome">
+     </div>
+     <div><label for="password" class="block text-sm font-medium text-slate-700 mb-1">Senha mestre</label> <input type="password" id="password" name="password" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all" placeholder="Crie sua senha">
+     </div><button type="submit" id="loginButton" class="w-full mt-2 px-6 py-3 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-xl hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"> Acessar painel </button>
+    </form>
+    <p id="loginError" class="hidden mt-4 text-sm text-red-600 text-center"></p>
+   </div>
+  </div><!-- PAINEL PRINCIPAL -->
+  <div id="mainPanel" class="hidden w-full min-h-full">
+   <header class="w-full bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-3"><!-- Logo 3D Premium -->
+      <div id="logoBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-xl logo-3d bg-gradient-to-br from-[#3b82f6] to-[#60a5fa]"><span>FS</span>
+      </div>
+      <div>
+       <p id="header_title" class="text-lg font-bold text-slate-900">FS Soluções</p>
+       <p id="header_subtitle" class="text-xs text-slate-500">Sistema de Gestão Integrado</p>
+      </div>
+     </div>
+     <div class="flex items-center gap-3">
+      <div class="relative">
+       <div id="userDisplay" class="hidden user-avatar"><!-- Iniciais do usuário -->
+       </div>
+       <div id="userMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-slate-200 py-2 min-w-[180px] z-50"><button id="logoutButton" type="button" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"> <span>🚪</span> <span>Sair</span> </button>
+       </div>
+      </div>
+      <div class="relative"><button id="header_badge" type="button" class="text-sm text-slate-600 px-3 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"> ⚙️ </button>
+       <div id="panelMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-slate-200 py-2 min-w-[180px] z-50"><button id="standbyButton" type="button" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"> <span>💤</span> <span>Modo Standby</span> </button> <button id="downloadButton" type="button" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"> <span>⬇️</span> <span>Baixar Plataforma</span> </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </header>
+   <main class="w-full bg-slate-50 min-h-full"><!-- Saudação Premium -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-8 pt-8 pb-6 fade-in">
+     <h1 id="welcome_title" class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Bem-vindo, <span id="userName">Fildo</span>!</h1>
+     <p id="welcome_subtitle" class="text-base text-slate-600">Tenha uma ótima <span id="periodOfDay">manhã</span>.</p>
+    </section><!-- Grid de Cards Premium -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-8 pb-12">
+     <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"><!-- Card 1: Orçamentos --> <button id="card_orcamentos" type="button" class="focus-outline text-left premium-card card-shadow card-shadow-hover fade-in-delay-1" aria-label="Acessar módulo de orçamentos">
+       <div class="card-image gradient-blue">
+        <svg class="w-24 h-24 text-white opacity-90" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+       </div>
+       <div class="card-content">
+        <h2 id="card_orc_title" class="text-xl font-bold text-slate-900 mb-2">Orçamentos</h2>
+        <p id="card_orc_text" class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">Sistema completo para criação e gestão de orçamentos profissionais.</p>
+        <div class="flex items-center justify-between"><span id="card_orc_footer" class="text-xs text-slate-500"> orcamentos.html </span> <span class="btn-premium"> Acessar → </span>
+        </div>
+       </div></button> <!-- Card 2: Planos e Cotações --> <button id="card_planos" type="button" class="focus-outline text-left premium-card card-shadow card-shadow-hover fade-in-delay-2" aria-label="Acessar módulo de planos e cotações">
+       <div class="card-image gradient-green">
+        <svg class="w-24 h-24 text-white opacity-90" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+       </div>
+       <div class="card-content">
+        <h2 id="card_plan_title" class="text-xl font-bold text-slate-900 mb-2">Planos &amp; Cotações</h2>
+        <p id="card_plan_text" class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">Gerencie planos de serviços e faça cotações detalhadas para seus clientes.</p>
+        <div class="flex items-center justify-between"><span id="card_plan_footer" class="text-xs text-slate-500"> Planos-e-Cotacoes.html </span> <span class="btn-premium"> Acessar → </span>
+        </div>
+       </div></button> <!-- Card 3: Parcelamentos --> <button id="card_clientes" type="button" class="focus-outline text-left premium-card card-shadow card-shadow-hover fade-in-delay-3" aria-label="Acessar módulo de parcelamentos">
+       <div class="card-image gradient-orange">
+        <svg class="w-24 h-24 text-white opacity-90" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+       </div>
+       <div class="card-content">
+        <h2 id="card_cli_title" class="text-xl font-bold text-slate-900 mb-2">Parcelamentos &amp; Planos</h2>
+        <p id="card_cli_text" class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">Calcule parcelamentos e organize planos de pagamento personalizados.</p>
+        <div class="flex items-center justify-between"><span id="card_cli_footer" class="text-xs text-slate-500"> Parcelamentos_e_Planos.html </span> <span class="btn-premium"> Acessar → </span>
+        </div>
+       </div></button>
+     </div>
+    </section>
+   </main>
+   <footer class="w-full bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
+     <p id="footer_left" class="font-medium">FS Soluções • Sistema de Gestão SWS</p>
+     <p id="footer_right" class="opacity-75">github.com/fioDoSobral/sws-fs-simula-plus</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // ========================
+    // CONFIGURAÇÃO EDITÁVEL
+    // ========================
+    const defaultConfig = {
+      // Cores (seguindo limite de 5 cores)
+      background_color: "#f8fafc",
+      surface_color: "#ffffff",
+      text_color: "#0f172a",
+      primary_action_color: "#3b82f6",
+      secondary_action_color: "#60a5fa",
+
+      // Fonte
+      font_family: "Inter",
+      font_size: 14,
+
+      // Textos editáveis
+      header_title: "FS Soluções - SWS",
+      header_subtitle: "Sistema de Gestão Integrado",
+
+      welcome_title: "Bem-vindo",
+      welcome_subtitle: "Tenha uma ótima",
+
+      card_orc_title: "Orçamentos",
+      card_orc_text: "Sistema completo para criação e gestão de orçamentos profissionais.",
+      card_orc_footer: "orcamentos.html",
+
+      card_plan_title: "Planos & Cotações",
+      card_plan_text: "Gerencie planos de serviços e faça cotações detalhadas para seus clientes.",
+      card_plan_footer: "Planos-e-Cotacoes.html",
+
+      card_cli_title: "Parcelamentos & Planos",
+      card_cli_text: "Calcule parcelamentos e organize planos de pagamento personalizados.",
+      card_cli_footer: "Parcelamentos_e_Planos.html",
+
+      footer_left: "FS Soluções • Sistema de Gestão SWS",
+      footer_right: "github.com/fioDoSobral/sws-fs-simula-plus"
+    };
+
+    let currentConfig = { ...defaultConfig };
+    let authData = [];
+    let isAuthenticated = false;
+    let currentUser = "";
+
+    // ========================
+    // AUTENTICAÇÃO
+    // ========================
+    function checkAuthentication() {
+      if (authData.length > 0 && authData[0].authenticated) {
+        isAuthenticated = true;
+        currentUser = authData[0].username || "Usuário";
+        showMainPanel();
+      } else {
+        showLoginScreen();
+      }
+    }
+
+    function showLoginScreen() {
+      const loginScreen = document.getElementById("loginScreen");
+      const mainPanel = document.getElementById("mainPanel");
+      if (loginScreen) loginScreen.classList.remove("hidden");
+      if (mainPanel) mainPanel.classList.add("hidden");
+    }
+
+    function showMainPanel() {
+      const loginScreen = document.getElementById("loginScreen");
+      const mainPanel = document.getElementById("mainPanel");
+      if (loginScreen) loginScreen.classList.add("hidden");
+      if (mainPanel) mainPanel.classList.remove("hidden");
+
+      // Atualizar nome do usuário
+      const userNameEl = document.getElementById("userName");
+      if (userNameEl) {
+        userNameEl.textContent = currentUser;
+      }
+
+      // Atualizar período do dia
+      updatePeriodOfDay();
+
+      // Atualizar avatar com iniciais
+      const userDisplay = document.getElementById("userDisplay");
+      if (userDisplay && currentUser) {
+        const initials = currentUser.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        userDisplay.textContent = initials;
+        userDisplay.classList.remove("hidden");
+      }
+    }
+
+    function updatePeriodOfDay() {
+      const hour = new Date().getHours();
+      let period = "dia";
+      
+      if (hour >= 5 && hour < 12) {
+        period = "manhã";
+      } else if (hour >= 12 && hour < 18) {
+        period = "tarde";
+      } else {
+        period = "noite";
+      }
+
+      const periodEl = document.getElementById("periodOfDay");
+      if (periodEl) {
+        periodEl.textContent = period;
+      }
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      
+      const loginButton = document.getElementById("loginButton");
+      const loginError = document.getElementById("loginError");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+
+      if (!usernameInput || !passwordInput) return;
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!username || !password) {
+        if (loginError) {
+          loginError.textContent = "Por favor, preencha todos os campos";
+          loginError.classList.remove("hidden");
+        }
+        return;
+      }
+
+      if (loginButton) {
+        loginButton.disabled = true;
+        loginButton.textContent = "Acessando...";
+      }
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create({
+          authenticated: true,
+          username: username,
+          timestamp: new Date().toISOString()
+        });
+
+        if (result.isOk) {
+          currentUser = username;
+          isAuthenticated = true;
+          showMainPanel();
+        } else {
+          if (loginError) {
+            loginError.textContent = "Erro ao salvar autenticação. Tente novamente.";
+            loginError.classList.remove("hidden");
+          }
+          if (loginButton) {
+            loginButton.disabled = false;
+            loginButton.textContent = "Acessar painel";
+          }
+        }
+      } else {
+        currentUser = username;
+        isAuthenticated = true;
+        showMainPanel();
+      }
+    }
+
+    function applyConfig(config) {
+      currentConfig = { ...defaultConfig, ...config };
+      const cfg = currentConfig;
+
+      const baseSize = cfg.font_size || defaultConfig.font_size;
+      const customFont = cfg.font_family || defaultConfig.font_family;
+      const fontStack = customFont + ", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+
+      document.body.style.fontFamily = fontStack;
+      document.body.style.fontSize = baseSize + "px";
+
+      const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      setText("header_title", cfg.header_title);
+      setText("header_subtitle", cfg.header_subtitle);
+      setText("card_orc_title", cfg.card_orc_title);
+      setText("card_orc_text", cfg.card_orc_text);
+      setText("card_orc_footer", cfg.card_orc_footer);
+      setText("card_plan_title", cfg.card_plan_title);
+      setText("card_plan_text", cfg.card_plan_text);
+      setText("card_plan_footer", cfg.card_plan_footer);
+      setText("card_cli_title", cfg.card_cli_title);
+      setText("card_cli_text", cfg.card_cli_text);
+      setText("card_cli_footer", cfg.card_cli_footer);
+      setText("footer_left", cfg.footer_left);
+      setText("footer_right", cfg.footer_right);
+
+      const primaryColor = cfg.primary_action_color;
+      const secondaryColor = cfg.secondary_action_color;
+
+      const logoBox = document.getElementById("logoBox");
+      if (logoBox) {
+        logoBox.style.backgroundImage = `linear-gradient(to bottom right, ${primaryColor}, ${secondaryColor})`;
+      }
+
+      const welcomeTitle = document.getElementById("welcome_title");
+      if (welcomeTitle) {
+        welcomeTitle.style.fontSize = (baseSize * 2) + "px";
+      }
+
+      const welcomeSubtitle = document.getElementById("welcome_subtitle");
+      if (welcomeSubtitle) {
+        welcomeSubtitle.style.fontSize = (baseSize * 1.1) + "px";
+      }
+    }
+
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+      loginForm.addEventListener("submit", handleLogin);
+    }
+
+    // ========================
+    // MENU DO USUÁRIO
+    // ========================
+    function setupUserMenu() {
+      const userDisplay = document.getElementById("userDisplay");
+      const userMenu = document.getElementById("userMenu");
+      const logoutButton = document.getElementById("logoutButton");
+      const headerBadge = document.getElementById("header_badge");
+      const panelMenu = document.getElementById("panelMenu");
+
+      if (userDisplay && userMenu) {
+        userDisplay.addEventListener("click", (e) => {
+          e.stopPropagation();
+          userMenu.classList.toggle("hidden");
+          if (panelMenu && !panelMenu.classList.contains("hidden")) {
+            panelMenu.classList.add("hidden");
+          }
+        });
+
+        userMenu.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+      }
+
+      if (headerBadge && panelMenu) {
+        headerBadge.addEventListener("click", (e) => {
+          e.stopPropagation();
+          panelMenu.classList.toggle("hidden");
+          if (userMenu && !userMenu.classList.contains("hidden")) {
+            userMenu.classList.add("hidden");
+          }
+        });
+
+        panelMenu.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+      }
+
+      document.addEventListener("click", () => {
+        if (userMenu && !userMenu.classList.contains("hidden")) {
+          userMenu.classList.add("hidden");
+        }
+        if (panelMenu && !panelMenu.classList.contains("hidden")) {
+          panelMenu.classList.add("hidden");
+        }
+      });
+
+      if (logoutButton) {
+        logoutButton.addEventListener("click", async () => {
+          if (window.dataSdk && authData.length > 0) {
+            const result = await window.dataSdk.delete(authData[0]);
+            if (result.isOk) {
+              currentUser = "";
+              isAuthenticated = false;
+              authData = [];
+              showLoginScreen();
+            }
+          } else {
+            currentUser = "";
+            isAuthenticated = false;
+            showLoginScreen();
+          }
+        });
+      }
+    }
+
+    // ========================
+    // BOTÕES DE AÇÃO
+    // ========================
+    function setupActionButtons() {
+      const standbyButton = document.getElementById("standbyButton");
+      const downloadButton = document.getElementById("downloadButton");
+
+      if (standbyButton) {
+        standbyButton.addEventListener("click", () => {
+          const overlay = document.createElement("div");
+          overlay.id = "standbyOverlay";
+          overlay.className = "fixed inset-0 w-full h-full bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#1e40af] flex flex-col items-center justify-center z-50";
+          overlay.innerHTML = `
+            <div class="text-center px-4">
+              <div class="w-32 h-32 rounded-3xl flex items-center justify-center text-white font-extrabold text-5xl mb-8 mx-auto bg-gradient-to-br from-[#3b82f6] to-[#60a5fa] shadow-2xl">
+                <span>FS</span>
+              </div>
+              <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">Modo Standby</h2>
+              <p class="text-blue-200 text-sm mb-10">Clique em qualquer lugar para reativar</p>
+            </div>
+          `;
+          document.body.appendChild(overlay);
+
+          overlay.addEventListener("click", () => {
+            overlay.remove();
+          });
+        });
+      }
+
+      if (downloadButton) {
+        downloadButton.addEventListener("click", () => {
+          const modal = document.createElement("div");
+          modal.id = "downloadModal";
+          modal.className = "fixed inset-0 w-full h-full bg-black/50 flex items-center justify-center z-50 p-4";
+          modal.innerHTML = `
+            <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full">
+              <div class="flex flex-col items-center gap-4 mb-6">
+                <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl bg-gradient-to-br from-[#3b82f6] to-[#60a5fa] text-white">
+                  ⬇️
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900 text-center">Baixar Plataforma</h2>
+                <p class="text-sm text-slate-600 text-center">Esta é uma versão demonstrativa. A funcionalidade de download estará disponível em breve.</p>
+              </div>
+              <button id="closeDownloadModal" type="button" class="w-full px-6 py-3 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all">
+                Entendi
+              </button>
+            </div>
+          `;
+          document.body.appendChild(modal);
+
+          const closeButton = document.getElementById("closeDownloadModal");
+          if (closeButton) {
+            closeButton.addEventListener("click", () => {
+              modal.remove();
+            });
+          }
+
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              modal.remove();
+            }
+          });
+        });
+      }
+    }
+
+    setupUserMenu();
+    setupActionButtons();
+
+    // ========================
+    // INTERAÇÕES DOS CARDS
+    // ========================
+    function attachCardHandlers() {
+      const cards = [
+        { id: "card_orcamentos", url: "orcamentos.html" },
+        { id: "card_planos", url: "Planos-e-Cotacoes.html" },
+        { id: "card_clientes", url: "Parcelamentos_e_Planos.html" }
+      ];
+
+      cards.forEach(card => {
+        const el = document.getElementById(card.id);
+        if (!el) return;
+
+        el.addEventListener("click", () => {
+          if (card.url) {
+            window.open(card.url, '_blank', 'noopener,noreferrer');
+          }
+        });
+      });
+    }
+
+    attachCardHandlers();
+
+    // ========================
+    // INICIALIZAÇÃO DATA SDK
+    // ========================
+    (async function initDataSdk() {
+      if (!window.dataSdk) {
+        showLoginScreen();
+        return;
+      }
+
+      const dataHandler = {
+        onDataChanged(data) {
+          authData = data;
+          checkAuthentication();
+        }
+      };
+
+      const initResult = await window.dataSdk.init(dataHandler);
+      if (!initResult.isOk) {
+        console.error("Erro ao inicializar Data SDK");
+        showLoginScreen();
+      }
+    })();
+
+    // ========================
+    // INICIALIZAÇÃO ELEMENT SDK
+    // ========================
+    (function initElementSdk() {
+      if (!window.elementSdk) {
+        applyConfig(defaultConfig);
+        return;
+      }
+
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          applyConfig(config);
+        },
+        mapToCapabilities: (config) => {
+          const cfg = config || defaultConfig;
+
+          const recolorables = [
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (value) => window.elementSdk.setConfig({ background_color: value })
+            },
+            {
+              get: () => cfg.surface_color || defaultConfig.surface_color,
+              set: (value) => window.elementSdk.setConfig({ surface_color: value })
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (value) => window.elementSdk.setConfig({ text_color: value })
+            },
+            {
+              get: () => cfg.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => window.elementSdk.setConfig({ primary_action_color: value })
+            },
+            {
+              get: () => cfg.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => window.elementSdk.setConfig({ secondary_action_color: value })
+            }
+          ];
+
+          const fontEditable = {
+            get: () => cfg.font_family || defaultConfig.font_family,
+            set: (value) => window.elementSdk.setConfig({ font_family: value })
+          };
+
+          const fontSizeable = {
+            get: () => cfg.font_size || defaultConfig.font_size,
+            set: (value) => window.elementSdk.setConfig({ font_size: value })
+          };
+
+          return {
+            recolorables,
+            borderables: [],
+            fontEditable,
+            fontSizeable
+          };
+        },
+        mapToEditPanelValues: (config) => {
+          const cfg = { ...defaultConfig, ...config };
+          return new Map([
+            ["header_title", cfg.header_title],
+            ["header_subtitle", cfg.header_subtitle],
+            ["card_orc_title", cfg.card_orc_title],
+            ["card_orc_text", cfg.card_orc_text],
+            ["card_plan_title", cfg.card_plan_title],
+            ["card_plan_text", cfg.card_plan_text],
+            ["card_cli_title", cfg.card_cli_title],
+            ["card_cli_text", cfg.card_cli_text]
+          ]);
+        }
+      });
+
+      applyConfig(window.elementSdk.config || defaultConfig);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <title>FS Soluções - Sistema de Gestão Integrado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script><!-- Canva SDKs -->
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+    }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
     .app-wrapper {
       width: 100%;
       min-height: 100%;
     }
 
+    /* Sombras Material Design 3 */
     .card-shadow {
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-shadow-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .card-shadow-hover:hover {
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
-      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 15px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
     }
 
-    .logo-3d-shadow {
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
+    .logo-3d {
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
     }
 
-    .card-icon-shadow {
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.25);
+    /* Cards horizontais premium */
+    .premium-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: white;
+      border-radius: 16px;
+      height: 100%;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card-content {
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Foco visível para acessibilidade */
     .focus-outline:focus-visible {
-      outline: 2px solid #f97316;
-      outline-offset: 3px;
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
     }
-  </style>
-  <style>@view-transition { navigation: auto; }</style>
- </head>
- <body class="m-0 p-0 antialiased"><!-- TELA DE LOGIN (aparece apenas na primeira vez) -->
+
+    /* Animações suaves */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .fade-in-delay-1 {
+      animation: fadeIn 0.5s ease-out 0.1s both;
+    }
+
+    .fade-in-delay-2 {
+      animation: fadeIn 0.5s ease-out 0.2s both;
+    }
+
+    .fade-in-delay-3 {
+      animation: fadeIn 0.5s ease-out 0.3s both;
+    }
+
+    /* Gradientes para imagens dos cards */
+    .gradient-blue {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .gradient-green {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .gradient-orange {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    /* Botão de ação premium */
+    .btn-premium {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-premium:hover {
+      background: #2563eb;
+      transform: translateX(4px);
+    }
+
+    /* Avatar do usuário */
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .user-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  </style> <!-- TELA DE LOGIN (aparece apenas na primeira vez) -->
   <div id="loginScreen" class="fixed inset-0 w-full h-full bg-gradient-to-br from-[#dbeafe] via-[#bfdbfe] to-[#93c5fd] flex items-center justify-center z-50">
    <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-md w-full mx-4">
     <div class="flex flex-col items-center gap-4 mb-6">
@@ -66,82 +890,82 @@
    </div>
   </div><!-- PAINEL PRINCIPAL (aparece após autenticação) -->
   <div id="mainPanel" class="hidden w-full min-h-full">
-   <header class="w-full bg-[#dbeafe] text-[#1e3a8a] border-b border-[#93c5fd]">
-    <div class="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
-     <div class="flex items-center gap-3"><!-- Logo 3D -->
-      <div id="logoBox" class="w-10 h-10 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg logo-3d-shadow bg-gradient-to-br from-[#3b82f6] to-[#60a5fa]"><span>FS</span>
+   <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3">
+     <div class="flex items-center gap-2.5"><!-- Logo compacto -->
+      <div id="logoBox" class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-base logo-shadow bg-gradient-to-br from-[#3b82f6] to-[#60a5fa]"><span>FS</span>
       </div>
-      <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2.5">
        <div>
-        <p id="header_title" class="text-base font-semibold leading-tight">FS Soluções</p>
-        <p id="header_subtitle" class="text-xs text-[#1e40af]">Gestão inteligente para o seu negócio</p>
+        <p id="header_title" class="text-sm font-semibold leading-tight text-slate-800">FS Soluções</p>
+        <p id="header_subtitle" class="text-[10px] text-slate-600">Gestão inteligente para o seu negócio</p>
        </div>
-       <p id="status_quote" class="hidden sm:block text-xs italic text-[#1e40af] opacity-90"><!-- Preenchido via JS --></p>
+       <p id="status_quote" class="hidden lg:block text-[10px] italic text-slate-600 opacity-80 max-w-md truncate"><!-- Preenchido via JS --></p>
       </div>
      </div>
      <div class="flex items-center gap-2">
-      <div class="relative"><button id="userDisplay" type="button" class="hidden text-xs font-medium text-[#1e40af] px-3 py-1 rounded-full bg-white/60 hover:bg-white/80 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"></button>
-       <div id="userMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border border-[#93c5fd] py-2 min-w-[160px] z-50"><button id="logoutButton" type="button" class="w-full text-left px-4 py-2 text-sm text-[#1e3a8a] hover:bg-[#dbeafe] transition-colors flex items-center gap-2"> <span>🚪</span> <span>Sair</span> </button>
+      <div class="relative"><button id="userDisplay" type="button" class="hidden text-[11px] font-medium text-slate-700 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"></button>
+       <div id="userMenu" class="hidden absolute right-0 top-full mt-1.5 bg-white rounded-lg shadow-xl border border-slate-200 py-1 min-w-[140px] z-50"><button id="logoutButton" type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"> <span>🚪</span> <span>Sair</span> </button>
        </div>
       </div>
-      <div class="relative"><button id="header_badge" type="button" class="text-[11px] text-[#1e3a8a] px-3 py-1 rounded-full border border-[#3b82f6] bg-white/40 hover:bg-white/60 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"> Painel inicial </button>
-       <div id="panelMenu" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border border-[#93c5fd] py-2 min-w-[180px] z-50"><button id="standbyButton" type="button" class="w-full text-left px-4 py-2 text-sm text-[#1e3a8a] hover:bg-[#dbeafe] transition-colors flex items-center gap-2"> <span>💤</span> <span>Modo Standby</span> </button> <button id="downloadButton" type="button" class="w-full text-left px-4 py-2 text-sm text-[#1e3a8a] hover:bg-[#dbeafe] transition-colors flex items-center gap-2"> <span>⬇️</span> <span>Baixar Plataforma</span> </button>
+      <div class="relative"><button id="header_badge" type="button" class="text-[10px] text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"> Painel inicial </button>
+       <div id="panelMenu" class="hidden absolute right-0 top-full mt-1.5 bg-white rounded-lg shadow-xl border border-slate-200 py-1 min-w-[160px] z-50"><button id="standbyButton" type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"> <span>💤</span> <span>Modo Standby</span> </button> <button id="downloadButton" type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"> <span>⬇���</span> <span>Baixar Plataforma</span> </button>
        </div>
       </div>
      </div>
     </div>
    </header>
-   <main class="w-full bg-gradient-to-br from-[#dbeafe] via-[#bfdbfe] to-[#93c5fd] min-h-full"><!-- Barra de status (data/hora) -->
-    <section aria-label="Barra de status" class="max-w-5xl mx-auto px-6 pt-3 pb-1">
-     <p id="status_datetime" class="text-xs sm:text-sm text-[#1e40af] font-medium"><!-- Preenchido via JS --></p><!-- Frase motivacional mobile -->
-     <p id="status_quote_mobile" class="sm:hidden text-xs italic text-[#1e40af] opacity-90 mt-1"><!-- Preenchido via JS --></p>
+   <main class="w-full gradient-bg min-h-full"><!-- Barra de status (data/hora) -->
+    <section aria-label="Barra de status" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-2">
+     <p id="status_datetime" class="text-[11px] sm:text-xs text-slate-600 font-medium"><!-- Preenchido via JS --></p><!-- Frase motivacional mobile -->
+     <p id="status_quote_mobile" class="lg:hidden text-[10px] italic text-slate-600 opacity-80 mt-0.5"><!-- Preenchido via JS --></p>
     </section><!-- Conteúdo principal -->
-    <section class="max-w-5xl mx-auto px-6 pb-10"><!-- Boas vindas -->
-     <div class="mt-4 mb-6">
-      <h1 id="welcome_title" class="text-2xl sm:text-3xl font-semibold text-[#1e3a8a] mb-1">Bem-vindo ao painel da FS Soluções</h1>
-      <p id="welcome_subtitle" class="text-sm sm:text-base text-[#1e40af]">Acompanhe suas rotinas, orçamentos e clientes em um só lugar.</p>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8"><!-- Boas vindas -->
+     <div class="mt-3 mb-5 fade-in">
+      <h1 id="welcome_title" class="text-xl sm:text-2xl font-bold text-slate-800 mb-1.5 tracking-tight">Sistema de Gestão FS Soluções</h1>
+      <p id="welcome_subtitle" class="text-xs sm:text-sm text-slate-600">Acesse as ferramentas de gestão, orçamentos, planos e parcelamentos.</p>
      </div><!-- Grid de cards -->
-     <div class="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><!-- Card 1: Orçamentos --> <button id="card_orcamentos" type="button" class="focus-outline text-left bg-white/80 backdrop-blur-sm border border-[#93c5fd] rounded-2xl p-4 sm:p-5 flex flex-col gap-3 card-shadow card-shadow-hover transition-transform duration-150" aria-label="Acessar módulo de orçamentos">
-       <div class="flex items-center justify-between gap-3">
-        <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl card-icon-shadow bg-gradient-to-br from-[#3b82f6] to-[#60a5fa] text-white">
+     <div class="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 fade-in"><!-- Card 1: Orçamentos --> <button id="card_orcamentos" type="button" class="focus-outline text-left bg-white/95 backdrop-blur-sm border border-slate-200 rounded-xl p-5 card-uniform card-shadow card-shadow-hover" aria-label="Acessar módulo de orçamentos">
+       <div class="flex items-start justify-between gap-3 mb-3">
+        <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl icon-shadow bg-gradient-to-br from-[#3b82f6] to-[#60a5fa] text-white flex-shrink-0">
          💼
-        </div><span class="text-[11px] px-2 py-0.5 rounded-full bg-[#dbeafe] text-[#1e40af] border border-[#93c5fd]"> Principal </span>
+        </div><span class="text-[10px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-medium"> Principal </span>
        </div>
-       <div>
-        <h2 id="card_orc_title" class="text-base sm:text-lg font-semibold text-[#1e3a8a] mb-1">Orçamentos rápidos</h2>
-        <p id="card_orc_text" class="text-xs sm:text-sm text-[#475569]">Centralize seus orçamentos e acompanhe o status de cada proposta.</p>
+       <div class="flex-grow">
+        <h2 id="card_orc_title" class="text-base font-semibold text-slate-800 mb-1.5 leading-tight">Orçamentos</h2>
+        <p id="card_orc_text" class="text-xs text-slate-600 leading-relaxed mb-3">Sistema completo para criação e gestão de orçamentos profissionais.</p>
        </div>
-       <div class="flex items-center justify-between pt-1"><span id="card_orc_footer" class="text-[11px] text-[#64748b]"> Atualizado em tempo real </span> <span class="text-[11px] font-medium text-[#3b82f6]"> Ver detalhes → </span>
-       </div></button> <!-- Card 2: Planos e serviços --> <button id="card_planos" type="button" class="focus-outline text-left bg-white/80 backdrop-blur-sm border border-[#93c5fd] rounded-2xl p-4 sm:p-5 flex flex-col gap-3 card-shadow card-shadow-hover transition-transform duration-150" aria-label="Acessar módulo de planos e serviços">
-       <div class="flex items-center justify-between gap-3">
-        <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl card-icon-shadow bg-gradient-to-br from-[#10b981] to-[#34d399] text-white">
+       <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-auto"><span id="card_orc_footer" class="text-[10px] text-slate-500 font-medium"> orcamentos.html </span> <span class="text-[10px] font-semibold text-[#3b82f6] flex items-center gap-1"> Acessar <span>→</span> </span>
+       </div></button> <!-- Card 2: Planos e Cotações --> <button id="card_planos" type="button" class="focus-outline text-left bg-white/95 backdrop-blur-sm border border-slate-200 rounded-xl p-5 card-uniform card-shadow card-shadow-hover" aria-label="Acessar módulo de planos e cotações">
+       <div class="flex items-start justify-between gap-3 mb-3">
+        <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl icon-shadow bg-gradient-to-br from-[#10b981] to-[#34d399] text-white flex-shrink-0">
          📊
-        </div><span class="text-[11px] px-2 py-0.5 rounded-full bg-[#dbeafe] text-[#1e40af] border border-[#93c5fd]"> Serviços </span>
+        </div><span class="text-[10px] px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium"> Serviços </span>
        </div>
-       <div>
-        <h2 id="card_plan_title" class="text-base sm:text-lg font-semibold text-[#1e3a8a] mb-1">Planos &amp; soluções</h2>
-        <p id="card_plan_text" class="text-xs sm:text-sm text-[#475569]">Organize pacotes de serviços, valores e condições comerciais em um só lugar.</p>
+       <div class="flex-grow">
+        <h2 id="card_plan_title" class="text-base font-semibold text-slate-800 mb-1.5 leading-tight">Planos &amp; Cotações</h2>
+        <p id="card_plan_text" class="text-xs text-slate-600 leading-relaxed mb-3">Gerencie planos de serviços e faça cotações detalhadas para seus clientes.</p>
        </div>
-       <div class="flex items-center justify-between pt-1"><span id="card_plan_footer" class="text-[11px] text-[#64748b]"> Ideal para sua equipe comercial </span> <span class="text-[11px] font-medium text-[#3b82f6]"> Ver detalhes → </span>
-       </div></button> <!-- Card 3: Clientes --> <button id="card_clientes" type="button" class="focus-outline text-left bg-white/80 backdrop-blur-sm border border-[#93c5fd] rounded-2xl p-4 sm:p-5 flex flex-col gap-3 card-shadow card-shadow-hover transition-transform duration-150" aria-label="Acessar módulo de clientes">
-       <div class="flex items-center justify-between gap-3">
-        <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl card-icon-shadow bg-gradient-to-br from-[#f59e0b] to-[#fbbf24] text-white">
-         👥
-        </div><span class="text-[11px] px-2 py-0.5 rounded-full bg-[#dbeafe] text-[#1e40af] border border-[#93c5fd]"> Relacionamento </span>
+       <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-auto"><span id="card_plan_footer" class="text-[10px] text-slate-500 font-medium"> Planos-e-Cotacoes.html </span> <span class="text-[10px] font-semibold text-[#10b981] flex items-center gap-1"> Acessar <span>→</span> </span>
+       </div></button> <!-- Card 3: Parcelamentos --> <button id="card_clientes" type="button" class="focus-outline text-left bg-white/95 backdrop-blur-sm border border-slate-200 rounded-xl p-5 card-uniform card-shadow card-shadow-hover" aria-label="Acessar módulo de parcelamentos">
+       <div class="flex items-start justify-between gap-3 mb-3">
+        <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl icon-shadow bg-gradient-to-br from-[#f59e0b] to-[#fbbf24] text-white flex-shrink-0">
+         💳
+        </div><span class="text-[10px] px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200 font-medium"> Financeiro </span>
        </div>
-       <div>
-        <h2 id="card_cli_title" class="text-base sm:text-lg font-semibold text-[#1e3a8a] mb-1">Clientes &amp; contatos</h2>
-        <p id="card_cli_text" class="text-xs sm:text-sm text-[#475569]">Tenha uma visão clara da sua base de clientes e principais contatos.</p>
+       <div class="flex-grow">
+        <h2 id="card_cli_title" class="text-base font-semibold text-slate-800 mb-1.5 leading-tight">Parcelamentos &amp; Planos</h2>
+        <p id="card_cli_text" class="text-xs text-slate-600 leading-relaxed mb-3">Calcule parcelamentos e organize planos de pagamento personalizados.</p>
        </div>
-       <div class="flex items-center justify-between pt-1"><span id="card_cli_footer" class="text-[11px] text-[#64748b]"> Visão simplificada de carteira </span> <span class="text-[11px] font-medium text-[#3b82f6]"> Ver detalhes → </span>
+       <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-auto"><span id="card_cli_footer" class="text-[10px] text-slate-500 font-medium"> Parcelamentos_e_Planos.html </span> <span class="text-[10px] font-semibold text-[#f59e0b] flex items-center gap-1"> Acessar <span>→</span> </span>
        </div></button>
      </div>
     </section>
    </main>
-   <footer class="w-full bg-[#dbeafe] border-t border-[#93c5fd]">
-    <div class="max-w-5xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#475569]">
-     <p id="footer_left" class="">FS Soluções • Painel demonstrativo</p>
-     <p id="footer_right" class="">Personalize este painel diretamente pelo Canva</p>
+   <footer class="w-full bg-white/60 backdrop-blur-sm border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-600">
+     <p id="footer_left" class="font-medium">FS Soluções • Sistema de Gestão SWS</p>
+     <p id="footer_right" class="opacity-75">github.com/fioDoSobral/sws-fs-simula-plus</p>
     </div>
    </footer>
   </div>
@@ -336,20 +1160,20 @@
         logoBox.style.backgroundImage = `linear-gradient(to bottom right, ${primaryColor}, ${secondaryColor})`;
       }
 
-      // Tamanhos de fonte
+      // Tamanhos de fonte proporcionais
       const welcomeTitle = document.getElementById("welcome_title");
       if (welcomeTitle) {
-        welcomeTitle.style.fontSize = (baseSize * 1.7) + "px";
+        welcomeTitle.style.fontSize = (baseSize * 1.5) + "px";
       }
       const welcomeSubtitle = document.getElementById("welcome_subtitle");
       if (welcomeSubtitle) {
-        welcomeSubtitle.style.fontSize = (baseSize * 1.0) + "px";
+        welcomeSubtitle.style.fontSize = (baseSize * 0.9) + "px";
       }
 
       const footerLeft = document.getElementById("footer_left");
       const footerRight = document.getElementById("footer_right");
-      if (footerLeft) footerLeft.style.fontSize = (baseSize * 0.8) + "px";
-      if (footerRight) footerRight.style.fontSize = (baseSize * 0.8) + "px";
+      if (footerLeft) footerLeft.style.fontSize = (baseSize * 0.75) + "px";
+      if (footerRight) footerRight.style.fontSize = (baseSize * 0.75) + "px";
 
       const titles = [
         "card_orc_title",
@@ -358,7 +1182,7 @@
       ];
       titles.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.style.fontSize = (baseSize * 1.2) + "px";
+        if (el) el.style.fontSize = (baseSize * 1.1) + "px";
       });
 
       const texts = [
@@ -368,7 +1192,17 @@
       ];
       texts.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.style.fontSize = (baseSize * 0.95) + "px";
+        if (el) el.style.fontSize = (baseSize * 0.85) + "px";
+      });
+
+      const footers = [
+        "card_orc_footer",
+        "card_plan_footer",
+        "card_cli_footer"
+      ];
+      footers.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.fontSize = (baseSize * 0.75) + "px";
       });
     }
 
@@ -514,7 +1348,7 @@
 
       if (standbyButton) {
         standbyButton.addEventListener("click", () => {
-          // Criar overlay de standby com animações
+          // Criar overlay de standby com animaç��es
           const overlay = document.createElement("div");
           overlay.id = "standbyOverlay";
           overlay.className = "fixed inset-0 w-full h-full bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#1e40af] flex flex-col items-center justify-center z-50 overflow-hidden";
@@ -878,5 +1712,5 @@
       applyConfig(window.elementSdk.config || defaultConfig);
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3b593e233427f5',t:'MTc2NDAxMjkxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3b7aded300f61f',t:'MTc2NDAxNDI5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
