@@ -63,12 +63,22 @@ background: #eef2ff;
 border: 1px solid #c7d2fe;
 }
 .menu-button {
-border: none;
-background: transparent;
-cursor: pointer;
-font-size: 18px;
-padding: 0 4px;
-color: #1f2937;
+  border: none;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #1f2937;
+  background: #e0ecff;
+  box-shadow: 0 2px 6px rgba(15,23,42,0.15);
+}
+
+.menu-button:hover {
+  background: #c7d2fe;
 }
 .menu-dropdown {
 position: absolute;
@@ -480,16 +490,26 @@ Soluções.</p>
 </div>
 <!-- CALCULADORA -->
 <div id="calcOverlay" class="calc-overlay">
-<div class="calc-card">
-<div class="calc-header">
-<h3>Calculadora rápida</h3>
-<button class="calc-close" onclick="fecharCalculadora()">×</button>
-</div>
-<input id="calcInput" class="calc-input" placeholder="Ex.: 1200*1.18/10" />
-<button class="calc-btn" onclick="calcularExpressao()">Calcular</button>
-<div id="calcResultado" class="calc-result">Digite uma expressão e pressione
-Calcular.</div>
-</div>
+  <div class="calc-card">
+    <div class="calc-header">
+      <h3>Calculadora</h3>
+      <button class="calc-close" onclick="fecharCalculadora()">×</button>
+    </div>
+
+    <input id="calcValor1" class="calc-input" placeholder="Valor 1" type="number" />
+    <input id="calcValor2" class="calc-input" placeholder="Valor 2" type="number" />
+
+    <div style="display:flex; gap:6px; margin-bottom:8px;">
+      <button class="calc-btn" style="flex:1;" onclick="calcularPadrao('+')">+</button>
+      <button class="calc-btn" style="flex:1;" onclick="calcularPadrao('-')">−</button>
+      <button class="calc-btn" style="flex:1;" onclick="calcularPadrao('*')">×</button>
+      <button class="calc-btn" style="flex:1;" onclick="calcularPadrao('/')">÷</button>
+    </div>
+
+    <div id="calcResultado" class="calc-result">
+      Informe os valores, escolha a operação e veja o resultado.
+    </div>
+  </div>
 </div>
 <!-- APP PRINCIPAL -->
 <div id="appWrapper" class="app-wrapper">
@@ -684,18 +704,28 @@ const standby = document.getElementById("standbyOverlay");
 if (standby) standby.style.display = "none";
 }
 function resetarInatividade() {
-esconderStandby();
-if (inactivityTimer) clearTimeout(inactivityTimer);
-inactivityTimer = setTimeout(mostrarStandby, INACTIVITY_LIMIT);
+  esconderStandby();
+
+  if (inactivityTimer) {
+    clearTimeout(inactivityTimer);
+  }
+
+  inactivityTimer = setTimeout(function () {
+    mostrarStandby();
+  }, INACTIVITY_LIMIT);
 }
+
 function iniciarMonitoramentoInatividade() {
-if (listenersAdded) return;
-listenersAdded = true;
-const eventos = ["click", "mousemove", "keydown", "touchstart"];
-eventos.forEach(ev => {
-window.addEventListener(ev, resetarInatividade, { passive: true });
-});
-resetarInatividade();
+  if (listenersAdded) return;
+  listenersAdded = true;
+
+  var eventos = ["click", "mousemove", "keydown", "touchstart"];
+  eventos.forEach(function (ev) {
+    window.addEventListener(ev, resetarInatividade);
+  });
+
+  // começa a contagem assim que o usuário entrar
+  resetarInatividade();
 }
 // MENU
 function toggleMenu() {
@@ -722,20 +752,42 @@ function fecharCalculadora() {
 const overlay = document.getElementById("calcOverlay");
 if (overlay) overlay.style.display = "none";
 }
-function calcularExpressao() {
-const input = document.getElementById("calcInput");
-const resultSpan = document.getElementById("calcResultado");
-if (!input || !resultSpan) return;
-try {
-const expr = (input.value || "").replace(/[^0-9+\-*/().,]/g, "").replace(/,/g, ".");
-if (!expr) {
-resultSpan.textContent = "Digite uma expressão para calcular.";
-return;
+function calcularPadrao(operacao) {
+  var v1 = document.getElementById("calcValor1");
+  var v2 = document.getElementById("calcValor2");
+  var resultSpan = document.getElementById("calcResultado");
+  if (!v1 || !v2 || !resultSpan) return;
+
+  var n1 = parseFloat(v1.value.replace(",", "."));
+  var n2 = parseFloat(v2.value.replace(",", "."));
+
+  if (isNaN(n1) || isNaN(n2)) {
+    resultSpan.textContent = "Preencha os dois valores.";
+    return;
+  }
+
+  var resultado;
+
+  if (operacao === "+") {
+    resultado = n1 + n2;
+  } else if (operacao === "-") {
+    resultado = n1 - n2;
+  } else if (operacao === "*") {
+    resultado = n1 * n2;
+  } else if (operacao === "/") {
+    if (n2 === 0) {
+      resultSpan.textContent = "Não é possível dividir por zero.";
+      return;
+    }
+    resultado = n1 / n2;
+  } else {
+    return;
+  }
+
+  resultSpan.textContent =
+    "Resultado: " +
+    resultado.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
 }
-const valor = Function('"use strict";return (' + expr + ')')();
-if (isNaN(valor)) {
-resultSpan.textContent = "Expressão inválida.";
-} else {
 resultSpan.textContent = "Resultado: " + valor.toLocaleString("pt-BR", {
 maximumFractionDigits: 2
 });
