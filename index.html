@@ -1,322 +1,304 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FS Soluções - Sistema de Gestão</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      padding: 0;
+      background: radial-gradient(circle at top left, #233876, #0a1025 60%);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f3f4f6;
-      color: #111827;
+      color: #ffffff;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    /* LOGIN OVERLAY */
-    .login-overlay {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ------------ LOGIN ------------ */
+
+    #loginOverlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(59,130,246,0.35), transparent 55%),
-                  radial-gradient(circle at bottom, rgba(79,70,229,0.75), #020617);
+      background: radial-gradient(circle at top, #2b3f7f, #050814);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
       z-index: 9999;
     }
 
     .login-card {
       width: 100%;
       max-width: 420px;
-      background: rgba(255,255,255,0.96);
-      border-radius: 22px;
-      padding: 26px 22px 24px;
-      box-shadow: 0 22px 55px rgba(15,23,42,0.65);
-      backdrop-filter: blur(12px);
-    }
-
-    .login-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .logo-3d {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: radial-gradient(circle at 20% 20%, #60a5fa, #1d4ed8);
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #f9fafb;
-      font-weight: 800;
-      font-size: 18px;
-    }
-
-    .login-title {
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    .login-subtitle {
-      font-size: 13px;
-      color: #4b5563;
-      margin-bottom: 14px;
-    }
-
-    .input-group { margin-bottom: 14px; }
-
-    .input-group label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 4px;
-      color: #374151;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 9px 10px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .input-group input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
-    }
-
-    .btn-primary {
-      width: 100%;
-      margin-top: 6px;
-      padding: 10px 0;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(37,99,235,0.7);
-    }
-
-    .btn-primary:hover { filter: brightness(1.05); }
-
-    .login-footer {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #6b7280;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .login-footer button {
-      border: none;
-      background: transparent;
-      color: #2563eb;
-      font-size: 12px;
-      cursor: pointer;
-      padding: 0;
-      text-decoration: underline;
-    }
-
-    .error-msg {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #b91c1c;
-    }
-
-    /* Esconde conteúdo principal até logar */
-    .app-wrapper { display: none; }
-
-    /* HEADER */
-    .header {
-      padding: 16px 32px;
       background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      color: #111827;
+      padding: 28px 24px 24px;
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.6);
     }
 
-    .header-left {
+    .login-header {
       display: flex;
       align-items: center;
       gap: 14px;
+      margin-bottom: 8px;
     }
 
-    .header-text-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .header-text-sub {
-      font-size: 13px;
-      color: #6b7280;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: #4b5563;
-    }
-
-    .tag-safe {
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: #eef2ff;
-      border: 1px solid #c7d2fe;
-    }
-
-    .menu-button {
-      border: none;
-      cursor: pointer;
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
+    .login-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.65);
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 11px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+    }
+
+    .login-button {
+      width: 100%;
+      margin-top: 6px;
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.55);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s;
+    }
+
+    .login-button:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.7);
+    }
+
+    .login-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .login-link {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #2563eb;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    #erroLogin {
+      display: none;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #b91c1c;
+    }
+
+    /* ------------ APP SHELL ------------ */
+
+    #appWrapper {
+      display: none;
+      padding: 18px 18px 26px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 0%, #60a5fa, #2563eb);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.75);
+    }
+
+    .logo-text-title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .logo-text-sub {
+      font-size: 12px;
+      color: #cbd5f5;
+    }
+
+    .menu-button {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: #020617aa;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
       font-size: 20px;
-      color: #374151;
-      background: #e5e7eb;
-      box-shadow: 0 2px 5px rgba(15,23,42,0.12);
-    }
-
-    .menu-button:hover {
-      background: #d1d5db;
-    }
-
-    .menu-wrapper {
-      position: relative;
+      line-height: 0;
+      padding-bottom: 3px;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.7);
     }
 
     .menu-dropdown {
       position: absolute;
-      top: 120%;
-      right: 0;
-      min-width: 170px;
-      background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 12px 30px rgba(15,23,42,0.25);
-      padding: 6px 0;
+      right: 18px;
+      top: 58px;
+      background: #020617;
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+      min-width: 190px;
       display: none;
-      z-index: 20;
+      z-index: 40;
     }
 
     .menu-dropdown button {
       width: 100%;
-      padding: 8px 12px;
       border: none;
+      padding: 9px 10px;
+      border-radius: 10px;
       background: transparent;
-      text-align: left;
+      color: #e5e7eb;
       font-size: 13px;
+      text-align: left;
       cursor: pointer;
-      color: #111827;
     }
 
     .menu-dropdown button:hover {
-      background: #f3f4f6;
+      background: #111827;
     }
 
-    /* STATUS + CONTEÚDO */
-    .status-bar {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 14px 24px 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 13px;
-      color: #4b5563;
-    }
+    /* ------------ WELCOME ------------ */
 
-    .status-datetime {
-      font-weight: 500;
-    }
-
-    .status-motivacao {
-      flex: 1;
-      text-align: right;
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-      text-shadow:
-        0 1px 0 #ffffff,
-        0 2px 4px rgba(15,23,42,0.35);
-    }
-
-    .container {
-      padding: 24px 24px 40px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .welcome {
+    .welcome-section {
       margin-bottom: 18px;
     }
 
-    .welcome h1 {
-      font-size: 26px;
+    #saudacaoPrincipal {
+      font-size: 24px;
+      font-weight: 600;
       margin: 0 0 4px;
     }
 
-    .welcome p {
-      margin: 0;
-      color: #6b7280;
+    #motivacao {
+      margin: 0 0 4px;
       font-size: 14px;
+      color: #cbd5f5;
     }
 
-    .cards {
+    #dateTime {
+      margin: 0;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    /* ------------ CARDS ------------ */
+
+    .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
       margin-top: 10px;
     }
 
     .card {
-      background: #ffffff;
+      background: linear-gradient(145deg, #020617ee, #111827ee);
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
+      cursor: pointer;
+      transform-origin: center;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+      border: 1px solid rgba(148, 163, 184, 0.25);
       display: flex;
       flex-direction: column;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.17s ease, box-shadow 0.17s ease, border 0.1s ease;
-      border: 2px solid transparent;
+      height: 100%;
     }
 
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
-      border-color: #2563eb;
-    }
-
-    .card:active {
-      transform: translateY(-1px) scale(0.99);
-      box-shadow: 0 8px 20px rgba(15,23,42,0.22);
-      border-color: #1d4ed8;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+      border-color: rgba(59, 130, 246, 0.7);
     }
 
     .card-img-wrapper {
       width: 100%;
-      height: 190px;
+      height: 170px;
       overflow: hidden;
     }
 
@@ -326,18 +308,19 @@
       object-fit: cover;
       display: block;
       transform: scale(1.02);
-      transition: transform 0.5s ease;
+      transition: transform 0.25s ease;
     }
 
     .card:hover .card-img-wrapper img {
-      transform: scale(1.07);
+      transform: scale(1.06);
     }
 
     .card-body {
-      padding: 16px 18px 18px;
+      padding: 14px 14px 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
+      flex: 1;
     }
 
     .card-title {
@@ -346,263 +329,223 @@
     }
 
     .card-footer {
-      margin-top: 8px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
+      margin-top: 2px;
       font-size: 13px;
-      color: #1d4ed8;
-      font-weight: 500;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .link-acessar {
-      color: #1d4ed8;
+    .card-footer span::after {
+      content: "→";
+      margin-left: 4px;
+      font-size: 13px;
     }
 
-    /* STANDBY (mantive, caso queira usar depois) */
-    .standby-overlay {
+    /* ------------ STANDBY ------------ */
+
+    #standbyOverlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,1));
+      background: radial-gradient(circle at top, #020617ee, #020617);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 9998;
-      padding: 24px;
+      z-index: 9000;
     }
 
-    .standby-card {
-      max-width: 480px;
+    .standby-box {
+      max-width: 420px;
       width: 100%;
-      background: rgba(15,23,42,0.96);
-      border-radius: 24px;
-      padding: 26px 22px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.9);
+      padding: 24px 20px 20px;
+      background: #020617;
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
       text-align: center;
-      color: #e5e7eb;
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 1);
     }
 
-    .standby-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: conic-gradient(
-        from 0deg,
-        rgba(59,130,246,0.15),
-        transparent,
-        rgba(236,72,153,0.18),
-        transparent,
-        rgba(59,130,246,0.15)
-      );
-      animation: rotateGlow 12s linear infinite;
-      opacity: 0.9;
-    }
-
-    .standby-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .standby-clock {
-      font-size: 16px;
-      margin-bottom: 6px;
-      color: #9ca3af;
-    }
-
-    .standby-user {
+    .standby-title {
       font-size: 18px;
+      font-weight: 600;
       margin-bottom: 6px;
     }
 
-    .standby-message {
-      font-size: 19px;
-      font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 12px;
-      animation: pulse 2.6s ease-in-out infinite;
+    #standbyUser {
+      font-size: 14px;
+      color: #e5e7eb;
+      margin-bottom: 8px;
     }
 
-    .standby-tip {
+    #standbyMessage {
       font-size: 13px;
       color: #9ca3af;
+      margin-bottom: 6px;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.03); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.9; }
+    #standbyClock {
+      font-size: 13px;
+      color: #60a5fa;
+      margin-bottom: 12px;
     }
 
-    @keyframes rotateGlow {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .standby-button {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
     }
 
-    @media (max-width: 700px) {
-      .header {
-        padding: 12px 18px;
+    @media (max-width: 640px) {
+      #appWrapper {
+        padding-inline: 14px;
       }
 
-      .status-bar {
-        padding-left: 18px;
-        padding-right: 18px;
-      }
-
-      .container {
-        padding-left: 18px;
-        padding-right: 18px;
-      }
-
-      .status-motivacao {
-        text-align: left;
+      .card-img-wrapper {
+        height: 150px;
       }
     }
   </style>
 </head>
+
 <body>
+
   <!-- LOGIN -->
-  <div id="loginOverlay" class="login-overlay">
+  <div id="loginOverlay">
     <div class="login-card">
-      <div class="login-logo">
-        <div class="logo-3d">FS</div>
+      <div class="login-header">
+        <div class="login-logo">FS</div>
         <div>
           <div class="login-title">FS Soluções</div>
           <div class="login-subtitle">Acesse com sua credencial gerencial.</div>
         </div>
       </div>
 
-      <div class="input-group">
-        <label for="nomeUsuario">Seu nome</label>
-        <input type="text" id="nomeUsuario" placeholder="Ex.: Sobral" />
-      </div>
-      <div class="input-group">
-        <label for="senhaMestra">Senha gerencial</label>
-        <input type="password" id="senhaMestra" placeholder="••••••••" />
-      </div>
-      <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
-      <div id="erroLogin" class="error-msg" style="display:none;"></div>
+      <div id="erroLogin"></div>
 
-      <div class="login-footer">
-        <span>Senha exigida apenas no primeiro acesso deste dispositivo.</span>
-        <button type="button" onclick="trocarUsuario()">Trocar usuário</button>
+      <div class="form-group">
+        <label class="form-label" for="nomeUsuario">Seu nome</label>
+        <input id="nomeUsuario" class="form-input" type="text" placeholder="Ex.: Sobral" />
       </div>
+
+      <div class="form-group">
+        <label class="form-label" for="senhaMestra">Senha gerencial</label>
+        <input id="senhaMestra" class="form-input" type="password" placeholder="Informe a senha no primeiro acesso" />
+      </div>
+
+      <button class="login-button" onclick="fazerLogin()">Entrar</button>
+
+      <div class="login-info">
+        Senha exigida apenas no primeiro acesso deste dispositivo.
+      </div>
+
+      <button class="login-link" onclick="trocarUsuario()">Trocar usuário</button>
     </div>
   </div>
 
   <!-- STANDBY -->
-  <div id="standbyOverlay" class="standby-overlay" onclick="resetarInatividade()">
-    <div class="standby-card">
-      <div class="standby-inner">
-        <div id="standbyClock" class="standby-clock"></div>
-        <div id="standbyUser" class="standby-user"></div>
-        <div id="standbyMessage" class="standby-message">
-          Mantenha o foco: grandes resultados nascem da constância.
-        </div>
-        <p class="standby-tip">
-          Toque ou clique em qualquer lugar para voltar ao FS Soluções.
-        </p>
-      </div>
+  <div id="standbyOverlay">
+    <div class="standby-box">
+      <div class="standby-title">Tela em modo descanso</div>
+      <div id="standbyUser"></div>
+      <div id="standbyMessage"></div>
+      <div id="standbyClock"></div>
+      <button class="standby-button" onclick="esconderStandby(); resetarInatividade();">Retomar</button>
     </div>
   </div>
 
   <!-- APP PRINCIPAL -->
-  <div id="appWrapper" class="app-wrapper">
-    <div class="header">
-      <div class="header-left">
-        <div class="logo-3d">FS</div>
+  <div id="appWrapper">
+    <header class="top-bar">
+      <div class="logo-area">
+        <div class="logo-circle">FS</div>
         <div>
-          <div class="header-text-title">FS Soluções – Sistema de Gestão</div>
-          <div class="header-text-sub" id="saudacaoHeader">
-            Ferramentas internas para orçamentos, planos e parcelamentos.
-          </div>
+          <div class="logo-text-title">FS Soluções</div>
+          <div class="logo-text-sub" id="saudacaoHeader">Sistema interno de apoio às vendas.</div>
         </div>
       </div>
 
-      <div class="header-right">
-        <span class="tag-safe">Acesso seguro liberado para este dispositivo.</span>
-        <div class="menu-wrapper">
-          <button class="menu-button" onclick="toggleMenu()">☰</button>
-          <div id="menuDropdown" class="menu-dropdown">
-            <button onclick="fazerDownload()">Fazer download</button>
-            <button onclick="sairSistema()">Sair do sistema</button>
+      <button class="menu-button" onclick="toggleMenu()">⋮</button>
+      <div id="menuDropdown" class="menu-dropdown">
+        <button onclick="fazerDownload()">Abrir versão completa</button>
+        <button onclick="trocarUsuario()">Trocar usuário</button>
+        <button onclick="sairSistema()">Sair do sistema</button>
+      </div>
+    </header>
+
+    <section class="welcome-section">
+      <h1 id="saudacaoPrincipal">Bem-vindo!</h1>
+      <p id="motivacao"></p>
+      <p id="dateTime"></p>
+    </section>
+
+    <section class="cards-grid">
+
+      <!-- ORÇAMENTOS -->
+      <a href="orcamentos.html" class="card">
+        <div class="card-img-wrapper">
+          <img
+            src="https://images.pexels.com/photos/5716005/pexels-photo-5716005.jpeg?auto=compress&cs=tinysrgb&w=1200"
+            alt="Vendedor em negociação de orçamento" />
+        </div>
+        <div class="card-body">
+          <div class="card-title">Orçamentos</div>
+          <div class="card-footer">
+            <span class="link-acessar">Acessar</span>
           </div>
         </div>
-      </div>
-    </div>
+      </a>
 
-    <div class="status-bar">
-      <div id="dateTime" class="status-datetime"></div>
-      <div id="motivacao" class="status-motivacao"></div>
-    </div>
+      <!-- PLANOS & COTAÇÕES -->
+      <a href="planos-e-cotacoes.html" class="card">
+        <div class="card-img-wrapper">
+          <img
+            src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1200"
+            alt="Equipe analisando gráficos e planos" />
+        </div>
+        <div class="card-body">
+          <div class="card-title">Planos &amp; Cotações</div>
+          <div class="card-footer">
+            <span class="link-acessar">Acessar</span>
+          </div>
+        </div>
+      </a>
 
-    <div class="container">
-      <div class="welcome">
-        <h1 id="saudacaoPrincipal">Bem-vindo!</h1>
-        <p>Selecione a área que deseja utilizar agora.</p>
-      </div>
+      <!-- PARCELAMENTOS & PLANOS -->
+      <a href="Parcelamentos_e_Planos.html" class="card">
+        <div class="card-img-wrapper">
+          <img
+            src="https://images.pexels.com/photos/8296978/pexels-photo-8296978.jpeg?auto=compress&cs=tinysrgb&w=1200"
+            alt="Calculadora e planilha de parcelamentos" />
+        </div>
+        <div class="card-body">
+          <div class="card-title">Parcelamentos &amp; Planos</div>
+          <div class="card-footer">
+            <span class="link-acessar">Acessar</span>
+          </div>
+        </div>
+      </a>
 
-      <div class="cards">
-        <!-- ORÇAMENTOS -->
-        <a href="orcamentos.html" class="card">
-          <div class="card-img-wrapper">
-            <img
-              src="https://images.pexels.com/photos/5716005/pexels-photo-5716005.jpeg?auto=compress&cs=tinysrgb&w=1200"
-              alt="Vendedor e cliente em negociação de orçamento" />
-          </div>
-          <div class="card-body">
-            <div class="card-title">Orçamentos</div>
-            <div class="card-footer">
-              <span class="link-acessar">Acessar →</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- PLANOS & COTAÇÕES -->
-        <a href="planos-e-cotacoes.html" class="card">
-          <div class="card-img-wrapper">
-            <img
-              src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1200"
-              alt="Equipe analisando gráficos e planos de cotações" />
-          </div>
-          <div class="card-body">
-            <div class="card-title">Planos &amp; Cotações</div>
-            <div class="card-footer">
-              <span class="link-acessar">Acessar →</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- PARCELAMENTOS & PLANOS -->
-        <a href="Parcelamentos_e_Planos.html" class="card">
-          <div class="card-img-wrapper">
-            <img
-              src="https://images.pexels.com/photos/8296978/pexels-photo-8296978.jpeg?auto=compress&cs=tinysrgb&w=1200"
-              alt="Calculadora e planilha de parcelamentos sendo apresentadas a um cliente" />
-          </div>
-          <div class="card-body">
-            <div class="card-title">Parcelamentos &amp; Planos</div>
-            <div class="card-footer">
-              <span class="link-acessar">Acessar →</span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
+    </section>
   </div>
 
   <script>
-    // 🔐 Senha mestra
+    // SENHA / STORAGE
     const MASTER_PASSWORD = "@fildO1060";
     const STORAGE_KEY_LOGGED = "fs_solucoes_logged";
-    const STORAGE_KEY_NOME   = "fs_solucoes_nome";
+    const STORAGE_KEY_NOME = "fs_solucoes_nome";
 
-    // Inatividade (5 min) – mantém standby caso queira
+    // INATIVIDADE (5 MIN)
     const INACTIVITY_LIMIT = 5 * 60 * 1000;
     let inactivityTimer = null;
-    let listenersAdded  = false;
+    let listenersAdded = false;
 
+    // FRASES MOTIVACIONAIS
     const FRASES_MOTIVACIONAIS = [
       "Venda é confiança: entregue valor em cada atendimento.",
       "Disciplina diária gera resultados extraordinários.",
@@ -632,10 +575,11 @@
     function atualizarFraseDiaria() {
       const hoje = new Date();
       const chave = hoje.getFullYear() * 10000 +
-                    (hoje.getMonth() + 1) * 100 +
-                    hoje.getDate();
+        (hoje.getMonth() + 1) * 100 +
+        hoje.getDate();
       const idx = chave % FRASES_MOTIVACIONAIS.length;
       const frase = FRASES_MOTIVACIONAIS[idx];
+
       const motivacao = document.getElementById("motivacao");
       const standbyMessage = document.getElementById("standbyMessage");
       if (motivacao) motivacao.textContent = frase;
@@ -659,29 +603,65 @@
         saudacaoHeader.textContent = "Acesso liberado para " + nome + ". Bons negócios!";
       }
       if (nome && standbyUser) {
-        standbyUser.textContent = nome + ", essa tela é sua.";
+        standbyUser.textContent = nome + ", sua tela está em descanso.";
       }
 
+      atualizarFraseDiaria();
+      atualizarDataHora();
+      setInterval(atualizarDataHora, 60 * 1000);
       iniciarMonitoramentoInatividade();
     }
 
-    function fazerLogin() {
-      const nomeInput  = document.getElementById("nomeUsuario");
-      const senhaInput = document.getElementById("senhaMestra");
-      const erroLogin  = document.getElementById("erroLogin");
+    function trocarUsuario() {
+      try {
+        localStorage.removeItem(STORAGE_KEY_LOGGED);
+        localStorage.removeItem(STORAGE_KEY_NOME);
+      } catch (e) { }
 
-      const nome  = (nomeInput && nomeInput.value ? nomeInput.value : "").trim();
-      const senha = senhaInput && senhaInput.value ? senhaInput.value : "";
+      const nomeInput = document.getElementById("nomeUsuario");
+      const senhaInput = document.getElementById("senhaMestra");
+      const erroLogin = document.getElementById("erroLogin");
+
+      if (nomeInput) nomeInput.value = "";
+      if (senhaInput) senhaInput.value = "";
+      if (erroLogin) erroLogin.style.display = "none";
+
+      document.getElementById("loginOverlay").style.display = "flex";
+      document.getElementById("appWrapper").style.display = "none";
+    }
+
+    function fazerLogin() {
+      const nomeInput = document.getElementById("nomeUsuario");
+      const senhaInput = document.getElementById("senhaMestra");
+      const erroLogin = document.getElementById("erroLogin");
+
+      const nome = (nomeInput && nomeInput.value ? nomeInput.value : "").trim();
+      const senha = (senhaInput && senhaInput.value ? senhaInput.value : "").trim();
 
       if (!nome) {
         erroLogin.style.display = "block";
         erroLogin.textContent = "Informe o seu nome.";
         return;
       }
-      if (senha !== MASTER_PASSWORD) {
-        erroLogin.style.display = "block";
-        erroLogin.textContent = "Senha gerencial incorreta.";
-        return;
+
+      let jaLogouAntes = false;
+      try {
+        jaLogouAntes = localStorage.getItem(STORAGE_KEY_LOGGED) === "true";
+      } catch (e) {
+        jaLogouAntes = false;
+      }
+
+      if (!jaLogouAntes) {
+        if (!senha) {
+          erroLogin.style.display = "block";
+          erroLogin.textContent = "Informe a senha gerencial no primeiro acesso.";
+          return;
+        }
+        if (senha !== MASTER_PASSWORD) {
+          erroLogin.style.display = "block";
+          erroLogin.textContent = "Senha incorreta.";
+          return;
+        }
       }
 
       try {
@@ -691,26 +671,11 @@
         console.warn("Não foi possível usar localStorage:", e);
       }
 
-      erroLogin.style.display = "none";
+      if (erroLogin) erroLogin.style.display = "none";
       mostrarApp(nome);
     }
 
-    function trocarUsuario() {
-      try {
-        localStorage.removeItem(STORAGE_KEY_LOGGED);
-        localStorage.removeItem(STORAGE_KEY_NOME);
-      } catch (e) {}
-
-      const nomeInput  = document.getElementById("nomeUsuario");
-      const senhaInput = document.getElementById("senhaMestra");
-      const erroLogin  = document.getElementById("erroLogin");
-
-      if (nomeInput) nomeInput.value = "";
-      if (senhaInput) senhaInput.value = "";
-      if (erroLogin) erroLogin.style.display = "none";
-    }
-
-    // Standby
+    // STANDBY / INATIVIDADE
     function mostrarStandby() {
       const standby = document.getElementById("standbyOverlay");
       if (standby) standby.style.display = "flex";
@@ -734,6 +699,7 @@
     function iniciarMonitoramentoInatividade() {
       if (listenersAdded) return;
       listenersAdded = true;
+
       const eventos = ["click", "mousemove", "keydown", "touchstart"];
       eventos.forEach(function (ev) {
         window.addEventListener(ev, resetarInatividade);
@@ -753,34 +719,30 @@
       if (menu) menu.style.display = "none";
     }
 
-    // Botão "Fazer download" – coloque o link que você quiser aqui
     function fazerDownload() {
       fecharMenu();
-      // Troque essa URL pelo link real do seu arquivo/plataforma
       window.open("https://fildosobral-sys.github.io/FS_simula_plus/", "_blank");
     }
 
-    // Sair do sistema
     function sairSistema() {
       fecharMenu();
       try {
         localStorage.removeItem(STORAGE_KEY_LOGGED);
         localStorage.removeItem(STORAGE_KEY_NOME);
-      } catch (e) {}
+      } catch (e) { }
 
-      const appWrapper   = document.getElementById("appWrapper");
+      const appWrapper = document.getElementById("appWrapper");
       const loginOverlay = document.getElementById("loginOverlay");
 
-      if (appWrapper)   appWrapper.style.display = "none";
+      if (appWrapper) appWrapper.style.display = "none";
       if (loginOverlay) loginOverlay.style.display = "flex";
 
       esconderStandby();
       if (inactivityTimer) clearTimeout(inactivityTimer);
     }
 
-    // Fecha menu ao clicar fora
     window.addEventListener("click", function (event) {
-      const menu   = document.getElementById("menuDropdown");
+      const menu = document.getElementById("menuDropdown");
       const button = document.querySelector(".menu-button");
       if (!menu || !button) return;
 
@@ -789,17 +751,14 @@
       }
     });
 
-    // Inicialização
-    (function init() {
-      atualizarFraseDiaria();
-      atualizarDataHora();
-      setInterval(atualizarDataHora, 60 * 1000);
-
+    // INIT
+    (function initLogin() {
       let logged = false;
-      let nome   = "";
+      let nome = "";
+
       try {
         logged = localStorage.getItem(STORAGE_KEY_LOGGED) === "true";
-        nome   = localStorage.getItem(STORAGE_KEY_NOME) || "";
+        nome = localStorage.getItem(STORAGE_KEY_NOME) || "";
       } catch (e) {
         logged = false;
       }
@@ -815,4 +774,5 @@
     })();
   </script>
 </body>
+
 </html>
