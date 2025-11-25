@@ -658,7 +658,103 @@
     </div>
    </div>
   </div>
-  <script>
+  <script><script>
+// ===================================================================
+// FS Simula+ - Emulador simples do dataSdk para rodar fora do Canva
+// Usa localStorage para salvar as propostas no navegador
+// ===================================================================
+(function () {
+  // Se já existe dataSdk (dentro do Canva), não faz nada
+  if (window.dataSdk) return;
+
+  const STORAGE_KEY = 'fs_simula_plus_planos_e_cotacoes_v1';
+
+  function carregarTodos() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const data = JSON.parse(raw);
+      if (Array.isArray(data)) return data;
+      return [];
+    } catch (e) {
+      console.error('Erro ao ler localStorage:', e);
+      return [];
+    }
+  }
+
+  function salvarTodos(lista) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+    } catch (e) {
+      console.error('Erro ao gravar localStorage:', e);
+    }
+  }
+
+  function gerarId() {
+    if (window.crypto && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return 'id_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
+  }
+
+  window.dataSdk = {
+    // Só pra compatibilizar com o código antigo
+    async initialize() {
+      return { isOk: true };
+    },
+
+    // Lista todas as propostas
+    async list() {
+      const data = carregarTodos();
+      return {
+        isOk: true,
+        data,
+        records: data // deixa nos dois nomes, pra evitar erro
+      };
+    },
+
+    // Cria uma nova proposta
+    async create(record) {
+      const todos = carregarTodos();
+      const novo = {
+        ...record,
+        __backendId: gerarId(),
+      };
+      todos.push(novo);
+      salvarTodos(todos);
+      return {
+        isOk: true,
+        data: novo,
+        record: novo
+      };
+    },
+
+    // Atualiza proposta existente
+    async update(record) {
+      const todos = carregarTodos();
+      const idx = todos.findIndex(r => r.__backendId === record.__backendId);
+      if (idx >= 0) {
+        todos[idx] = record;
+      } else {
+        todos.push(record);
+      }
+      salvarTodos(todos);
+      return {
+        isOk: true,
+        data: record,
+        record
+      };
+    },
+
+    // Exclui proposta
+    async delete(record) {
+      const todos = carregarTodos().filter(r => r.__backendId !== record.__backendId);
+      salvarTodos(todos);
+      return { isOk: true };
+    }
+  };
+})();
+
     // ========== CONFIG & STATE ==========
     const defaultConfig = {
       app_title: "Planos e Cotações",
@@ -3424,8 +3520,8 @@
               </tbody>
             </table>
           </div>
-        </div>
-
+        </div> 
+        
         ${totalPropostas === 0 ? `
           <div class="text-center py-12">
             <div class="text-6xl mb-4">📊</div>
@@ -3437,16 +3533,20 @@
 
       container.innerHTML = html;
     }
-    // ========== INIT ==========
-    document.addEventListener('DOMContentLoaded', () => {
-      try {
-        initializeApp();
-      } catch (e) {
-        console.error('Erro ao inicializar o app:', e);
-        const loader = document.getElementById('loadingScreen');
-        if (loader) loader.textContent = 'Erro ao carregar módulo. Veja o console.';
-      }
-    });
+   // ========== INIT ==========
+document.addEventListener('DOMContentLoaded', async () => {
+  const loader = document.getElementById('loadingScreen');
+
+  try {
+    await initializeApp();
+  } catch (e) {
+    console.error('Erro ao inicializar o app:', e);
+    if (loader) {
+      loader.textContent = 'Erro ao carregar módulo. Veja o console (F12).';
+    }
+  }
+});
+
   </script>
 </body>
 </html>
