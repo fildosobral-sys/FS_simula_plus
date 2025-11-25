@@ -2063,5 +2063,39 @@
       initializeApp();
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3b144831fff61f',t:'MTc2NDAxMDA5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ </script>
+
+<!-- Botão flutuante para voltar ao início -->
+<a href="index.html" class="fs-back-home">← Voltar ao início</a>
+
+<style>
+  .fs-back-home {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 999;
+    background: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 24px rgba(37,99,235,0.5);
+  }
+
+  .fs-back-home:hover {
+    filter: brightness(1.05);
+  }
+
+  @media (max-width: 640px) {
+    .fs-back-home {
+      left: 12px;
+      right: 12px;
+      text-align: center;
+    }
+  }
+</style>
+
+</body>
 </html>
