@@ -2064,7 +2064,100 @@
     }
   </script>
  </script>
+<script>
+// =========================================
+//  PATCH FS SOLUÇÕES - MODO OFFLINE / GITHUB
+//  (SEM CANVA, SEM dataSdk, SEM ERROS)
+// =========================================
 
+(function aplicarPatchOfflineFS() {
+
+  // Detecta se o Canva existe
+  const temDataSdk = typeof window.dataSdk !== "undefined";
+
+  // Se NÃO tiver Canva → ativa modo localStorage
+  if (!temDataSdk) {
+    console.warn("FS Soluções: Canva não encontrado → modo offline ativado.");
+    
+    const STORAGE_KEY = "fs_planos_cotacoes_v1";
+
+    // ---- Carregar ----
+    window.dataSdk = {
+      init: async (handler) => {
+        try {
+          const salvo = localStorage.getItem(STORAGE_KEY);
+          const lista = salvo ? JSON.parse(salvo) : [];
+
+          // Notifica o App que carregou os dados
+          if (handler && handler.onDataChanged) {
+            handler.onDataChanged(lista);
+          }
+
+          console.log("FS OFFLINE: dados carregados com sucesso");
+          return { isOk: true };
+        } catch (e) {
+          console.error("FS OFFLINE ERRO AO CARREGAR:", e);
+          return { isOk: false };
+        }
+      },
+
+      // ---- Salvar ----
+      createOrUpdateRecord: async (obj) => {
+        try {
+          const salvo = localStorage.getItem(STORAGE_KEY);
+          let lista = salvo ? JSON.parse(salvo) : [];
+
+          // Se for edição
+          if (obj.__backendId) {
+            const idx = lista.findIndex(p => p.__backendId === obj.__backendId);
+            if (idx >= 0) lista[idx] = obj;
+          } else {
+            // Se for novo
+            obj.__backendId = "id_" + Date.now();
+            lista.push(obj);
+          }
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+          console.log("FS OFFLINE: dados atualizados");
+          return { isOk: true, recordId: obj.__backendId };
+
+        } catch (e) {
+          console.error("FS OFFLINE ERRO AO SALVAR:", e);
+          return { isOk: false };
+        }
+      },
+
+      // ---- Deletar ----
+      deleteRecord: async (id) => {
+        try {
+          const salvo = localStorage.getItem(STORAGE_KEY);
+          let lista = salvo ? JSON.parse(salvo) : [];
+
+          lista = lista.filter(p => p.__backendId !== id);
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+          console.log("FS OFFLINE: registro deletado");
+          return { isOk: true };
+
+        } catch (e) {
+          console.error("FS OFFLINE ERRO AO DELETAR:", e);
+          return { isOk: false };
+        }
+      }
+    };
+
+    // Força o reload do app sem erro
+    setTimeout(() => {
+      try {
+        if (typeof initializeApp === "function") initializeApp();
+      } catch (e) {
+        console.error("FS OFFLINE ERRO INIT:", e);
+      }
+    }, 200);
+  }
+
+})();
+</script>
 <!-- Botão flutuante para voltar ao início -->
 <a href="index.html" class="fs-back-home">← Voltar ao início</a>
 
@@ -2096,6 +2189,37 @@
     }
   }
 </style>
+<script>
+// FS Soluções - desativa tela interna de login dos módulos
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    const nomePadrao = 'Fildo'; // pode trocar pelo nome que quiser
 
+    // Faz o módulo acreditar que já existe alguém logado
+    localStorage.setItem('nomeVendedorLogado', nomePadrao);
+
+    // Atualiza o nome no cabeçalho, se existir
+    const headerNome = document.getElementById('nomeUsuarioHeader');
+    if (headerNome) {
+      headerNome.textContent = nomePadrao;
+    }
+
+    // Esconde tela de boas-vindas e mostra o sistema direto
+    const welcome = document.getElementById('welcomeScreen');
+    const main = document.getElementById('mainContent');
+    if (welcome) welcome.classList.add('hidden');
+    if (main) main.classList.remove('hidden');
+
+    // Sobrescreve o "Sair" para apenas voltar pra tela inicial FS Soluções
+    if (typeof window.sairSistema === 'function') {
+      window.sairSistema = function () {
+        window.location.href = 'index.html';
+      };
+    }
+  } catch (e) {
+    console.error('FS override login erro:', e);
+  }
+});
+</script>
 </body>
 </html>
