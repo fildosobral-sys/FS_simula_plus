@@ -1,551 +1,665 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FS Soluções - Sistema de Gestão</title>
-
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
     }
 
     body {
-      margin: 0;
-      background: radial-gradient(circle at top left, #233876, #0a1025 60%);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #ffffff;
-      overflow-x: hidden;
-      min-height: 100vh;
+      background: #f4f5f7;
+      color: #0f172a;
     }
 
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
-    /* ------------ LOGIN ------------ */
+    /* ========== LOGIN ========== */
 
-    #loginOverlay {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #2b3f7f, #050814);
+    .login-page {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #4f46e5 0%, #020617 55%, #000 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 16px;
-      z-index: 9999;
     }
 
     .login-card {
       width: 100%;
       max-width: 420px;
-      background: #ffffff;
-      color: #111827;
-      padding: 28px 24px 24px;
+      background: rgba(15,23,42,0.85);
       border-radius: 24px;
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.6);
+      padding: 28px 24px 24px;
+      box-shadow: 0 32px 80px rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.25);
+      backdrop-filter: blur(26px);
+      color: #e5e7eb;
     }
 
-    .login-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 8px;
-    }
-
-    .login-logo {
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #2563eb, #4f46e5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 18px;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.65);
-    }
-
-    .login-title {
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .login-subtitle {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 18px;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
-    .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #4b5563;
-      margin-bottom: 4px;
-      display: block;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 12px 11px;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      font-size: 15px;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    .form-input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 1px #2563eb33;
-    }
-
-    .login-button {
-      width: 100%;
-      margin-top: 6px;
-      padding: 13px;
-      border-radius: 12px;
-      border: none;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.55);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s;
-    }
-
-    .login-button:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.7);
-    }
-
-    .login-info {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    .login-link {
-      margin-top: 6px;
-      font-size: 13px;
-      color: #2563eb;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    #erroLogin {
-      display: none;
-      margin-bottom: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #b91c1c;
-    }
-
-    /* ------------ APP SHELL ------------ */
-
-    #appWrapper {
-      display: none;
-      padding: 18px 18px 26px;
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .logo-area {
+    .login-logo-row {
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-bottom: 6px;
     }
 
-    .logo-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: radial-gradient(circle at 30% 0%, #60a5fa, #2563eb);
-      color: #ffffff;
+    .login-logo-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #3b82f6, #6366f1);
+      box-shadow: 0 10px 25px rgba(37,99,235,0.7);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
+      color: #f9fafb;
       font-size: 18px;
-      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.75);
     }
 
-    .logo-text-title {
+    .login-logo-title {
+      font-size: 20px;
       font-weight: 600;
-      font-size: 18px;
+      color: #f9fafb;
     }
 
-    .logo-text-sub {
+    .login-logo-subtitle {
       font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .login-title {
+      margin-top: 16px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #f9fafb;
+    }
+
+    .login-subtitle {
+      margin-top: 6px;
+      font-size: 13px;
       color: #cbd5f5;
     }
 
-    .menu-button {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: #020617aa;
+    .login-form {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-label {
+      font-size: 13px;
       color: #e5e7eb;
+      margin-bottom: 4px;
+    }
+
+    .login-input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      padding: 10px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .login-input::placeholder {
+      color: #6b7280;
+    }
+
+    .login-input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 1px rgba(96,165,250,0.8);
+      background: rgba(15,23,42,0.95);
+    }
+
+    .login-error {
+      display: none;
+      margin-top: 2px;
+      font-size: 12px;
+      color: #fecaca;
+    }
+
+    .login-button {
+      margin-top: 6px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #f9fafb;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 11px 16px;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 6px;
+      box-shadow: 0 14px 32px rgba(37,99,235,0.8);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .login-button:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(37,99,235,0.85);
+    }
+
+    .login-meta {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .login-switch {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #bfdbfe;
       cursor: pointer;
-      font-size: 20px;
-      line-height: 0;
-      padding-bottom: 3px;
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.7);
+      text-decoration: underline;
+    }
+
+    /* ========== APP (PÓS LOGIN) ========== */
+
+    .app-wrapper {
+      min-height: 100vh;
+      display: none;
+      background: #f4f5f7;
+    }
+
+    .fs-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+    }
+
+    .fs-header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+    }
+
+    .fs-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .fs-logo-circle-small {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #3b82f6, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f9fafb;
+      font-weight: 700;
+      font-size: 15px;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.6);
+    }
+
+    .fs-header-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .fs-header-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .menu-button {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      transition: background 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .menu-button span {
+      width: 16px;
+      height: 2px;
+      background: #0f172a;
+      border-radius: 4px;
+    }
+
+    .menu-button:hover {
+      background: #f3f4f6;
+      box-shadow: 0 2px 6px rgba(15,23,42,0.08);
     }
 
     .menu-dropdown {
       position: absolute;
-      right: 18px;
-      top: 58px;
-      background: #020617;
-      border-radius: 14px;
-      padding: 6px;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
-      min-width: 190px;
+      right: 16px;
+      top: 52px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 14px 40px rgba(15,23,42,0.18);
+      padding: 8px;
+      min-width: 180px;
       display: none;
       z-index: 40;
+      border: 1px solid #e5e7eb;
     }
 
-    .menu-dropdown button {
+    .menu-item {
       width: 100%;
       border: none;
-      padding: 9px 10px;
-      border-radius: 10px;
       background: transparent;
-      color: #e5e7eb;
-      font-size: 13px;
       text-align: left;
-      cursor: pointer;
-    }
-
-    .menu-dropdown button:hover {
-      background: #111827;
-    }
-
-    /* ------------ WELCOME ------------ */
-
-    .welcome-section {
-      margin-bottom: 18px;
-    }
-
-    #saudacaoPrincipal {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0 0 4px;
-    }
-
-    #motivacao {
-      margin: 0 0 4px;
+      padding: 8px 10px;
+      border-radius: 8px;
       font-size: 14px;
-      color: #cbd5f5;
+      color: #111827;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    #dateTime {
-      margin: 0;
-      font-size: 13px;
+    .menu-item span {
+      font-size: 12px;
       color: #9ca3af;
     }
 
-    /* ------------ CARDS ------------ */
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-      margin-top: 10px;
+    .menu-item:hover {
+      background: #f3f4f6;
     }
 
-    .card {
-      background: linear-gradient(145deg, #020617ee, #111827ee);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
-      cursor: pointer;
-      transform-origin: center;
-      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
-      border: 1px solid rgba(148, 163, 184, 0.25);
+    /* MAIN */
+
+    .fs-main {
+      max-width: 1200px;
+      margin: 16px auto 40px;
+      padding: 0 16px;
+    }
+
+    .fs-hero-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 20px 20px 18px;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.06);
+      border: 1px solid #e5e7eb;
+      margin-bottom: 20px;
+    }
+
+    .fs-hero-badge {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .fs-hero-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .fs-hero-text {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .fs-hero-datetime {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .fs-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 32px;
+    }
+
+    @media (min-width: 900px) {
+      .fs-cards-grid {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    .fs-card {
       display: flex;
       flex-direction: column;
-      height: 100%;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
-      border-color: rgba(59, 130, 246, 0.7);
-    }
-
-    .card-img-wrapper {
-      width: 100%;
-      height: 170px;
+      background: #ffffff;
+      border-radius: 24px;
       overflow: hidden;
+      box-shadow: 0 14px 40px rgba(15,23,42,0.06);
+      border: 1px solid #e5e7eb;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
     }
 
-    .card-img-wrapper img {
+    .fs-card-img-wrapper {
       width: 100%;
-      height: 100%;
+      overflow: hidden;
+      max-height: 200px;
+    }
+
+    .fs-card-img-wrapper img {
+      width: 100%;
+      height: 200px;
       object-fit: cover;
       display: block;
-      transform: scale(1.02);
-      transition: transform 0.25s ease;
+      transition: transform 0.3s ease;
     }
 
-    .card:hover .card-img-wrapper img {
-      transform: scale(1.06);
-    }
-
-    .card-body {
-      padding: 14px 14px 12px;
+    .fs-card-body {
+      padding: 14px 16px 14px;
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex: 1;
     }
 
-    .card-title {
-      font-size: 17px;
+    .fs-card-title {
+      font-size: 16px;
       font-weight: 600;
+      color: #0f172a;
     }
 
-    .card-footer {
-      margin-top: 2px;
+    .fs-card-link {
       font-size: 13px;
-      color: #93c5fd;
+      color: #2563eb;
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
-    .card-footer span::after {
+    .fs-card-link::after {
       content: "→";
-      margin-left: 4px;
-      font-size: 13px;
+      font-size: 12px;
     }
 
-    /* ------------ STANDBY ------------ */
+    .fs-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 55px rgba(15,23,42,0.1);
+      border-color: #d1d5db;
+    }
 
-    #standbyOverlay {
+    .fs-card:hover img {
+      transform: scale(1.03);
+    }
+
+    /* ========== STANDBY (DESCANSO DE TELA) ========== */
+
+    .standby-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #020617ee, #020617);
+      background: radial-gradient(circle at top left, #1d4ed8 0%, #020617 40%, #000 100%);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 9000;
+      z-index: 50;
+      overflow: hidden;
     }
 
-    .standby-box {
-      max-width: 420px;
-      width: 100%;
-      padding: 24px 20px 20px;
-      background: #020617;
-      border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      text-align: center;
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 1);
-    }
-
-    .standby-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    #standbyUser {
-      font-size: 14px;
-      color: #e5e7eb;
-      margin-bottom: 8px;
-    }
-
-    #standbyMessage {
-      font-size: 13px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-
-    #standbyClock {
-      font-size: 13px;
-      color: #60a5fa;
-      margin-bottom: 12px;
-    }
-
-    .standby-button {
-      border: none;
-      padding: 10px 18px;
+    /* orbes animadas de fundo */
+    .standby-orb {
+      position: absolute;
       border-radius: 999px;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
+      filter: blur(40px);
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      pointer-events: none;
     }
 
-    @media (max-width: 640px) {
-      #appWrapper {
-        padding-inline: 14px;
-      }
+    .standby-orb.orb-1 {
+      width: 220px;
+      height: 220px;
+      background: #2563eb;
+      top: 10%;
+      left: -40px;
+      animation: orbFloat1 18s ease-in-out infinite alternate;
+    }
 
-      .card-img-wrapper {
-        height: 150px;
+    .standby-orb.orb-2 {
+      width: 260px;
+      height: 260px;
+      background: #22c55e;
+      bottom: -60px;
+      right: -30px;
+      animation: orbFloat2 22s ease-in-out infinite alternate;
+    }
+
+    .standby-orb.orb-3 {
+      width: 180px;
+      height: 180px;
+      background: #eab308;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: orbFloat3 26s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat1 {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(40px,60px) scale(1.1); }
+    }
+
+    @keyframes orbFloat2 {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-40px,-50px) scale(1.05); }
+    }
+
+    @keyframes orbFloat3 {
+      0%   { transform: translateX(-50%) translateY(0) scale(1); }
+      100% { transform: translateX(-40%) translateY(-30px) scale(1.08); }
+    }
+
+    .standby-content {
+      position: relative;
+      max-width: 640px;
+      width: calc(100% - 40px);
+      padding: 24px 16px;
+      text-align: center;
+      color: #e5e7eb;
+      z-index: 2;
+    }
+
+    .standby-message-main {
+      font-size: 22px;
+      line-height: 1.4;
+      font-weight: 500;
+      text-shadow: 0 10px 30px rgba(15,23,42,1);
+      margin-bottom: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .standby-message-main {
+        font-size: 26px;
       }
+    }
+
+    .standby-clock {
+      font-size: 12px;
+      color: #cbd5f5;
+      text-shadow: 0 6px 20px rgba(15,23,42,1);
     }
   </style>
 </head>
-
 <body>
-
   <!-- LOGIN -->
-  <div id="loginOverlay">
+  <div id="loginOverlay" class="login-page">
     <div class="login-card">
-      <div class="login-header">
-        <div class="login-logo">FS</div>
+      <div class="login-logo-row">
+        <div class="login-logo-circle">FS</div>
         <div>
-          <div class="login-title">FS Soluções</div>
-          <div class="login-subtitle">Acesse com sua credencial gerencial.</div>
+          <div class="login-logo-title">FS Soluções</div>
+          <div class="login-logo-subtitle">Acesse com sua credencial gerencial.</div>
         </div>
       </div>
 
-      <div id="erroLogin"></div>
+      <div class="login-title">Bem-vindo!</div>
+      <div class="login-subtitle">Digite seu nome para liberar o acesso neste dispositivo.</div>
 
-      <div class="form-group">
-        <label class="form-label" for="nomeUsuario">Seu nome</label>
-        <input id="nomeUsuario" class="form-input" type="text" placeholder="Ex.: Sobral" />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="senhaMestra">Senha gerencial</label>
-        <input id="senhaMestra" class="form-input" type="password" placeholder="Informe a senha no primeiro acesso" />
-      </div>
-
-      <button class="login-button" onclick="fazerLogin()">Entrar</button>
-
-      <div class="login-info">
-        Senha exigida apenas no primeiro acesso deste dispositivo.
-      </div>
-
-      <button class="login-link" onclick="trocarUsuario()">Trocar usuário</button>
-    </div>
-  </div>
-
-  <!-- STANDBY -->
-  <div id="standbyOverlay">
-    <div class="standby-box">
-      <div class="standby-title">Tela em modo descanso</div>
-      <div id="standbyUser"></div>
-      <div id="standbyMessage"></div>
-      <div id="standbyClock"></div>
-      <button class="standby-button" onclick="esconderStandby(); resetarInatividade();">Retomar</button>
-    </div>
-  </div>
-
-  <!-- APP PRINCIPAL -->
-  <div id="appWrapper">
-    <header class="top-bar">
-      <div class="logo-area">
-        <div class="logo-circle">FS</div>
+      <div class="login-form">
         <div>
-          <div class="logo-text-title">FS Soluções</div>
-          <div class="logo-text-sub" id="saudacaoHeader">Sistema interno de apoio às vendas.</div>
+          <label class="login-label" for="nomeUsuario">Seu nome</label>
+          <input id="nomeUsuario" class="login-input" type="text" placeholder="Ex.: Sobral" />
         </div>
-      </div>
 
-      <button class="menu-button" onclick="toggleMenu()">⋮</button>
-      <div id="menuDropdown" class="menu-dropdown">
-        <button onclick="fazerDownload()">Abrir versão completa</button>
-        <button onclick="trocarUsuario()">Trocar usuário</button>
-        <button onclick="sairSistema()">Sair do sistema</button>
+        <div>
+          <label class="login-label" for="senhaMestra">Senha gerencial</label>
+          <input id="senhaMestra" class="login-input" type="password" placeholder="••••••••" />
+          <div id="erroLogin" class="login-error">Informe o seu nome.</div>
+        </div>
+
+        <button type="button" class="login-button" onclick="fazerLogin()">
+          Entrar
+        </button>
+
+        <div class="login-meta">
+          Senha exigida apenas no primeiro acesso deste dispositivo.
+        </div>
+        <div class="login-switch" onclick="trocarUsuario()">Trocar usuário</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="appWrapper" class="app-wrapper">
+    <header class="fs-header">
+      <div class="fs-header-inner">
+        <div class="fs-header-left">
+          <div class="fs-logo-circle-small">FS</div>
+          <div>
+            <div class="fs-header-title">FS Soluções</div>
+            <div id="saudacaoHeader" class="fs-header-subtitle">
+              Acesso liberado. Bons negócios!
+            </div>
+          </div>
+        </div>
+
+        <button class="menu-button" onclick="toggleMenu()" aria-label="Abrir menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div id="menuDropdown" class="menu-dropdown">
+          <button class="menu-item" onclick="fazerDownload()">
+            Abrir FS Simula Plus
+            <span>Nova aba</span>
+          </button>
+          <button class="menu-item" onclick="sairSistema()">
+            Sair do sistema
+          </button>
+        </div>
       </div>
     </header>
 
-    <section class="welcome-section">
-      <h1 id="saudacaoPrincipal">Bem-vindo!</h1>
-      <p id="motivacao"></p>
-      <p id="dateTime"></p>
-    </section>
+    <main class="fs-main">
+      <!-- BLOCO DE SAUDAÇÃO -->
+      <section class="fs-hero-card">
+        <p class="fs-hero-badge">FS Soluções</p>
+        <h1 id="saudacaoPrincipal" class="fs-hero-title">Bem-vindo!</h1>
+        <p id="motivacao" class="fs-hero-text">
+          Foque no cliente. O resultado foca em você.
+        </p>
+        <p id="dateTime" class="fs-hero-datetime"></p>
+      </section>
 
-    <section class="cards-grid">
-
-      <!-- ORÇAMENTOS -->
-      <a href="orcamentos.html" class="card">
-        <div class="card-img-wrapper">
-          <img
-            src="https://images.pexels.com/photos/5716005/pexels-photo-5716005.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            alt="Vendedor em negociação de orçamento" />
-        </div>
-        <div class="card-body">
-          <div class="card-title">Orçamentos</div>
-          <div class="card-footer">
-            <span class="link-acessar">Acessar</span>
+      <!-- CARDS PRINCIPAIS -->
+      <section class="fs-cards-grid">
+        <!-- ORÇAMENTOS -->
+        <a href="orcamentos.html" class="fs-card">
+          <div class="fs-card-img-wrapper">
+            <img
+              src="https://images.pexels.com/photos/5716005/pexels-photo-5716005.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              alt="Equipe analisando gráficos em documentos de orçamento" />
           </div>
-        </div>
-      </a>
-
-      <!-- PLANOS & COTAÇÕES -->
-      <a href="planos-e-cotacoes.html" class="card">
-        <div class="card-img-wrapper">
-          <img
-            src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            alt="Equipe analisando gráficos e planos" />
-        </div>
-        <div class="card-body">
-          <div class="card-title">Planos &amp; Cotações</div>
-          <div class="card-footer">
-            <span class="link-acessar">Acessar</span>
+          <div class="fs-card-body">
+            <h2 class="fs-card-title">Orçamentos</h2>
+            <p class="fs-card-link">Acessar</p>
           </div>
-        </div>
-      </a>
+        </a>
 
-      <!-- PARCELAMENTOS & PLANOS -->
-      <a href="Parcelamentos_e_Planos.html" class="card">
-        <div class="card-img-wrapper">
-          <img
-            src="https://images.pexels.com/photos/8296978/pexels-photo-8296978.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            alt="Calculadora e planilha de parcelamentos" />
-        </div>
-        <div class="card-body">
-          <div class="card-title">Parcelamentos &amp; Planos</div>
-          <div class="card-footer">
-            <span class="link-acessar">Acessar</span>
+        <!-- PLANOS & COTAÇÕES -->
+        <a href="planos-e-cotacoes.html" class="fs-card">
+          <div class="fs-card-img-wrapper">
+            <img
+              src="https://images.pexels.com/photos/3184294/pexels-photo-3184294.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              alt="Equipe reunida avaliando gráficos e cotações em mesa de reunião" />
           </div>
-        </div>
-      </a>
+          <div class="fs-card-body">
+            <h2 class="fs-card-title">Planos &amp; Cotações</h2>
+            <p class="fs-card-link">Acessar</p>
+          </div>
+        </a>
 
-    </section>
+        <!-- PARCELAMENTOS & PLANOS -->
+        <a href="Parcelamentos_e_Planos.html" class="fs-card">
+          <div class="fs-card-img-wrapper">
+            <img
+              src="https://images.pexels.com/photos/8296978/pexels-photo-8296978.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              alt="Pessoa utilizando calculadora para simular parcelamentos e planos" />
+          </div>
+          <div class="fs-card-body">
+            <h2 class="fs-card-title">Parcelamentos &amp; Planos</h2>
+            <p class="fs-card-link">Acessar</p>
+          </div>
+        </a>
+      </section>
+    </main>
+  </div>
+
+  <!-- STANDBY / DESCANSO DE TELA -->
+  <div id="standbyOverlay" class="standby-overlay">
+    <!-- orbes de fundo -->
+    <div class="standby-orb orb-1"></div>
+    <div class="standby-orb orb-2"></div>
+    <div class="standby-orb orb-3"></div>
+
+    <div class="standby-content">
+      <div id="standbyMessage" class="standby-message-main">
+        Pequenas melhorias constantes criam grandes mudanças.
+      </div>
+      <div id="standbyClock" class="standby-clock"></div>
+    </div>
   </div>
 
   <script>
-    // SENHA / STORAGE
-    const MASTER_PASSWORD = "@fildO1060";
+    // Senha mestra (ainda não validando, só armazenando)
+    const MASTER_PASSWORD    = "@fildO1060";
     const STORAGE_KEY_LOGGED = "fs_solucoes_logged";
-    const STORAGE_KEY_NOME = "fs_solucoes_nome";
+    const STORAGE_KEY_NOME   = "fs_solucoes_nome";
 
-    // INATIVIDADE (5 MIN)
+    // Inatividade (5 min)
     const INACTIVITY_LIMIT = 5 * 60 * 1000;
     let inactivityTimer = null;
-    let listenersAdded = false;
+    let listenersAdded  = false;
 
-    // FRASES MOTIVACIONAIS
     const FRASES_MOTIVACIONAIS = [
       "Venda é confiança: entregue valor em cada atendimento.",
       "Disciplina diária gera resultados extraordinários.",
@@ -575,11 +689,10 @@
     function atualizarFraseDiaria() {
       const hoje = new Date();
       const chave = hoje.getFullYear() * 10000 +
-        (hoje.getMonth() + 1) * 100 +
-        hoje.getDate();
+                    (hoje.getMonth() + 1) * 100 +
+                    hoje.getDate();
       const idx = chave % FRASES_MOTIVACIONAIS.length;
       const frase = FRASES_MOTIVACIONAIS[idx];
-
       const motivacao = document.getElementById("motivacao");
       const standbyMessage = document.getElementById("standbyMessage");
       if (motivacao) motivacao.textContent = frase;
@@ -591,7 +704,6 @@
       const appWrapper = document.getElementById("appWrapper");
       const saudacaoPrincipal = document.getElementById("saudacaoPrincipal");
       const saudacaoHeader = document.getElementById("saudacaoHeader");
-      const standbyUser = document.getElementById("standbyUser");
 
       if (overlay) overlay.style.display = "none";
       if (appWrapper) appWrapper.style.display = "block";
@@ -602,13 +714,7 @@
       if (nome && saudacaoHeader) {
         saudacaoHeader.textContent = "Acesso liberado para " + nome + ". Bons negócios!";
       }
-      if (nome && standbyUser) {
-        standbyUser.textContent = nome + ", sua tela está em descanso.";
-      }
 
-      atualizarFraseDiaria();
-      atualizarDataHora();
-      setInterval(atualizarDataHora, 60 * 1000);
       iniciarMonitoramentoInatividade();
     }
 
@@ -616,54 +722,32 @@
       try {
         localStorage.removeItem(STORAGE_KEY_LOGGED);
         localStorage.removeItem(STORAGE_KEY_NOME);
-      } catch (e) { }
+      } catch (e) {}
 
-      const nomeInput = document.getElementById("nomeUsuario");
+      const nomeInput  = document.getElementById("nomeUsuario");
       const senhaInput = document.getElementById("senhaMestra");
-      const erroLogin = document.getElementById("erroLogin");
+      const erroLogin  = document.getElementById("erroLogin");
 
       if (nomeInput) nomeInput.value = "";
       if (senhaInput) senhaInput.value = "";
       if (erroLogin) erroLogin.style.display = "none";
-
-      document.getElementById("loginOverlay").style.display = "flex";
-      document.getElementById("appWrapper").style.display = "none";
     }
 
     function fazerLogin() {
-      const nomeInput = document.getElementById("nomeUsuario");
-      const senhaInput = document.getElementById("senhaMestra");
-      const erroLogin = document.getElementById("erroLogin");
+      const nomeInput  = document.getElementById("nomeUsuario");
+      const erroLogin  = document.getElementById("erroLogin");
 
       const nome = (nomeInput && nomeInput.value ? nomeInput.value : "").trim();
-      const senha = (senhaInput && senhaInput.value ? senhaInput.value : "").trim();
 
       if (!nome) {
-        erroLogin.style.display = "block";
-        erroLogin.textContent = "Informe o seu nome.";
+        if (erroLogin) {
+          erroLogin.style.display = "block";
+          erroLogin.textContent = "Informe o seu nome.";
+        }
         return;
       }
 
-      let jaLogouAntes = false;
-      try {
-        jaLogouAntes = localStorage.getItem(STORAGE_KEY_LOGGED) === "true";
-      } catch (e) {
-        jaLogouAntes = false;
-      }
-
-      if (!jaLogouAntes) {
-        if (!senha) {
-          erroLogin.style.display = "block";
-          erroLogin.textContent = "Informe a senha gerencial no primeiro acesso.";
-          return;
-        }
-        if (senha !== MASTER_PASSWORD) {
-          erroLogin.style.display = "block";
-          erroLogin.textContent = "Senha incorreta.";
-          return;
-        }
-      }
-
+      // Por enquanto NÃO valida senha, só entra e grava nome
       try {
         localStorage.setItem(STORAGE_KEY_LOGGED, "true");
         localStorage.setItem(STORAGE_KEY_NOME, nome);
@@ -675,7 +759,7 @@
       mostrarApp(nome);
     }
 
-    // STANDBY / INATIVIDADE
+    // STANDBY
     function mostrarStandby() {
       const standby = document.getElementById("standbyOverlay");
       if (standby) standby.style.display = "flex";
@@ -699,7 +783,6 @@
     function iniciarMonitoramentoInatividade() {
       if (listenersAdded) return;
       listenersAdded = true;
-
       const eventos = ["click", "mousemove", "keydown", "touchstart"];
       eventos.forEach(function (ev) {
         window.addEventListener(ev, resetarInatividade);
@@ -729,20 +812,21 @@
       try {
         localStorage.removeItem(STORAGE_KEY_LOGGED);
         localStorage.removeItem(STORAGE_KEY_NOME);
-      } catch (e) { }
+      } catch (e) {}
 
-      const appWrapper = document.getElementById("appWrapper");
+      const appWrapper   = document.getElementById("appWrapper");
       const loginOverlay = document.getElementById("loginOverlay");
 
-      if (appWrapper) appWrapper.style.display = "none";
+      if (appWrapper)   appWrapper.style.display = "none";
       if (loginOverlay) loginOverlay.style.display = "flex";
 
       esconderStandby();
       if (inactivityTimer) clearTimeout(inactivityTimer);
     }
 
+    // Fecha menu ao clicar fora
     window.addEventListener("click", function (event) {
-      const menu = document.getElementById("menuDropdown");
+      const menu   = document.getElementById("menuDropdown");
       const button = document.querySelector(".menu-button");
       if (!menu || !button) return;
 
@@ -751,22 +835,26 @@
       }
     });
 
-    // INIT
+    // Inicialização
     (function initLogin() {
       let logged = false;
-      let nome = "";
+      let nome   = "";
 
       try {
         logged = localStorage.getItem(STORAGE_KEY_LOGGED) === "true";
-        nome = localStorage.getItem(STORAGE_KEY_NOME) || "";
+        nome   = localStorage.getItem(STORAGE_KEY_NOME) || "";
       } catch (e) {
         logged = false;
       }
 
+      atualizarFraseDiaria();
+      atualizarDataHora();
+      setInterval(atualizarDataHora, 60 * 1000);
+
       if (logged && nome) {
         mostrarApp(nome);
       } else {
-        const overlay = document.getElementById("loginOverlay");
+        const overlay    = document.getElementById("loginOverlay");
         const appWrapper = document.getElementById("appWrapper");
         if (overlay) overlay.style.display = "flex";
         if (appWrapper) appWrapper.style.display = "none";
@@ -774,5 +862,4 @@
     })();
   </script>
 </body>
-
 </html>
