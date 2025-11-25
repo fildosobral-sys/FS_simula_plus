@@ -4453,6 +4453,37 @@
     }
   }
 </style>
+<script>
+// FS Soluções - desativa tela interna de login dos módulos
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    const nomePadrao = 'Fildo'; // pode trocar pelo nome que quiser
 
+    // Faz o módulo acreditar que já existe alguém logado
+    localStorage.setItem('nomeVendedorLogado', nomePadrao);
+
+    // Atualiza o nome no cabeçalho, se existir
+    const headerNome = document.getElementById('nomeUsuarioHeader');
+    if (headerNome) {
+      headerNome.textContent = nomePadrao;
+    }
+
+    // Esconde tela de boas-vindas e mostra o sistema direto
+    const welcome = document.getElementById('welcomeScreen');
+    const main = document.getElementById('mainContent');
+    if (welcome) welcome.classList.add('hidden');
+    if (main) main.classList.remove('hidden');
+
+    // Sobrescreve o "Sair" para apenas voltar pra tela inicial FS Soluções
+    if (typeof window.sairSistema === 'function') {
+      window.sairSistema = function () {
+        window.location.href = 'index.html';
+      };
+    }
+  } catch (e) {
+    console.error('FS override login erro:', e);
+  }
+});
+</script>
 </body>
 </html>
