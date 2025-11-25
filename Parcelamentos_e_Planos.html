@@ -4454,5 +4454,50 @@
   }
 </style>
 </script>
+  <script>
+// FS Soluções – auto login interno (Parcelamentos & Planos / Orçamentos)
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    const nomePadrao  = 'Fildo';      // pode trocar o nome se quiser
+    const senhaPadrao = '@fildO1060'; // sua senha mestre
+
+    // 1) tenta achar inputs de texto/senha na tela de login
+    const inputs = document.querySelectorAll(
+      'input[type="text"], input[type="password"], input[type="tel"], input:not([type])'
+    );
+
+    // primeiro campo = nome
+    if (inputs.length >= 1 && !inputs[0].value) {
+      inputs[0].value = nomePadrao;
+    }
+
+    // segundo campo = senha
+    if (inputs.length >= 2 && !inputs[1].value) {
+      inputs[1].value = senhaPadrao;
+    }
+
+    // 2) acha o botão de login ("Autorizar", "Entrar", "Acessar", etc.)
+    const possiveisBotoes = Array.from(
+      document.querySelectorAll('button, input[type="submit"], input[type="button"]')
+    );
+
+    const btnLogin = possiveisBotoes.find(el => {
+      const t = (el.innerText || el.value || '').toLowerCase();
+      return t.includes('autorizar') ||
+             t.includes('entrar')    ||
+             t.includes('acessar')   ||
+             t.includes('login');
+    });
+
+    // 3) se achou o botão, clica sozinho depois de um pequeno delay
+    if (btnLogin) {
+      setTimeout(() => btnLogin.click(), 600);
+    }
+
+  } catch (e) {
+    console.error('FS auto-login erro:', e);
+  }
+});
+  </script>
 </body>
 </html>
