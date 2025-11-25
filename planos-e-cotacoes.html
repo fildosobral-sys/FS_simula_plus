@@ -4,9 +4,102 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planos e Cotações</title>
-  <script src="/_sdk/data_sdk.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- html2canvas (para gerar imagem da proposta) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- FS Simula+ – Fallback do dataSdk para rodar no GitHub (usa localStorage) -->
+  <script>
+    (function () {
+      const STORAGE_KEY = 'fs_simula_plus_propostas_v1';
+
+      function carregar() {
+        try {
+          const txt = localStorage.getItem(STORAGE_KEY);
+          return txt ? JSON.parse(txt) : [];
+        } catch (e) {
+          console.error('Erro ao ler propostas do localStorage', e);
+          return [];
+        }
+      }
+
+      function salvar(lista) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+        } catch (e) {
+          console.error('Erro ao salvar propostas no localStorage', e);
+        }
+      }
+
+      // Garante que cada proposta tenha um __backendId
+      function garantirIds(lista) {
+        const agora = Date.now();
+        return lista.map((item, idx) => {
+          if (!item.__backendId) {
+            item.__backendId = String(agora) + '_' + (idx + 1);
+          }
+          return item;
+        });
+      }
+
+      // Em vez do SDK do Canva, criamos um "dataSdk" local
+      window.dataSdk = {
+        async init(handler) {
+          const data = garantirIds(carregar());
+          if (handler && typeof handler.onDataChanged === 'function') {
+            handler.onDataChanged(data);
+          }
+          return { isOk: true, value: data };
+        },
+
+        async list() {
+          const data = garantirIds(carregar());
+          return { isOk: true, value: data };
+        },
+
+        async create(obj) {
+          const lista = garantirIds(carregar());
+          const agora = new Date().toISOString();
+          const novo = {
+            ...obj,
+            __backendId: String(Date.now()) + '_' + (lista.length + 1),
+            created_at: agora,
+            updated_at: agora
+          };
+          lista.push(novo);
+          salvar(lista);
+          return { isOk: true, value: novo };
+        },
+
+        async update(obj) {
+          const lista = garantirIds(carregar());
+          const idx = lista.findIndex(p => p.__backendId === obj.__backendId);
+          if (idx === -1) {
+            return { isOk: false, error: 'not_found' };
+          }
+          const atualizado = {
+            ...lista[idx],
+            ...obj,
+            updated_at: new Date().toISOString()
+          };
+          lista[idx] = atualizado;
+          salvar(lista);
+          return { isOk: true, value: atualizado };
+        },
+
+        async delete(obj) {
+          const lista = garantirIds(carregar());
+          const novaLista = lista.filter(p => p.__backendId !== obj.__backendId);
+          salvar(novaLista);
+          return { isOk: true };
+        }
+      };
+    })();
+  </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body {
@@ -3436,10 +3529,25 @@
       `;
 });
 
-// ========== INIT ==========
-document.addEventListener('DOMContentLoaded', async () => {
-  try { await initializeApp(); } catch(e) { console.error(e); }
-});
-</script>
+    // ========== RELATÓRIOS ==========
+    function gerarRelatorios() {
+      // ... (todo o código que você já tem aqui, NÃO mexe)
+      container.innerHTML = html;
+    }
+
+    // ========== INIT ==========
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await initializeApp();
+      } catch (e) {
+        console.error('Erro na inicialização:', e);
+        const loading = document.getElementById('loading');
+        if (loading) {
+          loading.innerHTML = '<p class="text-red-600 font-semibold">Erro ao carregar o módulo.</p>';
+        }
+      }
+    });
+  </script>
 </body>
 </html>
+
