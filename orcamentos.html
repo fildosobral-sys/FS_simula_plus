@@ -3586,34 +3586,74 @@ Zenir - O Melhor Está Aqui! 🏆`;
   }
 </style>
 <script>
-// FS Soluções - desativa tela interna de login dos módulos
+// FS Soluções - Remove qualquer tela de login dos módulos
 document.addEventListener('DOMContentLoaded', function () {
   try {
-    const nomePadrao = 'Fildo'; // pode trocar pelo nome que quiser
 
-    // Faz o módulo acreditar que já existe alguém logado
-    localStorage.setItem('nomeVendedorLogado', nomePadrao);
+    // 1 - Nome padrão para todos os módulos
+    const nomeFixo = "Fildo";
 
-    // Atualiza o nome no cabeçalho, se existir
-    const headerNome = document.getElementById('nomeUsuarioHeader');
-    if (headerNome) {
-      headerNome.textContent = nomePadrao;
-    }
+    // 2 - Ajusta localStorage para qualquer formato usado pelos módulos
+    localStorage.setItem('nomeColaborador', nomeFixo);
+    localStorage.setItem('colaboradorNome', nomeFixo);
+    localStorage.setItem('nomeVendedorLogado', nomeFixo);
+    localStorage.setItem('usuarioAutorizado', 'true');
+    localStorage.setItem('dispositivoAutorizado', 'true');
+    localStorage.setItem('autorizado', 'true');
 
-    // Esconde tela de boas-vindas e mostra o sistema direto
-    const welcome = document.getElementById('welcomeScreen');
-    const main = document.getElementById('mainContent');
-    if (welcome) welcome.classList.add('hidden');
-    if (main) main.classList.remove('hidden');
+    // 3 - Remove telas de login comuns
+    const idsLogin = [
+      'loginScreen',
+      'welcomeScreen',
+      'telaLogin',
+      'areaLogin',
+      'loginPage',
+      'authPage',
+      'authorizeDevice'
+    ];
 
-    // Sobrescreve o "Sair" para apenas voltar pra tela inicial FS Soluções
-    if (typeof window.sairSistema === 'function') {
-      window.sairSistema = function () {
-        window.location.href = 'index.html';
-      };
-    }
+    idsLogin.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+
+    // 4 - Mostra o conteúdo principal (dependendo do módulo)
+    const idsMain = [
+      'mainContent',
+      'contentArea',
+      'areaPrincipal',
+      'appContent',
+      'sistemaContent'
+    ];
+
+    idsMain.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'block';
+    });
+
+    // 5 - Atualiza cabeçalhos se existirem
+    const seletoresNome = [
+      '#nomeUsuarioHeader',
+      '#nomeColaborador',
+      '#nomeVendedor',
+      '.user-name',
+      '.header-user'
+    ];
+
+    seletoresNome.forEach(sel => {
+      const e = document.querySelector(sel);
+      if (e) e.textContent = nomeFixo;
+    });
+
+    // 6 - Sobrescreve qualquer função "sair"
+    window.sairSistema = function () {
+      window.location.href = "index.html";
+    };
+
+    console.log("FS Soluções: bloqueio de login aplicado com sucesso.");
+
   } catch (e) {
-    console.error('FS override login erro:', e);
+    console.error("FS Soluções erro ao bloquear login:", e);
   }
 });
 </script>
