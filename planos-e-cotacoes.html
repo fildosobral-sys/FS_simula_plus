@@ -3437,10 +3437,16 @@
 
       container.innerHTML = html;
     }
-
     // ========== INIT ==========
-    initializeApp();
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        initializeApp();
+      } catch (e) {
+        console.error('Erro ao inicializar o app:', e);
+        const loader = document.getElementById('loadingScreen');
+        if (loader) loader.textContent = 'Erro ao carregar módulo. Veja o console.';
+      }
+    });
   </script>
-</script>
- </body>
+</body>
 </html>
