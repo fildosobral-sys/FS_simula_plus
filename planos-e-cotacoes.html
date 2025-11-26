@@ -2406,39 +2406,55 @@
               ${infoAdicionaisHTML}
             </div>
 
-            <div class="p-6 bg-gray-50 rounded-b-2xl flex gap-3">
-              <button
-                onclick="imprimirProposta()"
-                class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
-              >
-                <span>🖨️</span>
-                <span>Imprimir</span>
-              </button>
-              <button
-                onclick="fecharPreview()"
-                class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
-              >
-                <span>❌</span>
-                <span>Fechar</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
+            <div class="p-6 bg-gray-50 rounded-b-2xl flex flex-col gap-3">
 
-      document.body.insertAdjacentHTML('beforeend', previewHTML);
-    }
+  <button onclick="enviarWhatsProposta()"
+    class="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+    <span>📲</span>
+    <span>Enviar pelo WhatsApp</span>
+  </button>
 
-    function fecharPreview() {
-      const preview = document.getElementById('previewModal');
-      if (preview) {
-        preview.remove();
-      }
-    }
+  <button onclick="imprimirProposta()"
+    class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+    <span>🖨</span>
+    <span>Imprimir</span>
+  </button>
 
-    function imprimirProposta() {
-      window.print();
-    }
+  <button onclick="fecharPreview()"
+    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+    <span>❌</span>
+    <span>Fechar</span>
+  </button>
+
+</div>
+document.body.insertAdjacentHTML('beforeend', previewHTML);
+}
+
+function fecharPreview() {
+  const preview = document.getElementById('previewModal');
+  if (preview) {
+    preview.remove();
+  }
+}
+
+function enviarWhatsProposta() {
+  const inputTelefone = document.getElementById('inputClienteContato');
+  const numero = (inputTelefone ? inputTelefone.value : '').replace(/\D/g, '');
+
+  if (!numero) {
+    alert('Número do cliente não informado!');
+    return;
+  }
+
+  const texto = encodeURIComponent('Segue sua proposta 😊');
+
+  window.open(`https://wa.me/55${numero}?text=${texto}`, '_blank');
+}
+
+function imprimirProposta() {
+  window.print();
+}
+
 
     function limparFormulario() {
       document.getElementById('inputLoja').value = 'Iguatu 3 - Ao lado do Bradesco';
