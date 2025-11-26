@@ -170,7 +170,392 @@
        </div>
       </div>
      </section><!-- Botões de Ação -->
-     <div class="flex flex-wrap gap-4"><button onclick="salvarProposta()" class="flex-1 min-w-max bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"> <span>💾</span> <span>Salvar Proposta</span> </button> <button onclick="visualizarPropostaCliente()" class="flex-1 min-w-max bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"> <span>📱</span> <span>Visualizar para Cliente</span> </button> <button onclick="visualizarPropostaDiretoria()" class="flex-1 min-w-max bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"> <span>📊</span> <span>Visualizar para Diretoria</span> </button>
+     <div class="flex flex-wrap gap-4"><button onclick="salvarProposta()" class="flex-1 min-w-max bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"> <span>💾</span> <span>Salvar Proposta</span> </button> <button onclick="visualizarPropostaCliente()" class="flex-1 min-w-max bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"> <span>📱</span> <span>Visualizar para Cliente</span> </button> <button onclick="function visualizarPropostaDiretoria() {
+  const vendedorNome = document.getElementById('inputVendedorNome').value.trim();
+  const clienteNome = document.getElementById('inputClienteNome').value.trim();
+  const loja = document.getElementById('inputLoja').value.trim();
+  const clienteContato = document.getElementById('inputClienteContato').value.trim();
+  const dataAtual = document.getElementById('inputDataAtual').value;
+  const validadeProposta = document.getElementById('inputValidadeProposta').value;
+  const tituloProposta = document.getElementById('inputTituloProposta').value.trim();
+
+  if (!vendedorNome || !clienteNome) {
+    showToast('⚠️ Preencha os campos obrigatórios', 'error');
+    return;
+  }
+
+  if (produtos.length === 0) {
+    showToast('⚠️ Adicione pelo menos um produto', 'error');
+    return;
+  }
+
+  const dataAtualFormatada = dataAtual ? new Date(dataAtual + 'T00:00:00').toLocaleDateString('pt-BR') : 'Não informada';
+  const validadeFormatada = validadeProposta ? new Date(validadeProposta + 'T00:00:00').toLocaleDateString('pt-BR') : 'Não informada';
+
+  let totalNormalGeral = 0;
+  let totalPromoGeral = 0;
+  let linhasWhats = [];
+
+  // MONTA TABELA COMPLETA (estilo “Visão Diretoria”)
+  const produtosHTML = produtos.map((produto, index) => {
+    const nomeProduto = produto.codigo_nome || `Produto #${index + 1}`;
+
+    let modalidadeTexto = '';
+    let precoNormal = produto.preco_normal || 0;
+    let precoPromo  = produto.preco_promo  || 0;
+    let parcelas = '-';
+    let valorTotalNormal = 0;
+    let valorTotalPromo  = 0;
+    let valorParcelaNormal = 0;
+    let valorParcelaPromo  = 0;
+
+    if (produto.modalidade === 'avista') {
+      modalidadeTexto = 'À Vista';
+      parcelas = '-';
+      valorTotalNormal   = precoNormal;
+      valorTotalPromo    = precoPromo;
+      valorParcelaNormal = precoNormal;
+      valorParcelaPromo  = precoPromo;
+    } else {
+      const parcelaProdutoNormal = calcularParcelaNormal(produto);
+      const parcelaProdutoPromo  = calcularParcela(produto);
+      const valorGarantia   = produto.valor_garantia || 0;
+      const parcelasGarantia = produto.parcelas_garantia || produto.parcelas;
+
+      let parcelaGarantiaCalc = 0;
+      if (produto.tem_garantia && valorGarantia > 0) {
+        const coef = produto.modalidade === 'carne'
+          ? COEFICIENTES_CARNE[parcelasGarantia]
+          : COEFICIENTES_CARTAO[parcelasGarantia];
+        parcelaGarantiaCalc = valorGarantia * coef;
+      }
+
+      let parcelaNormal = parcelaProdutoNormal + parcelaGarantiaCalc;
+      let parcelaPromo  = parcelaProdutoPromo  + parcelaGarantiaCalc;
+
+      if (produto.tem_presta_mista && produto.modalidade === 'carne') {
+        parcelaNormal *= 1.06;
+        parcelaPromo  *= 1.06;
+      }
+
+      valorParcelaNormal = parcelaNormal;
+      valorParcelaPromo  = parcelaPromo;
+      valorTotalNormal   = parcelaNormal * produto.parcelas;
+      valorTotalPromo    = parcelaPromo  * produto.parcelas;
+
+      const nomeModalidade = produto.modalidade === 'carne' ? 'Carnê' : 'Cartão';
+      modalidadeTexto = `${nomeModalidade}`;
+      parcelas = `${produto.parcelas}x`;
+    }
+
+    const descontoReais = valorTotalNormal - valorTotalPromo;
+    const descontoPercent = valorTotalNormal > 0
+      ? ((descontoReais / valorTotalNormal) * 100).toFixed(1)
+      : 0;
+
+    totalNormalGeral += valorTotalNormal;
+    totalPromoGeral  += valorTotalPromo;
+
+    // Linha para mensagem de WhatsApp
+    let resumoLinhaWhats = '';
+    if (produto.modalidade === 'avista') {
+      resumoLinhaWhats =
+        `${nomeProduto} – À Vista: de ${formatarMoedaBR(precoNormal)} por ${formatarMoedaBR(precoPromo)} (desc. ${descontoPercent}%)`;
+    } else {
+      resumoLinhaWhats =
+        `${nomeProduto} – ${modalidadeTexto} ${parcelas}: de ${formatarMoedaBR(valorTotalNormal)} por ${formatarMoedaBR(valorTotalPromo)} (parc. ${formatarMoedaBR(valorParcelaPromo)})`;
+    }
+    linhasWhats.push(resumoLinhaWhats);
+
+    return `
+      <tr class="border-b border-gray-200 hover:bg-gray-50">
+        <td class="p-3 text-sm">${nomeProduto}</td>
+        <td class="p-3 text-sm text-center">${modalidadeTexto}</td>
+        <td class="p-3 text-sm text-right font-semibold text-gray-800">${formatarMoedaBR(precoNormal)}</td>
+        <td class="p-3 text-sm text-right font-semibold text-gray-800">${formatarMoedaBR(precoPromo)}</td>
+        <td class="p-3 text-sm text-right font-bold text-blue-600">${formatarMoedaBR(descontoReais)}</td>
+        <td class="p-3 text-sm text-center font-bold text-orange-600">${descontoPercent}%</td>
+        <td class="p-3 text-sm text-center">${parcelas}</td>
+        <td class="p-3 text-sm text-right font-bold text-purple-700">${formatarMoedaBR(valorTotalPromo)}</td>
+        <td class="p-3 text-sm text-right">${formatarMoedaBR(valorParcelaPromo)}</td>
+      </tr>
+    `;
+  }).join('');
+
+  const economiaTotal = totalNormalGeral - totalPromoGeral;
+  const percentualEconomiaTotal = totalNormalGeral > 0
+    ? ((economiaTotal / totalNormalGeral) * 100).toFixed(1)
+    : 0;
+
+  // guarda dados pra função de WhatsApp
+  dadosWhatsDiretoria = {
+    vendedorNome,
+    clienteNome,
+    loja,
+    dataAtualFormatada,
+    validadeFormatada,
+    totalNormalGeral,
+    totalPromoGeral,
+    economiaTotal,
+    percentualEconomiaTotal,
+    linhasProdutos: linhasWhats
+  };
+
+  const historicoInfo = document.getElementById('inputHistorico').value.trim();
+  const simulacaoInfo = document.getElementById('inputSimulacao').value.trim();
+  const oportunidadesInfo = document.getElementById('inputOportunidades').value.trim();
+  const sugestaoParcelamento = document.getElementById('inputSugestaoParcelamento').value.trim();
+
+  let infoAdicionaisHTML = '';
+  if (historicoInfo || simulacaoInfo || oportunidadesInfo || propostaClienteData.modalidade) {
+    infoAdicionaisHTML = `
+      <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-300 mt-6">
+        <h3 class="text-lg font-bold text-purple-800 mb-4 flex items-center gap-2">
+          <span>📋</span>
+          <span>Informações Adicionais</span>
+        </h3>
+
+        ${historicoInfo ? `
+          <div class="mb-4">
+            <h4 class="text-sm font-bold text-gray-700 mb-1">📝 Histórico de Negociação</h4>
+            <p class="text-sm text-gray-600 bg-white p-3 rounded-lg">${historicoInfo}</p>
+          </div>
+        ` : ''}
+
+        ${propostaClienteData.modalidade ? `
+          <div class="mb-4">
+            <h4 class="text-sm font-bold text-gray-700 mb-1">💰 Proposta do Cliente</h4>
+            <div class="bg-white p-3 rounded-lg text-sm text-gray-600">
+              <p><strong>Modalidade:</strong> ${
+                propostaClienteData.modalidade === 'avista' ? 'À Vista' :
+                propostaClienteData.modalidade === 'carne' ? 'Carnê' : 'Cartão'
+              }</p>
+              ${propostaClienteData.parcelas ? `<p><strong>Parcelas:</strong> ${propostaClienteData.parcelas}x</p>` : ''}
+              ${propostaClienteData.tipoPreco ? `<p><strong>Tipo de Preço:</strong> ${propostaClienteData.tipoPreco === 'normal' ? 'Preço Normal' : 'Preço Promocional'}</p>` : ''}
+              ${propostaClienteData.observacoes ? `<p class="mt-1"><strong>Observações:</strong> ${propostaClienteData.observacoes}</p>` : ''}
+            </div>
+          </div>
+        ` : ''}
+
+        ${simulacaoInfo ? `
+          <div class="mb-4">
+            <h4 class="text-sm font-bold text-gray-700 mb-1">📈 Simulação de Perdas e Ganhos</h4>
+            <p class="text-sm text-gray-600 bg-white p-3 rounded-lg">${simulacaoInfo}</p>
+          </div>
+        ` : ''}
+
+        ${oportunidadesInfo ? `
+          <div class="mb-2">
+            <h4 class="text-sm font-bold text-gray-700 mb-1">💡 Oportunidades</h4>
+            <p class="text-sm text-gray-600 bg-white p-3 rounded-lg">${oportunidadesInfo}</p>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  let sugestaoHTML2 = '';
+  if (sugestaoParcelamento) {
+    sugestaoHTML2 = `
+      <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-300 mt-6">
+        <h3 class="text-lg font-bold text-blue-800 mb-3 flex items-center gap-2">
+          <span>💡</span>
+          <span>Sugestão de Parcelamento para o Cliente</span>
+        </h3>
+        <p class="text-sm text-gray-700 bg-white p-4 rounded-lg leading-relaxed">${sugestaoParcelamento}</p>
+      </div>
+    `;
+  }
+
+  const previewHTML = `
+    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50 p-4" onclick="fecharPreview()">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto animate-slide-in" onclick="event.stopPropagation()">
+        
+        <!-- Cabeçalho / Título geral -->
+        <div class="bg-gradient-to-r from-gray-100 to-gray-200 px-6 pt-6 pb-3 rounded-t-2xl sticky top-0 z-10">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <span>👁️</span>
+                <span>Visualização da Proposta</span>
+              </h2>
+            </div>
+            <button onclick="fecharPreview()" class="text-gray-700 hover:bg-gray-200 p-2 rounded-lg transition-all">
+              <span class="text-2xl">✕</span>
+            </button>
+          </div>
+
+          <!-- “Abas” Visão Cliente / Visão Diretoria -->
+          <div class="mt-4 flex gap-1 border-b border-gray-300">
+            <button
+              onclick="fecharPreview(); visualizarPropostaCliente();"
+              class="px-4 py-2 text-sm font-semibold text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-t-lg"
+            >
+              👤 Visão Cliente
+            </button>
+            <button
+              class="px-4 py-2 text-sm font-semibold text-purple-700 bg-white border-x border-t border-purple-400 border-b-4 border-b-purple-600 rounded-t-lg"
+            >
+              📊 Visão Diretoria
+            </button>
+          </div>
+        </div>
+
+        <div id="previewContent" class="p-6">
+
+          <!-- Bloco VISÃO DIRETORIA -->
+          <div class="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-5 mb-6">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h3 class="text-lg font-bold text-yellow-800 flex items-center gap-2">
+                  <span>🔒</span>
+                  <span>VISÃO DIRETORIA</span>
+                </h3>
+                <p class="text-xs text-yellow-800/80 mt-1">
+                  Análise completa da proposta, com todos os detalhes financeiros.
+                </p>
+              </div>
+              <div class="text-right text-xs text-gray-600">
+                <p><strong>Loja:</strong> ${loja}</p>
+                <p><strong>Vendedor:</strong> ${vendedorNome}</p>
+                <p><strong>Cliente:</strong> ${clienteNome}</p>
+                <p><strong>Data:</strong> ${dataAtualFormatada}</p>
+                <p><strong>Validade:</strong> ${validadeFormatada}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabela completa de produtos -->
+          <div class="mb-4">
+            <h3 class="text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <span>📊</span>
+              <span>Tabela Completa de Produtos</span>
+            </h3>
+
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse bg-white rounded-xl overflow-hidden shadow-md text-xs">
+                <thead>
+                  <tr class="bg-gradient-to-r from-purple-100 to-pink-100">
+                    <th class="p-2 text-left font-bold text-gray-800 border-b border-gray-200">Código / Produto</th>
+                    <th class="p-2 text-center font-bold text-gray-800 border-b border-gray-200">Modalidade</th>
+                    <th class="p-2 text-right font-bold text-gray-800 border-b border-gray-200">Preço Normal</th>
+                    <th class="p-2 text-right font-bold text-gray-800 border-b border-gray-200">Preço Promo</th>
+                    <th class="p-2 text-right font-bold text-gray-800 border-b border-gray-200">Desconto R$</th>
+                    <th class="p-2 text-center font-bold text-gray-800 border-b border-gray-200">Desconto %</th>
+                    <th class="p-2 text-center font-bold text-gray-800 border-b border-gray-200">Parcelas</th>
+                    <th class="p-2 text-right font-bold text-gray-800 border-b border-gray-200">Valor Total</th>
+                    <th class="p-2 text-right font-bold text-gray-800 border-b border-gray-200">Valor Parcela</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${produtosHTML}
+                  <tr class="bg-gradient-to-r from-blue-50 to-indigo-50 font-bold border-t-2 border-blue-300">
+                    <td class="p-3" colspan="2">TOTAL GERAL</td>
+                    <td class="p-3 text-right text-red-600 line-through">${formatarMoedaBR(totalNormalGeral)}</td>
+                    <td class="p-3 text-right text-green-600">${formatarMoedaBR(totalPromoGeral)}</td>
+                    <td class="p-3 text-right text-blue-600">${formatarMoedaBR(economiaTotal)}</td>
+                    <td class="p-3 text-center text-orange-600">${percentualEconomiaTotal}%</td>
+                    <td class="p-3 text-center">-</td>
+                    <td class="p-3 text-right text-purple-700">${formatarMoedaBR(totalPromoGeral)}</td>
+                    <td class="p-3 text-right">-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sugestão + informações adicionais -->
+          ${sugestaoHTML2}
+          ${infoAdicionaisHTML}
+        </div>
+
+        <!-- Rodapé com botões -->
+        <div class="p-6 bg-gray-50 rounded-b-2xl flex flex-col md:flex-row gap-3">
+          <button
+            onclick="enviarWhatsAppDiretoria()"
+            class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+          >
+            <span>📲</span>
+            <span>Visualizar e Enviar – Visão Diretoria</span>
+          </button>
+
+          <button
+            onclick="salvarImagemDiretoria()"
+            class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+          >
+            <span>💾</span>
+            <span>Salvar como Imagem</span>
+          </button>
+
+          <button
+            onclick="imprimirProposta()"
+            class="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+          >
+            <span>🖨️</span>
+            <span>Imprimir</span>
+          </button>
+
+          <button
+            onclick="fecharPreview()"
+            class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+          >
+            <span>❌</span>
+            <span>Fechar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', previewHTML);
+}
+function enviarWhatsAppDiretoria() {
+  if (!dadosWhatsDiretoria) {
+    showToast('Abra a Visão Diretoria antes de enviar pelo WhatsApp.', 'error');
+    return;
+  }
+
+  const d = dadosWhatsDiretoria;
+
+  const mensagem = [
+    '📊 *Proposta para Diretoria*',
+    '',
+    `👥 Cliente: ${d.clienteNome}`,
+    `🏪 Loja: ${d.loja}`,
+    `👤 Vendedor: ${d.vendedorNome}`,
+    `📅 Data: ${d.dataAtualFormatada}`,
+    `⏰ Validade: ${d.validadeFormatada}`,
+    '',
+    '🧾 *Itens da Proposta*',
+    ...d.linhasProdutos,
+    '',
+    `💵 *Total Tabela:* ${formatarMoedaBR(d.totalNormalGeral)}`,
+    `✅ *Total Proposto:* ${formatarMoedaBR(d.totalPromoGeral)}`,
+    `🎉 *Desconto Total:* ${formatarMoedaBR(d.economiaTotal)} (${d.percentualEconomiaTotal}% off)`
+  ].join('\n');
+
+  const url = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
+  window.open(url, '_blank');
+  showToast('Abrindo WhatsApp com a proposta...', 'success');
+}
+
+function salvarImagemDiretoria() {
+  const content = document.getElementById('previewContent');
+  if (!content || typeof html2canvas === 'undefined') {
+    showToast('Não foi possível gerar a imagem da proposta.', 'error');
+    return;
+  }
+
+  html2canvas(content).then(canvas => {
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'proposta-diretoria.png';
+    link.click();
+  }).catch(() => {
+    showToast('Erro ao gerar imagem da proposta.', 'error');
+  });
+}
+" class="flex-1 min-w-max bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"> <span>📊</span> <span>Visualizar para Diretoria</span> </button>
      </div>
     </div>
    </main>
@@ -208,6 +593,19 @@
       tipoPreco: null,
       observacoes: ''
     };
+let produtos = [];
+let planoExclusivoVisivel = false;
+let informacoesAdicionaisVisivel = false;
+let resumoFinanceiroVisivel = false;
+let modalidadePropostaCliente = null;
+let propostaClienteData = {
+  modalidade: null,
+  parcelas: null,
+  tipoPreco: null,
+  observacoes: ''
+};
+
+let dadosWhatsDiretoria = null; // guarda os dados pra enviar pelo WhatsApp
 
     function toggleInformacoesAdicionais() {
       informacoesAdicionaisVisivel = !informacoesAdicionaisVisivel;
