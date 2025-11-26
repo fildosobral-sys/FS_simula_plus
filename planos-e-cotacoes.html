@@ -161,7 +161,7 @@
         <h3 class="text-lg font-bold text-gray-800 mb-3">💰 Proposta do Cliente - Selecione a Modalidade:</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3"><button type="button" onclick="selecionarModalidadeProposta('avista')" id="btnPropostaAvista" class="px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300"> <span>💰</span> <span>À Vista</span> </button> <button type="button" onclick="selecionarModalidadeProposta('carne')" id="btnPropostaCarne" class="px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300"> <span>📝</span> <span>Carnê</span> </button> <button type="button" onclick="selecionarModalidadeProposta('cartao')" id="btnPropostaCartao" class="px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300"> <span>����</span> <span>Cartão</span> </button>
         </div>
-       </div><!-- Campos da Proposta (aparecem ap��s selecionar modalidade) -->
+       </div><!-- Campos da Proposta (aparecem após selecionar modalidade) -->
        <div id="camposPropostaCliente" class="hidden"><!-- Conteúdo será gerado dinamicamente -->
        </div><!-- Simulação de Perdas e Ganhos -->
        <div><label for="inputSimulacao" class="block text-sm font-semibold text-gray-700 mb-2"> 📈 Simulação de Perdas e Ganhos / Análise Financeira </label> <textarea id="inputSimulacao" rows="3" placeholder="Descreva a análise de perdas e ganhos, margem de lucro, impacto no faturamento..." class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 transition-all resize-none"></textarea>
@@ -216,7 +216,7 @@
       
       if (informacoesAdicionaisVisivel) {
         secao.classList.remove('hidden');
-        btn.innerHTML = '<span>���</span><span>Fechar Informações Adicionais</span>';
+        btn.innerHTML = '<span></span><span>Fechar Informações Adicionais</span>';
         btn.className = 'bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all flex items-center gap-2 shadow-lg';
         showToast('📋 Informações Adicionais abertas!', 'success');
       } else {
@@ -380,7 +380,7 @@
               
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
-                  💵 Tipo de Pre��o
+                  💵 Tipo de Preço
                 </label>
                 <select
                   id="selectTipoPrecoCarne"
@@ -395,7 +395,7 @@
               
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
-                  ��� Observações
+                   Observações
                 </label>
                 <textarea
                   id="textareaObservacoesCarne"
@@ -1038,7 +1038,7 @@
                 </div>
               </div>
 
-              <!-- Op��ões de Garantia (apenas para Carnê e Cartão) -->
+              <!-- Opções de Garantia (apenas para Carnê e Cartão) -->
               ${produto.modalidade !== 'avista' ? `
                 <div class="mt-4 flex flex-wrap gap-3">
                   <button
@@ -1352,7 +1352,7 @@
             </h3>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <!-- PRE����O TABELA -->
+              <!-- PREÇO TABELA -->
               <div class="bg-red-50 rounded-xl p-6 border-2 border-red-300">
                 <h4 class="text-lg font-bold text-red-700 mb-4 flex items-center gap-2">
                   <span>❌</span>
@@ -1478,7 +1478,7 @@
               <div class="flex items-center justify-between mb-4">
                 <h3 class="text-2xl font-bold text-blue-800 flex items-center gap-2">
                   <span>📝</span>
-                  <span>Exclusivo Gerente - Carn��</span>
+                  <span>Exclusivo Gerente - Carnê</span>
                 </h3>
                 <div class="flex gap-2">
                   <button
@@ -1497,7 +1497,7 @@
               </div>
               
               <p class="text-sm text-gray-700 mb-6 font-semibold">
-                ��� Total de ${produtos.length} produto(s) consolidados | 
+                 Total de ${produtos.length} produto(s) consolidados | 
                 💡 Comparação: SEM BENEFICIO vs COM BENEFICIOS ZENIR (1x a 5x)
               </p>
               
@@ -1580,7 +1580,7 @@
             <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 shadow-md border-2 border-purple-400">
               <div class="flex items-center justify-between mb-4">
                 <h3 class="text-2xl font-bold text-purple-800 flex items-center gap-2">
-                  <span>���</span>
+                  <span></span>
                   <span>Exclusivo Gerente - Cartão</span>
                 </h3>
                 <div class="flex gap-2">
@@ -1600,7 +1600,7 @@
               </div>
               
               <p class="text-sm text-gray-700 mb-6 font-semibold">
-                ���� Total de ${produtos.length} produto(s) consolidados | 
+                 Total de ${produtos.length} produto(s) consolidados | 
                 💡 Comparação: SEM BENEFICIO vs COM BENEFICIO (+12) (1x a 6x)
               </p>
               
@@ -1611,7 +1611,7 @@
                       <th class="border-2 border-purple-300 p-3 text-left font-bold text-gray-800">Parcelas</th>
                       <th class="border-2 border-red-300 p-3 text-center font-bold text-red-700 bg-red-50">❌ SEM BENEFICIO<br><span class="text-xs font-normal">Parcela | Total</span></th>
                       <th class="border-2 border-green-300 p-3 text-center font-bold text-green-700 bg-green-50">✅ COM BENEFICIOS ZENIR<br><span class="text-xs font-normal">Parcela | Total</span></th>
-                      <th class="border-2 border-blue-300 p-3 text-center font-bold text-blue-700 bg-blue-50">���� Economia<br><span class="text-xs font-normal">Valor | %</span></th>
+                      <th class="border-2 border-blue-300 p-3 text-center font-bold text-blue-700 bg-blue-50"> Economia<br><span class="text-xs font-normal">Valor | %</span></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1719,7 +1719,7 @@
                   <th class="border-2 border-purple-300 p-3 text-left font-bold text-gray-800">Parcelas</th>
                   <th class="border-2 border-red-300 p-3 text-center font-bold text-red-700 bg-red-50">❌ Preço Tabela<br><span class="text-xs font-normal">Parcela | Total</span></th>
                   <th class="border-2 border-green-300 p-3 text-center font-bold text-green-700 bg-green-50">✅ Preço Promocional<br><span class="text-xs font-normal">Parcela | Total</span></th>
-                  <th class="border-2 border-blue-300 p-3 text-center font-bold text-blue-700 bg-blue-50">���� Economia<br><span class="text-xs font-normal">Valor | %</span></th>
+                  <th class="border-2 border-blue-300 p-3 text-center font-bold text-blue-700 bg-blue-50"> Economia<br><span class="text-xs font-normal">Valor | %</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -1868,7 +1868,7 @@
       const tituloProposta = document.getElementById('inputTituloProposta').value.trim();
 
       if (!vendedorNome || !clienteNome) {
-        showToast('⚠️ Preencha os campos obrigat��rios', 'error');
+        showToast('⚠️ Preencha os campos obrigatorios', 'error');
         return;
       }
 
@@ -2128,13 +2128,13 @@
                 <h3 class="text-2xl font-bold text-blue-800 mb-4">${tituloProposta || 'Proposta Comercial'}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p class="text-gray-600">���� <strong>Loja:</strong> ${loja}</p>
+                    <p class="text-gray-600"><strong>Loja:</strong> ${loja}</p>
                     <p class="text-gray-600">👤 <strong>Vendedor:</strong> ${vendedorNome}</p>
                     <p class="text-gray-600">👥 <strong>Cliente:</strong> ${clienteNome}</p>
                   </div>
                   <div>
                     ${clienteContato ? `<p class="text-gray-600">📞 <strong>Contato:</strong> ${clienteContato}</p>` : ''}
-                    <p class="text-gray-600">���� <strong>Data:</strong> ${dataAtualFormatada}</p>
+                    <p class="text-gray-600"> <strong>Data:</strong> ${dataAtualFormatada}</p>
                     <p class="text-gray-600">⏰ <strong>Validade:</strong> ${validadeFormatada}</p>
                   </div>
                 </div>
@@ -2496,103 +2496,7 @@
       showToast(' Formulário limpo!', 'success');
     }
     
-      const previewHTML = `
-        <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50 p-4" onclick="fecharPreview()">
-          <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto animate-slide-in" onclick="event.stopPropagation()">
-            <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 md:p-6 rounded-t-2xl sticky top-0 z-10">
-              <div class="flex items-center justify-between">
-                <h2 class="text-base md:text-2xl font-bold flex items-center gap-2">
-                  <span>📊</span>
-                  <span>Proposta para Diretoria</span>
-                </h2>
-                <button onclick="fecharPreview()" class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-all">
-                  <span class="text-xl">✕</span>
-                </button>
-              </div>
-            </div>
-            
-            <div class="p-4 md:p-6 text-xs md:text-sm">
-              <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-4 md:p-5 mb-5 border border-purple-200">
-                <h3 class="text-base md:text-lg font-bold text-purple-800 mb-3">
-                  ${tituloProposta || 'Proposta Comercial'}
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <p class="text-gray-700">🏪 <strong>Loja:</strong> ${loja}</p>
-                    <p class="text-gray-700">👤 <strong>Vendedor:</strong> ${vendedorNome}</p>
-                    <p class="text-gray-700">👥 <strong>Cliente:</strong> ${clienteNome}</p>
-                  </div>
-                  <div>
-                    ${clienteContato ? `<p class="text-gray-700">📞 <strong>Contato:</strong> ${clienteContato}</p>` : ''}
-                    <p class="text-gray-700">📅 <strong>Data:</strong> ${dataAtualFormatada}</p>
-                    <p class="text-gray-700">⏰ <strong>Validade:</strong> ${validadeFormatada}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mb-5">
-                <h3 class="text-sm md:text-base font-bold text-gray-800 mb-2 flex items-center gap-2">
-                  <span>📦</span>
-                  <span>Resumo dos produtos</span>
-                </h3>
-                <div class="overflow-x-auto">
-                  <table class="w-full border-collapse bg-white rounded-xl overflow-hidden shadow-md">
-                    <thead>
-                      <tr class="bg-gradient-to-r from-purple-100 to-pink-100 text-[11px] md:text-xs">
-                        <th class="p-2 text-left font-bold text-gray-700">Produto</th>
-                        <th class="p-2 text-center font-bold text-gray-700">Modalidade</th>
-                        <th class="p-2 text-right font-bold text-gray-700">Valor normal</th>
-                        <th class="p-2 text-right font-bold text-gray-700">Valor proposto</th>
-                        <th class="p-2 text-right font-bold text-gray-700">Desconto (R$)</th>
-                        <th class="p-2 text-center font-bold text-gray-700">Desconto (%)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${linhasProdutos}
-                      <tr class="bg-gradient-to-r from-blue-50 to-indigo-50 font-bold text-xs md:text-sm border-t-2 border-blue-200">
-                        <td class="p-3" colspan="2">TOTAL GERAL</td>
-                        <td class="p-3 text-right text-red-600 line-through">${formatarMoedaBR(totalNormalGeral)}</td>
-                        <td class="p-3 text-right text-green-600 text-base md:text-lg">${formatarMoedaBR(totalPromoGeral)}</td>
-                        <td class="p-3 text-right text-blue-600 text-base md:text-lg">${formatarMoedaBR(economiaTotal)}</td>
-                        <td class="p-3 text-center text-orange-600 text-base md:text-lg">${percTotal}%</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              ${sugestaoHTML2}
-              ${infoAdicionaisHTML}
-            </div>
-
-            <div class="p-4 md:p-6 bg-gray-50 rounded-b-2xl flex gap-3">
-              <button
-                onclick="imprimirProposta()"
-                class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2"
-              >
-                🖨️ Imprimir
-              </button>
-              <button
-                onclick="fecharPreview()"
-                class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2"
-              >
-                ❌ Fechar
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-      document.body.insertAdjacentHTML('beforeend', previewHTML);
-    }
-
-    function fecharPreview() {
-      const preview = document.getElementById('previewModal');
-      if (preview) preview.remove();
-    }
-
-    function imprimirProposta() {
-      window.print();
-    }
+    initializeApp();
   </script>
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4c17f6949f6f83',t:'MTc2NDE4ODUwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
