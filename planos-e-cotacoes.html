@@ -2234,27 +2234,75 @@ let dadosWhatsDiretoria = null; // guarda os dados pra enviar pelo WhatsApp
       }
     }
 
-    function salvarProposta() {
-      const vendedorNome = document.getElementById('inputVendedorNome').value.trim();
-      const clienteNome = document.getElementById('inputClienteNome').value.trim();
+   function salvarProposta() {
+  const vendedorNome = document.getElementById('inputVendedorNome').value.trim();
+  const clienteNome = document.getElementById('inputClienteNome').value.trim();
+  const loja = document.getElementById('inputLoja').value.trim();
+  const clienteContato = document.getElementById('inputClienteContato').value.trim();
+  const dataAtual = document.getElementById('inputDataAtual').value;
+  const validadeProposta = document.getElementById('inputValidadeProposta').value;
+  const tituloProposta = document.getElementById('inputTituloProposta').value.trim();
 
-      if (!vendedorNome) {
-        showToast('⚠️ Preencha o nome do vendedor', 'error');
-        return;
-      }
+  if (!vendedorNome) {
+    showToast('⚠️ Preencha o nome do vendedor', 'error');
+    return;
+  }
 
-      if (!clienteNome) {
-        showToast('⚠️ Preencha o nome do cliente', 'error');
-        return;
-      }
+  if (!clienteNome) {
+    showToast('⚠️ Preencha o nome do cliente', 'error');
+    return;
+  }
 
-      if (produtos.length === 0) {
-        showToast('⚠️ Adicione pelo menos um produto', 'error');
-        return;
-      }
+  if (produtos.length === 0) {
+    showToast('⚠️ Adicione pelo menos um produto', 'error');
+    return;
+  }
 
-      showToast('✅ Proposta salva com sucesso!', 'success');
+  // Infos adicionais
+  const historicoInfo = document.getElementById('inputHistorico').value.trim();
+  const simulacaoInfo = document.getElementById('inputSimulacao').value.trim();
+  const oportunidadesInfo = document.getElementById('inputOportunidades').value.trim();
+  const sugestaoParcelamento = document.getElementById('inputSugestaoParcelamento').value.trim();
+
+  // Monta objeto da proposta
+  const proposta = {
+    id: currentProposalId || ('P' + Date.now()),
+    criadoEm: new Date().toISOString(),
+    loja,
+    vendedorNome,
+    clienteNome,
+    clienteContato,
+    dataAtual,
+    validadeProposta,
+    tituloProposta,
+    produtos: JSON.parse(JSON.stringify(produtos)), // cópia dos produtos
+    historico: historicoInfo,
+    simulacao: simulacaoInfo,
+    oportunidades: oportunidadesInfo,
+    sugestaoParcelamento,
+    propostaCliente: { ...propostaClienteData }
+  };
+
+  // Se já estava editando uma proposta, atualiza; senão, cria nova
+  if (currentProposalId) {
+    const idx = allProposals.findIndex(p => p.id === currentProposalId);
+    if (idx !== -1) {
+      allProposals[idx] = proposta;
+    } else {
+      allProposals.push(proposta);
     }
+  } else {
+    allProposals.push(proposta);
+  }
+
+  currentProposalId = proposta.id;
+  currentProposalData = proposta;
+
+  salvarPropostasLocalStorage();
+
+  showToast('✅ Proposta salva com sucesso!', 'success');
+}
+
 
     function visualizarPropostaCliente() {
       const vendedorNome = document.getElementById('inputVendedorNome').value.trim();
