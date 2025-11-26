@@ -227,44 +227,52 @@
       }
     }
 
-    function initializeApp() {
-      const vendedorSalvo = localStorage.getItem('nomeVendedorLogado');
-      if (vendedorSalvo) {
-        nomeVendedorLogado = vendedorSalvo;
-        document.getElementById('welcomeScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-        document.getElementById('headerVendedorNome').textContent = nomeVendedorLogado;
-        document.getElementById('inputVendedorNome').value = nomeVendedorLogado;
-      }
-
-      const hoje = new Date().toISOString().split('T')[0];
-      document.getElementById('inputDataAtual').value = hoje;
-
-      carregarPropostas();
-
-      document.getElementById('formLogin').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const nome = document.getElementById('inputNomeVendedorInicial').value.trim();
-        if (nome) {
-          nomeVendedorLogado = nome;
-          localStorage.setItem('nomeVendedorLogado', nome);
-          document.getElementById('welcomeScreen').classList.add('hidden');
-          document.getElementById('mainContent').classList.remove('hidden');
-          document.getElementById('headerVendedorNome').textContent = nomeVendedorLogado;
-          document.getElementById('inputVendedorNome').value = nomeVendedorLogado;
-          const hoje = new Date().toISOString().split('T')[0];
-          document.getElementById('inputDataAtual').value = hoje;
-          showToast('✅ Bem-vindo, ' + nome + '!', 'success');
-        }
-      });
-
-      renderProdutos();
-      renderPlanoExclusivo();
-      renderResumoFinanceiro();
-    }
-
+    
     function carregarPropostas() {
-      const propostas = localStorage.getItem('propostas');
+      const propostas = localStorage.getItem('pfunction initializeApp() {
+  // nome fixo para auto login
+  nomeVendedorLogado = 'Fildo'; // troque aqui se quiser outro nome
+
+  // salva no localStorage
+  localStorage.setItem('nomeVendedorLogado', nomeVendedorLogado);
+
+  // força esconder tela inicial
+  const welcome = document.getElementById('welcomeScreen');
+  if (welcome) welcome.classList.add('hidden');
+
+  // força mostrar o sistema
+  const main = document.getElementById('mainContent');
+  if (main) main.classList.remove('hidden');
+
+  // atualiza nome no cabeçalho, se existir
+  const headerNome = document.getElementById('headerVendedorNome');
+  if (headerNome) headerNome.textContent = nomeVendedorLogado;
+
+  // preenche campo interno do vendedor
+  const inputNome = document.getElementById('inputVendedorNome');
+  if (inputNome) inputNome.value = nomeVendedorLogado;
+
+  // data de hoje no campo da proposta
+  const hoje = new Date().toISOString().split('T')[0];
+  document.getElementById('inputDataAtual').value = hoje;
+
+  // carrega propostas salvas
+  carregarPropostas();
+
+  // não precisa mais do submit do login, mas deixo aqui protegido.
+  const formLogin = document.getElementById('formLogin');
+  if (formLogin) {
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // não faz nada, porque já estamos logados automaticamente
+      showToast('✅ Login automático já está ativo.', 'success');
+    });
+  }
+
+  renderProdutos();
+  renderPlanoExclusivo();
+  renderResumoFinanceiro();
+    }ropostas');
       if (propostas) {
         allProposals = JSON.parse(propostas);
       }
