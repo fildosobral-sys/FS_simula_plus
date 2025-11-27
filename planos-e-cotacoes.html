@@ -2510,16 +2510,17 @@ function imprimirProposta() {
       
       const btn = document.getElementById('btnTogglePlanoExclusivo');
       if (btn) {
-        btn.innerHTML = '<span></span><span>Abrir Plano Exclusivo</span>';
+        btn.innerHTML = '<span>��</span><span>Abrir Plano Exclusivo</span>';
         btn.className = 'bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all flex items-center gap-2 shadow-lg';
       }
       
       renderProdutos();
-  atualizarCamposParcelamento();
-  atualizarVisibilidadeSecaoPlano();
-  showToast(' formulario limpo! ', 'success');
-}
-
- </script>
- </body>
+      atualizarCamposParcelamento();
+      atualizarVisibilidadeSecaoPlano();
+      showToast('����️ Formulário limpo!', 'success');
+    }
+    
+    initializeApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4d4a23e0c827ef',t:'MTc2NDIwMTA0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
