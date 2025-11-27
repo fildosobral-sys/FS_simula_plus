@@ -226,21 +226,35 @@
         showToast('��� Informações Adicionais fechadas', 'success');
       }
     }
-
     
-    function carregarPropostas() {
-      const propostas = localStorage.getItem('pfunction initializeApp() {
+    function showToast(message, type) {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-semibold z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+
+    function selecionarModalidadeProposta(modalidade) {
+      modalidadePropostaCliente = modalidade;
+      propostaClienteData.modalidade = modalidade;
+      
+      document.getElementById('btnPropostaAvista').className = 'px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300';
+      document.getElementById('btnPropostaCarne').className = 'px-4 py-3 rounded-xl font-bold transi// ================== INICIALIZAÇÃO DA APLICAÇÃO ==================
+function initializeApp() {
   // nome fixo para auto login
   nomeVendedorLogado = 'Fildo'; // troque aqui se quiser outro nome
 
   // salva no localStorage
   localStorage.setItem('nomeVendedorLogado', nomeVendedorLogado);
 
-  // força esconder tela inicial
+  // força esconder tela inicial (tela de login)
   const welcome = document.getElementById('welcomeScreen');
   if (welcome) welcome.classList.add('hidden');
 
-  // força mostrar o sistema
+  // força mostrar o sistema principal
   const main = document.getElementById('mainContent');
   if (main) main.classList.remove('hidden');
 
@@ -269,35 +283,19 @@
     });
   }
 
+  // renderiza as telas principais
   renderProdutos();
   renderPlanoExclusivo();
   renderResumoFinanceiro();
-    }ropostas');
-      if (propostas) {
-        allProposals = JSON.parse(propostas);
-      }
-    }
+}
 
-    function salvarPropostasLocalStorage() {
-      localStorage.setItem('propostas', JSON.stringify(allProposals));
-    }
-
-    function showToast(message, type) {
-      const toast = document.createElement('div');
-      toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-semibold z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
-      toast.textContent = message;
-      document.body.appendChild(toast);
-      setTimeout(() => {
-        document.body.removeChild(toast);
-      }, 3000);
-    }
-
-    function selecionarModalidadeProposta(modalidade) {
-      modalidadePropostaCliente = modalidade;
-      propostaClienteData.modalidade = modalidade;
-      
-      document.getElementById('btnPropostaAvista').className = 'px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300';
-      document.getElementById('btnPropostaCarne').className = 'px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300';
+// ================== CARREGAR PROPOSTAS SALVAS ==================
+function carregarPropostas() {
+  const propostas = localStorage.getItem('propostas');
+  if (propostas) {
+    allProposals = JSON.parse(propostas);
+  }
+}tion-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300';
       document.getElementById('btnPropostaCartao').className = 'px-4 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-gray-200 text-gray-700 hover:bg-gray-300';
       
       if (modalidade === 'avista') {
