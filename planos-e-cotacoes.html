@@ -2522,5 +2522,49 @@ function imprimirProposta() {
     
     initializeApp();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4d4a23e0c827ef',t:'MTc2NDIwMTA0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4d4a23e0c827ef',t:'MTc2NDIwMTA0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      const nomePadrao = 'Fildo'; // se quiser, troca aqui pelo nome padrão
+
+      // grava o nome no localStorage (se o sistema usar depois)
+      localStorage.setItem('nomeVendedorLogado', nomePadrao);
+
+      // some com a tela de login
+      const welcome = document.getElementById('welcomeScreen');
+      if (welcome) {
+        welcome.classList.add('hidden');
+        welcome.style.display = 'none';
+      }
+
+      // mostra o conteúdo principal
+      const main = document.getElementById('mainContent');
+      if (main) {
+        main.classList.remove('hidden');
+        main.style.display = 'block';
+      }
+
+      // atualiza o nome no cabeçalho
+      const headerNome = document.getElementById('headerVendedorNome');
+      if (headerNome) {
+        headerNome.textContent = nomePadrao;
+      }
+
+      // preenche o campo "Nome do Vendedor" no formulário
+      const inputNome = document.getElementById('inputVendedorNome');
+      if (inputNome) {
+        inputNome.value = nomePadrao;
+      }
+
+      // coloca a data de hoje no campo de data atual, se existir
+      const hoje = new Date().toISOString().split('T')[0];
+      const inputData = document.getElementById('inputDataAtual');
+      if (inputData) {
+        inputData.value = hoje;
+      }
+    } catch (e) {
+      console.error('Erro ao forçar entrada direta:', e);
+    }
+  });
+ </script></body>
 </html>
