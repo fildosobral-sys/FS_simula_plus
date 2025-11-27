@@ -3441,5 +3441,173 @@
     // ========== INIT ==========
     initializeApp();
   </script>
+  // ======================================================================
+// 🔌 BLOCO FS – WHATSAPP COM IMAGEM (CLIENTE / DIRETORIA)
+// NÃO APAGA NADA DO QUE JÁ EXISTE. APENAS COLA ESSE TRECHO NO FINAL.
+// ======================================================================
+
+let visaoPreviewAtual = null;
+
+// Envolve as funções existentes de visualização para saber qual visão está ativa
+if (typeof visualizarPropostaCliente === 'function') {
+  const _visualizarPropostaClienteOriginal = visualizarPropostaCliente;
+  visualizarPropostaCliente = function () {
+    visaoPreviewAtual = 'cliente';
+    _visualizarPropostaClienteOriginal();
+  };
+}
+
+if (typeof visualizarPropostaDiretoria === 'function') {
+  const _visualizarPropostaDiretoriaOriginal = visualizarPropostaDiretoria;
+  visualizarPropostaDiretoria = function () {
+    visaoPreviewAtual = 'diretoria';
+    _visualizarPropostaDiretoriaOriginal();
+  };
+}
+
+// Assim que a tela carregar, cria os botões de WhatsApp ao lado dos botões principais
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    const containerBotoes = document.querySelector('.flex.flex-wrap.gap-4');
+    if (!containerBotoes) return;
+
+    // Botão para Cliente
+    const btnWhatsCliente = document.createElement('button');
+    btnWhatsCliente.className =
+      'flex-1 min-w-max bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2';
+    btnWhatsCliente.innerHTML = '<span>📤</span><span>Enviar Whats – Cliente</span>';
+    btnWhatsCliente.addEventListener('click', function () {
+      enviarWhatsappComImagem('cliente');
+    });
+
+    // Botão para Diretoria
+    const btnWhatsDiretoria = document.createElement('button');
+    btnWhatsDiretoria.className =
+      'flex-1 min-w-max bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2';
+    btnWhatsDiretoria.innerHTML = '<span>🏢</span><span>Enviar Whats – Diretoria</span>';
+    btnWhatsDiretoria.addEventListener('click', function () {
+      enviarWhatsappComImagem('diretoria');
+    });
+
+    containerBotoes.appendChild(btnWhatsCliente);
+    containerBotoes.appendChild(btnWhatsDiretoria);
+  } catch (e) {
+    console.error('Erro ao criar botões de WhatsApp:', e);
+  }
+});
+
+// Função principal: gera imagem + abre WhatsApp
+async function enviarWhatsappComImagem(tipo) {
+  try {
+    if (!window.html2canvas) {
+      showToast('❌ html2canvas não encontrado na página.', 'error');
+      return;
+    }
+
+    // Garante que existe pelo menos 1 produto
+    if (!Array.isArray(produtos) || produtos.length === 0) {
+      showToast('Adicione pelo menos 1 produto antes de enviar.', 'error');
+      return;
+    }
+
+    // Abre o preview correto (usa as funções que já existem)
+    if (tipo === 'cliente') {
+      if (typeof visualizarPropostaCliente === 'function') {
+        visualizarPropostaCliente();
+      } else {
+        showToast('Função visualizarPropostaCliente não encontrada.', 'error');
+        return;
+      }
+    } else {
+      if (typeof visualizarPropostaDiretoria === 'function') {
+        visualizarPropostaDiretoria();
+      } else {
+        showToast('Função visualizarPropostaDiretoria não encontrada.', 'error');
+        return;
+      }
+    }
+
+    // Dá um tempinho pro HTML montar o preview
+    await delayFS(500);
+
+    const previewContent = document.getElementById('previewContent');
+    if (!previewContent) {
+      showToast('Preview da proposta não encontrado.', 'error');
+      return;
+    }
+
+    // Gera imagem em alta qualidade do preview
+    const canvas = await html2canvas(previewContent, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff'
+    });
+
+    const dataUrl = canvas.toDataURL('image/png');
+
+    // Nome do arquivo usando cliente + tipo de visão
+    const nomeCliente = (document.getElementById('inputClienteNome')?.value || 'cliente').trim() || 'cliente';
+    const timestamp = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+    const nomeArquivo = `proposta-${tipo}-${nomeCliente.replace(/\s+/g, '-').toLowerCase()}-${timestamp}.png`;
+
+    // Força o download da imagem
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = nomeArquivo;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast('📸 Imagem da proposta gerada e baixada!', 'success');
+
+    // Fecha o preview, se existir função
+    if (typeof fecharPreview === 'function') {
+      fecharPreview();
+    }
+
+    // Pega o telefone do cliente (ou pergunta, se não tiver)
+    let numero = (document.getElementById('inputClienteTelefone')?.value || '').replace(/\D/g, '');
+    if (!numero) {
+      numero = prompt('Informe o número do cliente (somente números, com DDD):', '');
+      if (!numero) {
+        showToast('Número do cliente não informado.', 'error');
+        return;
+      }
+    }
+
+    // Mensagem padrão para o WhatsApp
+    const lojaNome = document.getElementById('inputLoja')?.value || 'Zenir';
+    const tituloProposta = document.getElementById('inputTituloProposta')?.value || 'Proposta Especial';
+    const saudacao = tipo === 'cliente'
+      ? `Olá, ${nomeCliente}! Tudo bem?`
+      : `Olá, boa tarde!`;
+
+    let mensagem = `${saudacao}\n\n`;
+    mensagem += `Envio em anexo a imagem da *${tipo === 'cliente' ? 'Proposta Comercial' : 'Cotação para análise da Diretoria'}*.\n`;
+    mensagem += `🏪 Loja: ${lojaNome}\n`;
+    mensagem += `📋 Título: ${tituloProposta}\n\n`;
+    mensagem += `📸 *Atenção*: a proposta está detalhada na imagem que acabei de enviar.\n`;
+    mensagem += `Qualquer dúvida, fico à disposição!\n`;
+
+    const mensagemCodificada = encodeURIComponent(mensagem);
+    const numeroBrasil = numero.startsWith('55') ? numero : `55${numero}`;
+
+    const urlWhats = `https://wa.me/${numeroBrasil}?text=${mensagemCodificada}`;
+    window.open(urlWhats, '_blank');
+  } catch (erro) {
+    console.error('Erro ao gerar imagem / enviar WhatsApp:', erro);
+    showToast('Erro ao gerar imagem ou enviar WhatsApp.', 'error');
+  }
+}
+
+// Pequeno helper de delay
+function delayFS(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ======================================================================
+// 🔚 FIM DO BLOCO FS – WHATSAPP COM IMAGEM
+// ======================================================================
+
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a50f4bb162e4f83',t:'MTc2NDIzOTQ4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
