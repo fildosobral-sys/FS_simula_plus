@@ -672,40 +672,15 @@
       font_size: 16
     };
 
-    // Tabelas de taxas de juros
-    const TAXAS_CARNE = [1.0690, 0.5523, 0.3804, 0.2946, 0.2432, 0.2091, 0.1849, 0.1668, 0.1528, 0.1417, 0.1327, 0.1252];
-    const TAXAS_CARTAO = [1.0292, 0.5220, 0.3530, 0.2685, 0.2179, 0.1841, 0.1600, 0.1420, 0.1280, 0.1168, 0.1076, 0.1000];
-
-    let currentProposalId = null;
-    let currentProposalData = null;
-    let produtos = [];
-    let allProposals = [];
-    let filtroDataInicio = null;
-    let filtroDataFim = null;
-    let nomeVendedorLogado = '';
-    let propostaFoiSalva = false;
-    let imagemClienteBaixada = false;
-
-
-    // ========== DATA SDK SETUP ==========
-    const dataHandler = {
-      onDataChanged(data) {
-        allProposals = data;
-        renderListaPropostas(data);
-        updateContador(data.length);
-      }
-    };
-
-    async function initializeApp() {
+   async function initializeApp() {
+  try {
+    // Tenta iniciar em modo "online" (dentro do Canva, com Data SDK)
+    if (window.dataSdk && typeof window.dataSdk.init === 'function') {
       const initResult = await window.dataSdk.init(dataHandler);
-      if (!initResult.isOk) {
-        console.error("Erro ao inicializar Data SDK");
-        document.getElementById('loading').innerHTML = '<p class="text-red-600">Erro ao carregar o módulo.</p>';
-        return;
-      }
 
-      // Inicializar Element SDK
-      if (window.elementSdk) {
+      if (!initResult.isOk) {
+        console.error('Erro ao inicializar Data SDK (initResult.isOk = false)');
+      } else if (window.elementSdk && typeof window.elementSdk.init === 'function') {
         await window.elementSdk.init({
           defaultConfig,
           onConfigChange: async (config) => {
@@ -766,13 +741,182 @@
             }
           }),
           mapToEditPanelValues: (config) => new Map([
-            ["app_title", config.app_title || defaultConfig.app_title],
-            ["primary_button_text", config.primary_button_text || defaultConfig.primary_button_text]
+            ['app_title', config.app_title || defaultConfig.app_title],
+            ['primary_button_text', config.primary_button_text || defaultConfig.primary_button_text]
           ])
         });
 
         applyConfigToUI(window.elementSdk.config);
       }
+    } else {
+      // Fora do Canva / sem Data SDK
+      console.warn('[FS] Data SDK não disponível – rodando em modo offline/localStorage.');
+    }
+  } catch (e) {
+    console.warn('[FS] Falha ao inicializar Data/Element SDK, seguindo em modo offline:', e);
+  }
+
+  // ===== Fluxo comum (online ou offline) =====
+  try {
+    document.getElementById('loading').classList.add('hidden');
+
+    // Verifica se já tem nome salvo no localStorage
+    const nomeSalvo = localStorage.getItem('nomeVendedorLogado');
+
+    if (nomeSalvo) {
+      // Se já tem nome salvo, entra direto no sistema
+      nomeVendedorLogado = nomeSalvo;
+      document.getElementById('nomeUsuarioHeader').textContent = nomeSalvo;
+      document.getElementById('mainContent').classList.remove('hidden');
+
+    // Tabelas de taxas de juros
+    const TAXAS_CARNE = [1.0690, 0.5523, 0.3804, 0.2946, 0.2432, 0.2091, 0.1849, 0.1668, 0.1528, 0.1417, 0.1327, 0.1252];
+    const TAXAS_CARTAO = [1.0292, 0.5220, 0.3530, 0.2685, 0.2179, 0.1841, 0.1600, 0.1420, 0.1280, 0.1168, 0.1076, 0.1000];
+
+    let currentProposalId = null;
+    let currentProposalData = null;
+    let produtos = [];
+    let allProposals = [];
+    let filtroDataInicio = null;
+    let filtroDataFim = null;
+    let nomeVendedorLogado = '';
+    let propostaFoiSalva = false;
+    let imagemClienteBaixada = false;
+
+
+    // ========== DATA SDK SETUP ==========
+    const dataHandler = {
+      onDataChanged(data) {
+        allProposals = data;
+        renderListaPropostas(data);
+        updateContador(data.length);
+      }
+    };
+async function initializeApp() {
+  try {
+    // Tenta iniciar em modo "online" (dentro do Canva, com Data SDK)
+    if (window.dataSdk && typeof window.dataSdk.init === 'function') {
+      const initResult = await window.dataSdk.init(dataHandler);
+
+      if (!initResult.isOk) {
+        console.error('Erro ao inicializar Data SDK (initResult.isOk = false)');
+      } else if (window.elementSdk && typeof window.elementSdk.init === 'function') {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            applyConfigToUI(config);
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () => config.background_color || defaultConfig.background_color,
+                set: (value) => {
+                  config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                }
+              },
+              {
+                get: () => config.surface_color || defaultConfig.surface_color,
+                set: (value) => {
+                  config.surface_color = value;
+                  window.elementSdk.setConfig({ surface_color: value });
+                }
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              },
+              {
+                get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                set: (value) => {
+                  config.primary_action_color = value;
+                  window.elementSdk.setConfig({ primary_action_color: value });
+                }
+              },
+              {
+                get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                set: (value) => {
+                  config.secondary_action_color = value;
+                  window.elementSdk.setConfig({ secondary_action_color: value });
+                }
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => config.font_family || defaultConfig.font_family,
+              set: (value) => {
+                config.font_family = value;
+                window.elementSdk.setConfig({ font_family: value });
+              }
+            },
+            fontSizeable: {
+              get: () => config.font_size || defaultConfig.font_size,
+              set: (value) => {
+                config.font_size = value;
+                window.elementSdk.setConfig({ font_size: value });
+              }
+            }
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ['app_title', config.app_title || defaultConfig.app_title],
+            ['primary_button_text', config.primary_button_text || defaultConfig.primary_button_text]
+          ])
+        });
+
+        applyConfigToUI(window.elementSdk.config);
+      }
+    } else {
+      // Fora do Canva / sem Data SDK
+      console.warn('[FS] Data SDK não disponível – rodando em modo offline/localStorage.');
+    }
+  } catch (e) {
+    console.warn('[FS] Falha ao inicializar Data/Element SDK, seguindo em modo offline:', e);
+  }
+
+  // ===== Fluxo comum (online ou offline) =====
+  try {
+    document.getElementById('loading').classList.add('hidden');
+
+    // Verifica se já tem nome salvo no localStorage
+    const nomeSalvo = localStorage.getItem('nomeVendedorLogado');
+
+    if (nomeSalvo) {
+      // Se já tem nome salvo, entra direto no sistema
+      nomeVendedorLogado = nomeSalvo;
+      document.getElementById('nomeUsuarioHeader').textContent = nomeSalvo;
+      document.getElementById('mainContent').classList.remove('hidden');
+      setupEventListeners();
+      setDataAtual();
+      showToast(`👋 Bem-vindo de volta, ${nomeSalvo}!`, 'success');
+    } else {
+      // Se não tiver nome salvo, mostra a tela de boas-vindas
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+
+      const btnEntrar = document.getElementById('btnEntrarSistema');
+      if (btnEntrar) {
+        btnEntrar.addEventListener('click', entrarNoSistema);
+      }
+
+      const inputNome = document.getElementById('inputNomeVendedorInicial');
+      if (inputNome) {
+        inputNome.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            entrarNoSistema();
+          }
+        });
+
+        setTimeout(() => {
+          inputNome.focus();
+        }, 300);
+      }
+    }
+  } catch (e) {
+    console.error('Erro ao finalizar initializeApp:', e);
+  }
+}
 
       document.getElementById('loading').classList.add('hidden');
       
@@ -3690,23 +3834,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const mensagemCodificada = encodeURIComponent(mensagem);
         const numeroBrasil = numero.startsWith('55') ? numero : `55${numero}`;
 
-        const urlWhats = `https://wa.me/${numeroBrasil}?text=${mensagemCodificada}`;
-        window.open(urlWhats, '_blank');
-      } catch (erro) {
-        console.error('Erro ao gerar imagem / enviar WhatsApp:', erro);
-        showToast('Erro ao gerar imagem ou enviar WhatsApp.', 'error');
-      }
-    }
-
-    // Pequeno helper de delay
-    function delayFS(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    // ======================================================================
-    // 🔚 FIM DO BLOCO FS – WHATSAPP COM IMAGEM
-    // ======================================================================
-
+        const urlWhats = `https://wa.me/${numeroBr
+                                          
 // ======================================================================
 // 🔁 OVERRIDE INITIALIZEAPP – MODO OFFLINE / GITHUB PAGES
 // ======================================================================
@@ -3716,77 +3845,84 @@ async function initializeAppOfflineBackup() {
 
     // Verifica se já tem nome salvo no localStorage
     const nomeSalvo = localStorage.getItem('nomeVendedorLogado');
-    ...
 
-        if (nomeSalvo) {
-          // Se já tem nome salvo, entra direto no sistema
-          nomeVendedorLogado = nomeSalvo;
-          document.getElementById('nomeUsuarioHeader').textContent = nomeSalvo;
-          document.getElementById('mainContent').classList.remove('hidden');
-          setupEventListeners();
-          setDataAtual();
-          showToast(`👋 Bem-vindo de volta, ${nomeSalvo}!`, 'success');
-        } else {
-          // Se não tem nome salvo, mostra a tela de boas-vindas
-          document.getElementById('welcomeScreen').classList.remove('hidden');
+    if (nomeSalvo) {
+      // Se já tem nome salvo, entra direto no sistema
+      nomeVendedorLogado = nomeSalvo;
+      document.getElementById('nomeUsuarioHeader').textContent = nomeSalvo;
+      document.getElementById('mainContent').classList.remove('hidden');
+      setupEventListeners();
+      setDataAtual();
+      showToast(`👋 Bem-vindo de volta, ${nomeSalvo}!`, 'success');
+    } else {
+      // Se não tiver nome salvo, mostra a tela de boas-vindas
+      document.getElementById('welcomeScreen').classList.remove('hidden');
 
-          // Configura o botão de entrada
-          const btnEntrar = document.getElementById('btnEntrarSistema');
-          if (btnEntrar) {
-            btnEntrar.addEventListener('click', entrarNoSistema);
+      // Configura o botão de entrada
+      const btnEntrar = document.getElementById('btnEntrarSistema');
+      if (btnEntrar) {
+        btnEntrar.addEventListener('click', entrarNoSistema);
+      }
+
+      // Permite entrar com Enter
+      const inputNome = document.getElementById('inputNomeVendedorInicial');
+      if (inputNome) {
+        inputNome.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            entrarNoSistema();
           }
+        });
 
-          // Permite entrar com Enter
-          const inputNome = document.getElementById('inputNomeVendedorInicial');
-          if (inputNome) {
-            inputNome.addEventListener('keypress', (e) => {
-              if (e.key === 'Enter') {
-                entrarNoSistema();
-              }
-            });
-
-            // Foca no input
-            setTimeout(() => {
-              inputNome.focus();
-            }, 300);
-          }
-        }
-      } catch (e) {
-        console.error('Erro ao inicializar app em modo offline:', e);
-        try {
-          document.getElementById('loading').classList.add('hidden');
-          document.getElementById('welcomeScreen').classList.remove('hidden');
-        } catch (_) {}
+        // Foca no input
+        setTimeout(() => {
+          inputNome.focus();
+        }, 300);
       }
     }
+  } catch (e) {
+    console.error('Erro ao inicializar app em modo offline:', e);
+    try {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+    } catch (_) {}
+  }
+}
 
+// Botão flutuante para voltar ao início
+(function () {
+  const btnVoltar = document.getElementById('btnVoltarInicio');
+  if (!btnVoltar) return;
 
-    // Botão flutuante para voltar ao início
-    (function () {
-      const btnVoltar = document.getElementById('btnVoltarInicio');
-      if (!btnVoltar) return;
-      btnVoltar.addEventListener('click', function () {
-        try {
-          if (window.history && window.history.length > 1) {
-            window.history.back();
-          } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        } catch (e) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
-    })();
+  btnVoltar.addEventListener('click', () => {
+    try {
+      if (window.history && window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } catch (e) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+})();
 
-// ========== INIT ==========
-    initializeApp();
-  </script>
-  
+// Pequeno helper de delay
+function delayFS(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-  <button id="btnVoltarInicio" class="fixed right-3 bottom-3 z-40 px-4 py-2 rounded-full bg-gray-900 text-white text-xs md:text-sm shadow-lg flex items-center gap-2">
-    <span>⟵</span>
-    <span>Voltar</span>
-  </button>
+// ======================================================================
+// 🌟 FIM DO BLOCO FS - WHATSAPP COM IMAGEM
+// ======================================================================
+
+// ========= INIT =========
+initializeApp();
+</script>
+
+<button id="btnVoltarInicio" class="fixed right-3 bottom-3 z-40 px-4 py-2 rounded-full bg-gray-900 text-white text-xs shadow-lg hover:bg-gray-800">
+  <span>⬆</span>
+  <span>Voltar</span>
+</button>
 
 </body>
 </html>
