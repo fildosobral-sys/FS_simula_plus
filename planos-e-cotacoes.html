@@ -3707,16 +3707,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // 🔚 FIM DO BLOCO FS – WHATSAPP COM IMAGEM
     // ======================================================================
 
-    
-    // ======================================================================
-    // 🔁 OVERRIDE INITIALIZEAPP – MODO OFFLINE / GITHUB PAGES
-    // ======================================================================
-    async function initializeApp() {
-      try {
-        document.getElementById('loading').classList.add('hidden');
+// ======================================================================
+// 🔁 OVERRIDE INITIALIZEAPP – MODO OFFLINE / GITHUB PAGES
+// ======================================================================
+async function initializeAppOfflineBackup() {
+  try {
+    document.getElementById('loading').classList.add('hidden');
 
-        // Verifica se já tem nome salvo no localStorage
-        const nomeSalvo = localStorage.getItem('nomeVendedorLogado');
+    // Verifica se já tem nome salvo no localStorage
+    const nomeSalvo = localStorage.getItem('nomeVendedorLogado');
+    ...
 
         if (nomeSalvo) {
           // Se já tem nome salvo, entra direto no sistema
