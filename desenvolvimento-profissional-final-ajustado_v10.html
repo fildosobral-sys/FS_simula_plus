@@ -1,0 +1,3922 @@
+<!doctype html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema-de-Desenvolvimento-Profissional</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    .app-container {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    /* LOGIN STYLES */
+    .login-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .login-box {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 420px;
+      width: 100%;
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-icon-3d {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 1.5rem;
+      perspective: 1200px;
+      animation: floatLock 4s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes floatLock {
+      0%, 100% {
+        transform: translateY(0) rotateY(-5deg);
+      }
+      50% {
+        transform: translateY(-15px) rotateY(5deg);
+      }
+    }
+
+    .lock-body {
+      position: relative;
+      width: 90px;
+      height: 100px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffc107 100%);
+      border-radius: 18px;
+      margin: 55px auto 0;
+      transform-style: preserve-3d;
+      box-shadow: 
+        0 20px 50px rgba(255, 193, 7, 0.5),
+        inset 0 -8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 8px 20px rgba(255, 255, 255, 0.4);
+      animation: lockBodyShine 3s ease-in-out infinite;
+    }
+
+    @keyframes lockBodyShine {
+      0%, 100% {
+        box-shadow: 
+          0 20px 50px rgba(255, 193, 7, 0.5),
+          inset 0 -8px 20px rgba(0, 0, 0, 0.3),
+          inset 0 8px 20px rgba(255, 255, 255, 0.4);
+      }
+      50% {
+        box-shadow: 
+          0 25px 60px rgba(255, 193, 7, 0.7),
+          inset 0 -8px 20px rgba(0, 0, 0, 0.25),
+          inset 0 8px 20px rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .lock-body::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      height: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);
+      border-radius: 12px;
+      filter: blur(2px);
+    }
+
+    .lock-body::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 0 0 18px 18px;
+    }
+
+    .lock-shackle {
+      position: absolute;
+      width: 55px;
+      height: 50px;
+      border: 14px solid #ffd700;
+      border-bottom: none;
+      border-radius: 55px 55px 0 0;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+      transform-origin: bottom left;
+      background: linear-gradient(90deg, 
+        rgba(255, 215, 0, 0.2) 0%, 
+        rgba(255, 193, 7, 0.2) 100%);
+      box-shadow: 
+        0 -8px 20px rgba(255, 193, 7, 0.4),
+        inset 0 3px 8px rgba(255, 255, 255, 0.6),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.3);
+      animation: shackleOpenClose 6s ease-in-out infinite;
+    }
+
+    @keyframes shackleOpenClose {
+      0%, 30% {
+        transform: translateX(-50%) rotate(0deg);
+        border-color: #ffd700;
+      }
+      40%, 60% {
+        transform: translateX(-50%) rotate(-35deg);
+        border-color: #ffed4e;
+      }
+      70%, 100% {
+        transform: translateX(-50%) rotate(0deg);
+        border-color: #ffd700;
+      }
+    }
+
+    .lock-shackle::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: -10px;
+      right: -10px;
+      height: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6) 0%, transparent 100%);
+      border-radius: 50%;
+    }
+
+    .lock-keyhole {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 
+        inset 0 3px 6px rgba(0, 0, 0, 0.6),
+        0 1px 3px rgba(255, 255, 255, 0.3);
+      animation: keyholeGlow 6s ease-in-out infinite;
+    }
+
+    @keyframes keyholeGlow {
+      0%, 30%, 70%, 100% {
+        box-shadow: 
+          inset 0 3px 6px rgba(0, 0, 0, 0.6),
+          0 1px 3px rgba(255, 255, 255, 0.3);
+      }
+      40%, 60% {
+        box-shadow: 
+          inset 0 3px 6px rgba(0, 0, 0, 0.8),
+          0 0 10px rgba(255, 215, 0, 0.6),
+          0 1px 3px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .lock-keyhole::after {
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      top: 9px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 0 0 3px 3px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .key {
+      position: absolute;
+      width: 8px;
+      height: 35px;
+      background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 50%, #a0a0a0 100%);
+      border-radius: 4px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(40px);
+      opacity: 0;
+      box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.6);
+      animation: keyInsert 6s ease-in-out infinite;
+    }
+
+    .key::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 50%, #a0a0a0 100%);
+      border-radius: 50%;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 3px solid #d4d4d4;
+      box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(255, 255, 255, 0.6);
+    }
+
+    .key::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 6px;
+      background: linear-gradient(135deg, #c0c0c0 0%, #a0a0a0 100%);
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 0 0 2px 2px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes keyInsert {
+      0%, 30% {
+        transform: translate(-50%, -50%) translateY(40px);
+        opacity: 0;
+      }
+      35% {
+        transform: translate(-50%, -50%) translateY(40px);
+        opacity: 1;
+      }
+      40%, 60% {
+        transform: translate(-50%, -50%) translateY(0px) rotate(90deg);
+        opacity: 1;
+      }
+      65% {
+        transform: translate(-50%, -50%) translateY(0px) rotate(0deg);
+        opacity: 1;
+      }
+      70%, 100% {
+        transform: translate(-50%, -50%) translateY(40px);
+        opacity: 0;
+      }
+    }
+
+    .login-title {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-subtitle {
+      color: #718096;
+      font-size: 0.95rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .login-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .login-input-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.95rem;
+    }
+
+    .login-input-group input {
+      padding: 0.875rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .login-input-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .login-error {
+      background: #fed7d7;
+      color: #c53030;
+      padding: 0.875rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      animation: shake 0.4s ease;
+    }
+
+    .login-error.show {
+      display: block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .btn-login {
+      padding: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* USER MANAGEMENT STYLES */
+    .user-menu-trigger {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+      z-index: 100;
+    }
+
+    .user-menu-trigger:hover {
+      background: #f7fafc;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .user-menu-dropdown {
+      position: absolute;
+      top: 3.5rem;
+      right: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 100;
+      min-width: 250px;
+      display: none;
+      animation: slideDown 0.2s ease;
+    }
+
+    .user-menu-dropdown.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.95rem;
+    }
+
+    .btn-user-action {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      text-align: left;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-manage-users {
+      color: #4a5568;
+    }
+
+    .btn-manage-users:hover {
+      background: #f7fafc;
+    }
+
+    .btn-logout {
+      color: #742a2a;
+    }
+
+    .btn-logout:hover {
+      background: #fed7d7;
+    }
+
+    .users-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 2rem;
+    }
+
+    .users-modal.show {
+      display: flex;
+    }
+
+    .users-modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80%;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .users-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .users-modal-header h2 {
+      color: #2d3748;
+      font-size: 1.5rem;
+    }
+
+    .btn-close-modal {
+      background: #edf2f7;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-modal:hover {
+      background: #e2e8f0;
+    }
+
+    .user-form {
+      background: #f7fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .user-form h3 {
+      color: #2d3748;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .user-form-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .user-form-fields input {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .user-form-fields input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .users-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .user-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .user-item-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .user-item-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    .user-item-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-item-name {
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .user-item-username {
+      font-size: 0.85rem;
+      color: #718096;
+    }
+
+    .btn-delete-user {
+      padding: 0.5rem 1rem;
+      background: #feb2b2;
+      color: #742a2a;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-delete-user:hover {
+      background: #fc8181;
+    }
+
+    .admin-badge {
+      background: #ffd700;
+      color: #7c2d12;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-left: 0.5rem;
+    }
+
+    .header {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+      font-weight: 900;
+    }
+
+    .header p {
+      color: #718096;
+      font-size: 1rem;
+    }
+
+    .actions-bar {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: #4a5568;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    .main-content {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .form-container {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .form-header {
+      margin-bottom: 2rem;
+    }
+
+    .form-header h2 {
+      font-size: 1.5rem;
+      color: #2d3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .block-title {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .block-title:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .block-title-content {
+      flex: 1;
+    }
+
+    .block-title h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .block-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.95;
+      margin-top: 0.25rem;
+    }
+
+    .block-toggle-btn {
+      background: white;
+      border: none;
+      color: #667eea;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .block-toggle-btn.filled {
+      background: rgba(46, 204, 113, 0.25) !important;
+      border: 2px solid rgba(46, 204, 113, 0.55) !important;
+      box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.18) !important;
+    }
+
+
+    .block-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .block-toggle-btn.preenchido {
+      background: #48bb78;
+      color: white;
+    }
+
+    .block-toggle-btn.preenchido:hover {
+      background: #38a169;
+    }
+
+    .block-content {
+      max-height: 3000px;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 1;
+    }
+
+    .block-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+
+    .criteria-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+
+    .criteria-table thead tr {
+      background: #f7fafc;
+    }
+
+    .criteria-table th {
+      padding: 0.75rem 0.5rem;
+      font-weight: 600;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #667eea;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .criteria-table th:first-child {
+      text-align: left;
+      font-size: 0.8rem;
+    }
+
+    .criteria-table td {
+      padding: 0.5rem 0.25rem;
+    }
+
+    .criteria-table td:first-child {
+      color: #2d3748;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding-left: 0.5rem;
+    }
+
+    .criteria-table td:not(:first-child) {
+      text-align: center;
+    }
+
+    .criteria-table tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    
+/* FS Ajuste: botões de avaliação começam em branco; check aparece só quando selecionado */
+.rating-btn { position: relative; color: transparent; }
+.rating-btn.selected { color: transparent; }
+.rating-btn.selected::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.rating-btn {
+      padding: 0.5rem;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rating-btn:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .rating-btn.selected {
+      border-color: transparent;
+      transform: translateY(-2px) scale(1.1);
+    }
+
+    .rating-btn.excelente.selected {
+      background: #48bb78;
+    }
+
+    .rating-btn.bom.selected {
+      background: #4299e1;
+    }
+
+    .rating-btn.regular.selected {
+      background: #ed8936;
+    }
+
+    .rating-btn.ruim.selected {
+      background: #f56565;
+    }
+
+    .rating-btn.critico.selected {
+      background: #c53030;
+    }
+
+    .observations-box {
+      margin-top: 1rem;
+    }
+
+    .observations-box label {
+      display: block;
+      font-weight: 500;
+      color: #2d3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .observations-box textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .observations-box textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 500;
+      color: #2d3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="date"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .upload-area {
+      margin-top: 1rem;
+      padding: 2rem;
+      border: 2px dashed #cbd5e0;
+      border-radius: 8px;
+      text-align: center;
+      background: #f7fafc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .upload-area:hover {
+      border-color: #667eea;
+      background: #edf2f7;
+    }
+
+    .upload-area.has-image {
+      padding: 1rem;
+      border-style: solid;
+      border-color: #48bb78;
+      background: white;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-text {
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+
+    .upload-text strong {
+      color: #667eea;
+    }
+
+    .image-preview {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .image-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .block-summary {
+      background: #f7fafc;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      border: 2px solid #e2e8f0;
+    }
+
+    .block-summary h4 {
+      color: #2d3748;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .summary-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .classification {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .classification.excelente {
+      background: #c6f6d5;
+      color: #22543d;
+    }
+
+    .classification.bom {
+      background: #bee3f8;
+      color: #2c5282;
+    }
+
+    .classification.regular {
+      background: #feebc8;
+      color: #7c2d12;
+    }
+
+    .classification.ruim {
+      background: #fed7d7;
+      color: #742a2a;
+    }
+
+    .classification.critico {
+      background: #feb2b2;
+      color: #63171b;
+      font-weight: 700;
+    }
+
+    .feedback-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .feedback-label {
+      font-size: 1rem;
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .feedback-text {
+      color: #4a5568;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .list-container {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .list-header {
+      margin-bottom: 2rem;
+    }
+
+    .list-header h2 {
+      font-size: 1.5rem;
+      color: #2d3748;
+    }
+
+    .avaliacoes-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .avaliacao-card {
+      background: #f7fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .avaliacao-card:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    }
+
+    .colaborador-item {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .colaborador-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .colaborador-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .colaborador-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .colaborador-detalhes {
+      flex: 1;
+    }
+
+    .colaborador-nome {
+      font-size: 1.4rem;
+      color: #2d3748;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .colaborador-funcao {
+      font-size: 1rem;
+      color: #667eea;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .colaborador-arrow {
+      font-size: 1.5rem;
+      color: #667eea;
+      transition: transform 0.3s ease;
+    }
+
+    .colaborador-item:hover .colaborador-arrow {
+      transform: translateX(5px);
+    }
+
+    .avaliacao-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .avaliacao-info h3 {
+      font-size: 1.3rem;
+      color: #2d3748;
+      margin-bottom: 0.25rem;
+    }
+
+    .avaliacao-info p {
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    .avaliacao-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      padding: 0.5rem;
+      background: #edf2f7;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+
+    .btn-icon:hover {
+      background: #e2e8f0;
+      transform: translateY(-2px);
+    }
+
+    .blocos-resumo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .bloco-mini {
+      background: white;
+      padding: 0.75rem;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .bloco-mini:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      border-color: #667eea;
+    }
+
+    .bloco-mini-title {
+      font-size: 0.85rem;
+      color: #2d3748;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+
+    .bloco-mini-score {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #718096;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #4a5568;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #2d3748;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        padding: 1rem;
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .actions-bar {
+        flex-direction: column;
+      }
+
+      .view-toggle {
+        margin-left: 0;
+      }
+
+      .blocos-resumo {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .user-menu-trigger {
+        top: 1rem;
+        right: 1rem;
+      }
+
+      .user-menu-dropdown {
+        top: 3rem;
+        right: 1rem;
+      }
+
+      .login-box {
+        padding: 2rem;
+      }
+
+      .user-form-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white !important;
+      }
+
+      .app-container {
+        padding: 0;
+        overflow: visible;
+      }
+
+      .header,
+      .actions-bar,
+      .no-print,
+      .btn,
+      .btn-icon,
+      .colaborador-arrow,
+      .user-menu-trigger,
+      .user-menu-dropdown {
+        display: none !important;
+      }
+
+      .list-container {
+        box-shadow: none;
+        page-break-inside: avoid;
+      }
+
+      .list-header {
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .colaborador-item {
+        page-break-inside: avoid;
+        border: 2px solid #e2e8f0 !important;
+        margin-bottom: 0.5rem;
+      }
+
+      .colaborador-item:hover {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      @page {
+        size: A4;
+        margin: 1.5cm;
+      }
+    }
+  
+
+/* Ajuste: seleção com "visto" (✓) */
+.rating-btn.selected{
+  position: relative;
+  box-shadow: 0 0 0 2px rgba(102,126,234,0.35);
+}
+.rating-btn.selected::after{
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-52%);
+  font-size: 16px;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1;
+}
+
+
+/* Impressão: mostra apenas o print-area */
+@media print {
+  @page { size: A4 portrait; margin: 8mm; }
+
+  body.printing > *:not(#print-area) { display: none !important; }
+  #print-area { display: block !important; }
+
+  body { background: #fff !important; }
+  .app-container { padding: 0 !important; }
+
+  /* Compactação do relatório (somente impressão) */
+  #print-area { 
+    zoom: 0.86;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+  }
+
+  #print-area h1 { font-size: 16px !important; margin: 0 0 6px 0 !important; }
+  #print-area h2 { font-size: 13px !important; margin: 8px 0 6px 0 !important; }
+  #print-area h3, #print-area h4 { font-size: 12px !important; margin: 6px 0 4px 0 !important; }
+  #print-area p, #print-area span, #print-area li { font-size: 10px !important; }
+
+  #print-area .card, 
+  #print-area .box, 
+  #print-area .summary-card,
+  #print-area .stat-card,
+  #print-area .kpi-card {
+    padding: 8px !important;
+    margin: 6px 0 !important;
+    box-shadow: none !important;
+  }
+
+  #print-area .grid,
+  #print-area .grid-2,
+  #print-area .grid-3,
+  #print-area .grid-4 {
+    gap: 6px !important;
+  }
+
+  #print-area table { font-size: 9px !important; }
+  #print-area th, #print-area td { padding: 4px 6px !important; }
+
+  /* Evitar cortes feios */
+  #print-area .card, #print-area .colaborador-item, #print-area table { page-break-inside: avoid; }
+}
+#print-area { display: none; padding: 24px; background: #fff; }
+
+  .bloco-hidden{display:none !important;}
+</style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ 
+<style>
+/* Remove ícone de check automático dos cabeçalhos de bloco */
+.block-header .status-icon,
+.section-header .status-icon,
+.header-icon,
+.auto-check {
+  display: none !important;
+}
+</style>
+
+
+<style>
+/* Emojis 3D pequenos e com movimento suave (não quebra em Android/iOS) */
+.emoji3d{
+  display:inline-block;
+  font-size: 1.05em;
+  line-height: 1;
+  margin-right: .35rem;
+  transform: translateZ(0);
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.18)) drop-shadow(0 6px 10px rgba(0,0,0,.12));
+  animation: emojiFloat 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes emojiFloat{
+  0%,100%{ transform: translateY(0) rotate(-2deg) scale(1); }
+  50%{ transform: translateY(-3px) rotate(2deg) scale(1.02); }
+}
+/* Em telas pequenas, reduz um pouco */
+@media (max-width: 480px){
+  .emoji3d{ font-size: 1em; margin-right: .3rem; }
+}
+</style>
+
+
+<style>
+/* ===== PRINT FIX EXTRA (A4 / cards alinhados) ===== */
+@media print{
+  .avaliacao-card, .bloco-card, .dashboard-card, .relatorio-card, .list-item, .avaliacao-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .dashboard-grid, .avaliacoes-grid, .cards-grid, .print-grid{
+    grid-auto-rows: min-content !important;
+  }
+  /* garantir duas colunas estáveis */
+  .dashboard-grid, .avaliacoes-grid, .cards-grid, .print-grid{
+    grid-template-columns: 1fr 1fr !important;
+  }
+  /* tabelas sempre dentro da página */
+  table{ width: 100% !important; }
+  th, td{ font-size: 10pt !important; }
+}
+</style>
+
+</head>
+ <body>
+  <div class="login-container" id="login-screen">
+   <div class="login-box">
+    <div class="login-header">
+     <div class="login-icon-3d">
+      <div class="lock-body">
+       <div class="lock-shackle"></div>
+       <div class="lock-keyhole"></div>
+       <div class="key"></div>
+      </div>
+     </div>
+     <h1 class="login-title">Acesso Seguro</h1>
+     <p class="login-subtitle">Sistema de Desenvolvimento Profissional</p>
+    </div>
+    <form class="login-form" id="login-form">
+     <div class="login-input-group"><label for="login-usuario">Usuário</label> <input type="text" id="login-usuario" placeholder="Digite seu usuário" required autocomplete="username">
+     </div>
+     <div class="login-input-group"><label for="login-senha">Senha</label> <input type="password" id="login-senha" placeholder="Digite sua senha" required autocomplete="current-password">
+     </div>
+     <div class="login-error" id="login-error">
+      ❌ Usuário ou senha incorretos
+     </div><button type="submit" class="btn-login" id="btn-entrar"> 🔐 Entrar no Sistema </button>
+    </form>
+   </div>
+  </div>
+  <div class="app-container" id="app-screen" style="display: none;"><button class="user-menu-trigger" id="user-menu-trigger">⋮</button>
+   <div class="user-menu-dropdown" id="user-menu-dropdown">
+    <div class="user-info">
+     <div class="user-avatar" id="user-avatar"></div><span class="user-name" id="user-name"></span>
+    </div><button class="btn-user-action btn-manage-users" id="btn-manage-users"> 👥 Gerenciar Usuários </button> <button class="btn-user-action btn-logout" id="btn-logout"> 🚪 Sair </button>
+   </div>
+   <header class="header">
+    <h1 id="titulo-sistema">Sistema de Desenvolvimento Profissional</h1>
+    <p>Análise completa do perfil profissional do Colaborador</p>
+   </header>
+   <div class="actions-bar"><button class="btn btn-primary" id="btn-nova-avaliacao"> ➕ Nova Avaliação </button> <button class="btn btn-primary" id="btn-dashboard" style="margin-left: auto; display: none;"> 📊 Dashboard </button>
+   </div>
+   <main class="main-content" id="main-content"></main>
+  </div><!-- Modal de Gerenciamento de Usuários -->
+  <div class="users-modal" id="users-modal">
+   <div class="users-modal-content">
+    <div class="users-modal-header">
+     <h2>👥 Gerenciar Usuários</h2><button class="btn-close-modal" id="btn-close-modal">✖️</button>
+    </div>
+    <div class="user-form">
+     <h3>➕ Adicionar Novo Usuário</h3>
+     <form id="add-user-form">
+      <div class="user-form-fields"><input type="text" id="new-user-name" placeholder="Nome completo" required> <input type="text" id="new-user-username" placeholder="Usuário" required> <input type="password" id="new-user-password" placeholder="Senha" required> <button type="submit" class="btn btn-primary">Adicionar</button>
+      </div>
+     </form>
+    </div>
+    <div>
+     <h3 style="color: #2d3748; margin-bottom: 1rem;">Usuários Cadastrados</h3>
+     <div class="users-list" id="users-list"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      titulo_principal: "Sistema de Desenvolvimento Profissional"
+    };
+
+    let avaliacoes = [];
+    let currentView = 'list';
+    let editingId = null;
+    let focusBlocoId = null;
+    let returnToView = 'list';
+    let returnToVendedor = null;
+    let currentImageData = null;
+    let vendedorSelecionado = null;
+    let isAuthenticated = false;
+    let currentUser = null;
+    let usuarios = [];
+
+    const feedbacks = {
+      excelente: [
+        "Parabéns! Performance extraordinária. Este colaborador demonstra excelência consistente e serve como referência para toda a equipe.",
+        "Resultado excepcional! Este é o perfil de um profissional diferenciado que agrega valor significativo à organização.",
+        "Excelente! Colaborador modelo que demonstra maturidade profissional e comprometimento exemplar."
+      ],
+      bom: [
+        "Bom desempenho! O colaborador está no caminho certo e demonstra potencial. Mantenha o foco para evoluir para a excelência.",
+        "Performance sólida! Continue investindo nessa linha de atuação. Com mais consistência, você alcançará a excelência.",
+        "Resultado positivo! O colaborador mostra evolução e capacidade. Importante manter a disciplina."
+      ],
+      regular: [
+        "Ponto de atenção! Desempenho na média, mas abaixo do esperado. É necessário mais foco e dedicação para evoluir.",
+        "Alerta moderado. Os resultados mostram que o colaborador precisa ajustar sua atuação.",
+        "Atenção necessária! Performance irregular que precisa de correção."
+      ],
+      ruim: [
+        "Situação preocupante! Os números estão muito aquém do necessário. É urgente uma mudança de postura.",
+        "Alerta vermelho! Este desempenho não está alinhado com o que a empresa precisa.",
+        "Performance inadequada! Os resultados demonstram falta de alinhamento com os valores da empresa."
+      ],
+      critico: [
+        "SITUAÇÃO CRÍTICA! Desempenho completamente fora do aceitável. Mudança radical e imediata é obrigatória!",
+        "ALERTA MÁXIMO! Os números são inaceitáveis e incompatíveis com qualquer padrão profissional.",
+        "NÍVEL INACEITÁVEL! Este desempenho não pode continuar sob nenhuma hipótese."
+      ]
+    };
+
+    function gerarFeedback(media) {
+      const avg = parseFloat(media);
+      let feedbackArray;
+
+      if (isNaN(avg) || avg === 0) {
+        return "Aguardando avaliação dos critérios para gerar feedback automático.";
+      }
+
+      if (avg >= 8.75) feedbackArray = feedbacks.excelente;
+      else if (avg >= 6.25) feedbackArray = feedbacks.bom;
+      else if (avg >= 3.75) feedbackArray = feedbacks.regular;
+      else if (avg >= 1.25) feedbackArray = feedbacks.ruim;
+      else feedbackArray = feedbacks.critico;
+
+      const index = Math.floor(avg * 100) % feedbackArray.length;
+      return feedbackArray[index];
+    }
+
+    const dataHandler = {
+      onDataChanged(data) {
+        avaliacoes = data.filter(item => !item.is_user_record);
+        usuarios = data.filter(item => item.is_user_record === true);
+        
+        if (currentView === 'list') {
+          renderListView();
+        } else if (currentView === 'dashboard') {
+          renderDashboardView();
+        } else if (currentView === 'relatorio' && vendedorSelecionado) {
+          gerarRelatorio(vendedorSelecionado);
+        }
+
+        if (document.getElementById('users-modal').classList.contains('show')) {
+          renderUsersList();
+        }
+      }
+    };
+
+    async function onConfigChange(config) {
+      const titulo = config.titulo_principal || defaultConfig.titulo_principal;
+      const tituloElement = document.getElementById('titulo-sistema');
+      if (tituloElement) {
+        tituloElement.textContent = titulo;
+      }
+    }
+
+    async function init() {
+      try {
+        if (window.elementSdk) {
+          await window.elementSdk.init({
+            defaultConfig,
+            onConfigChange,
+            mapToCapabilities: () => ({
+              recolorables: [],
+              borderables: [],
+              fontEditable: undefined,
+              fontSizeable: undefined
+            }),
+            mapToEditPanelValues: (config) => new Map([
+              ["titulo_principal", config.titulo_principal || defaultConfig.titulo_principal]
+            ])
+          });
+        }
+
+        // ✅ Fallback para GitHub Pages / ambiente sem Data SDK
+        if (!window.dataSdk || typeof window.dataSdk.init !== 'function') {
+          // usuário padrão local para não travar o login
+          if (!Array.isArray(usuarios) || usuarios.length === 0) {
+            usuarios = [{
+              nome: 'Fildo',
+              usuario: 'fildo',
+              senha: '@fildO1060',
+              is_admin: true
+            }];
+          }
+          setupLoginListeners();
+          return;
+        }
+
+        const initResult = await window.dataSdk.init(dataHandler);
+        if (!initResult || !initResult.isOk) {
+          // Se falhar, ainda libera login local
+          if (!Array.isArray(usuarios) || usuarios.length === 0) {
+            usuarios = [{
+              nome: 'Fildo',
+              usuario: 'fildo',
+              senha: '@fildO1060',
+              is_admin: true
+            }];
+          }
+          setupLoginListeners();
+          return;
+        }
+
+        // Criar usuário admin padrão se não houver usuários
+        if (Array.isArray(usuarios) && usuarios.length === 0) {
+          await criarUsuarioPadrao();
+        }
+
+        setupLoginListeners();
+      } catch (err) {
+        console.error('Falha ao inicializar:', err);
+        // Libera login local mesmo com erro
+        if (!Array.isArray(usuarios) || usuarios.length === 0) {
+          usuarios = [{
+            nome: 'Fildo',
+            usuario: 'fildo',
+            senha: '@fildO1060',
+            is_admin: true
+          }];
+        }
+        setupLoginListeners();
+      }
+    }
+
+    async function criarUsuarioPadrao() {
+      const result = await window.dataSdk.create({
+        is_user_record: true,
+        nome: 'Fildo',
+        usuario: 'fildo',
+        senha: '@fildO1060',
+        is_admin: true
+      });
+
+      if (result.isOk) {
+        console.log('Usuário admin padrão criado');
+      }
+    }
+
+    function setupLoginListeners() {
+      document.getElementById('login-form').addEventListener('submit', handleLogin);
+      document.getElementById('btn-logout').addEventListener('click', handleLogout);
+      document.getElementById('btn-manage-users').addEventListener('click', openUsersModal);
+      document.getElementById('btn-close-modal').addEventListener('click', closeUsersModal);
+      document.getElementById('add-user-form').addEventListener('submit', handleAddUser);
+      document.getElementById('user-menu-trigger').addEventListener('click', toggleUserMenu);
+      
+      // Fechar menu ao clicar fora
+      document.addEventListener('click', function(e) {
+        const trigger = document.getElementById('user-menu-trigger');
+        const dropdown = document.getElementById('user-menu-dropdown');
+        
+        if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.remove('show');
+        }
+      });
+    }
+
+    function toggleUserMenu() {
+      const dropdown = document.getElementById('user-menu-dropdown');
+      dropdown.classList.toggle('show');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+
+      const usuario = document.getElementById('login-usuario').value.trim();
+      const senha = document.getElementById('login-senha').value;
+      const btnEntrar = document.getElementById('btn-entrar');
+      const errorDiv = document.getElementById('login-error');
+
+      btnEntrar.disabled = true;
+      btnEntrar.innerHTML = '<span class="loading-spinner"></span> Verificando...';
+      errorDiv.classList.remove('show');
+
+      // Simular pequeno delay para UX
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const usuarioEncontrado = usuarios.find(u => u.usuario === usuario && u.senha === senha);
+
+      if (usuarioEncontrado) {
+        isAuthenticated = true;
+        currentUser = usuarioEncontrado;
+        
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app-screen').style.display = 'block';
+        
+        const iniciais = usuarioEncontrado.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        document.getElementById('user-avatar').textContent = iniciais;
+        document.getElementById('user-name').textContent = usuarioEncontrado.nome;
+        
+        setupEventListeners();
+        renderListView();
+        showToast(`✅ Bem-vindo, ${usuarioEncontrado.nome}!`);
+      } else {
+        errorDiv.classList.add('show');
+        btnEntrar.disabled = false;
+        btnEntrar.innerHTML = '🔐 Entrar no Sistema';
+      }
+    }
+
+    function handleLogout() {
+      isAuthenticated = false;
+      currentUser = null;
+      
+      document.getElementById('app-screen').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('user-menu-dropdown').classList.remove('show');
+      
+      document.getElementById('login-usuario').value = '';
+      document.getElementById('login-senha').value = '';
+      document.getElementById('login-error').classList.remove('show');
+      
+      const btnEntrar = document.getElementById('btn-entrar');
+      btnEntrar.disabled = false;
+      btnEntrar.innerHTML = '🔐 Entrar no Sistema';
+      
+      showToast('👋 Até logo!');
+    }
+
+    function openUsersModal() {
+      document.getElementById('users-modal').classList.add('show');
+      document.getElementById('user-menu-dropdown').classList.remove('show');
+      renderUsersList();
+    }
+
+    function closeUsersModal() {
+      document.getElementById('users-modal').classList.remove('show');
+    }
+
+    function renderUsersList() {
+      const usersList = document.getElementById('users-list');
+      
+      if (usuarios.length === 0) {
+        usersList.innerHTML = '<p style="text-align: center; color: #718096; padding: 2rem;">Nenhum usuário cadastrado</p>';
+        return;
+      }
+
+      usersList.innerHTML = usuarios.map(user => {
+        const iniciais = user.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const isCurrentUser = currentUser && user.__backendId === currentUser.__backendId;
+        
+        return `
+          <div class="user-item">
+            <div class="user-item-info">
+              <div class="user-item-avatar">${iniciais}</div>
+              <div class="user-item-details">
+                <div class="user-item-name">
+                  ${user.nome}
+                  ${user.is_admin ? '<span class="admin-badge">ADMIN</span>' : ''}
+                  ${isCurrentUser ? '<span class="admin-badge" style="background: #48bb78;">VOCÊ</span>' : ''}
+                </div>
+                <div class="user-item-username">@${user.usuario}</div>
+              </div>
+            </div>
+            ${!isCurrentUser && usuarios.length > 1 ? `
+              <button class="btn-delete-user" onclick="deleteUser('${user.__backendId}')">
+                🗑️ Remover
+              </button>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function handleAddUser(e) {
+      e.preventDefault();
+
+      if (usuarios.length >= 999) {
+        showToast('❌ Limite de usuários atingido');
+        return;
+      }
+
+      const nome = document.getElementById('new-user-name').value.trim();
+      const usuario = document.getElementById('new-user-username').value.trim();
+      const senha = document.getElementById('new-user-password').value;
+
+      // Verificar se usuário já existe
+      if (usuarios.find(u => u.usuario === usuario)) {
+        showToast('❌ Usuário já existe');
+        return;
+      }
+
+      const result = await window.dataSdk.create({
+        is_user_record: true,
+        nome: nome,
+        usuario: usuario,
+        senha: senha,
+        is_admin: false
+      });
+
+      if (result.isOk) {
+        showToast('✅ Usuário adicionado!');
+        document.getElementById('add-user-form').reset();
+      } else {
+        showToast('❌ Erro ao adicionar usuário');
+      }
+    }
+
+    window.deleteUser = async function(backendId) {
+      const user = usuarios.find(u => u.__backendId === backendId);
+      if (!user) return;
+
+      if (usuarios.length === 1) {
+        showToast('❌ Não é possível remover o único usuário do sistema');
+        return;
+      }
+
+      const confirmDiv = document.createElement('div');
+      confirmDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 2000; max-width: 400px;';
+      confirmDiv.innerHTML = `
+        <h3 style="margin-bottom: 1rem; color: #2d3748;">Confirmar Exclusão</h3>
+        <p style="margin-bottom: 1.5rem; color: #4a5568;">Deseja remover o usuário <strong>${user.nome}</strong>?</p>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" onclick="this.parentElement.parentElement.remove()">Cancelar</button>
+          <button class="btn-delete-user" id="confirm-delete-btn">Confirmar</button>
+        </div>
+      `;
+      document.body.appendChild(confirmDiv);
+
+      document.getElementById('confirm-delete-btn').onclick = async function() {
+        confirmDiv.remove();
+        const result = await window.dataSdk.delete(user);
+        if (result.isOk) {
+          showToast('✅ Usuário removido!');
+        } else {
+          showToast('❌ Erro ao remover usuário');
+        }
+      };
+    };
+
+    function setupEventListeners() {
+      document.getElementById('btn-nova-avaliacao').addEventListener('click', () => {
+        editingId = null;
+        currentImageData = null;
+        showFormView();
+      });
+
+      document.getElementById('btn-dashboard').addEventListener('click', () => {
+        showDashboardView();
+      });
+    }
+
+    function showFormView(focusBloco = null) {
+      currentView = 'form';
+      document.getElementById('btn-nova-avaliacao').style.display = 'none';
+      document.getElementById('btn-dashboard').style.display = 'none';
+      renderFormView(focusBloco);
+}
+
+    function showListView() {
+      currentView = 'list';
+      vendedorSelecionado = null;
+      document.getElementById('btn-nova-avaliacao').style.display = 'block';
+      document.getElementById('btn-dashboard').style.display = 'block';
+      renderListView();
+    }
+
+    function showDashboardView() {
+      currentView = 'dashboard';
+      vendedorSelecionado = null;
+      document.getElementById('btn-nova-avaliacao').style.display = 'none';
+      document.getElementById('btn-dashboard').style.display = 'none';
+      renderDashboardView();
+    }
+
+    
+    function voltarParaInicio() {
+      // Volta para a tela principal (lista) e reseta rolagem
+      try { showListView(); } catch (e) {}
+      try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+    }
+
+function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function toggleBlock(blockId) {
+      const content = document.getElementById(`content-${blockId}`);
+      const toggleBtn = document.getElementById(`toggle-${blockId}`);
+      
+      if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        toggleBtn.textContent = '▶';
+      } else {
+        content.classList.add('collapsed');
+        toggleBtn.textContent = '▶️';
+      }
+    }
+    function updateToggleForBloco(blockId) {
+      const content = document.getElementById(`content-${blockId}`);
+      const toggleBtn = document.getElementById(`toggle-${blockId}`);
+      if (!content || !toggleBtn) return;
+
+      // Considera "preenchido" se existir pelo menos 1 critério com valor (input hidden preenchido)
+      const hasValue = Array.from(content.querySelectorAll('input[type="hidden"]'))
+        .some(inp => (inp.value || '').toString().trim() !== '');
+
+      if (hasValue) { toggleBtn.classList.add('filled'); toggleBtn.classList.add('preenchido'); } else { toggleBtn.classList.remove('filled'); toggleBtn.classList.remove('preenchido'); }
+    }
+
+
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('❌ Por favor, selecione apenas imagens');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentImageData = e.target.result;
+        updateImagePreview();
+        showToast('✅ Imagem carregada com sucesso!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateImagePreview() {
+      const uploadArea = document.getElementById('upload-area');
+      if (!uploadArea) return;
+
+      if (currentImageData) {
+        uploadArea.classList.add('has-image');
+        uploadArea.innerHTML = `
+          <img src="${currentImageData}" alt="Gráfico de Resultados" class="image-preview">
+          <div class="image-actions">
+            <button type="button" class="btn btn-secondary btn-small" onclick="trocarImagem()">
+              🖼️ Trocar Imagem
+            </button>
+            <button type="button" class="btn btn-secondary btn-small" onclick="removerImagem()">
+              🗑️ Remover
+            </button>
+          </div>
+        `;
+      } else {
+        uploadArea.classList.remove('has-image');
+        uploadArea.innerHTML = `
+          <div class="upload-icon">⬆️</div>
+          <div class="upload-text">
+            <strong>Clique aqui</strong> ou arraste uma imagem dos gráficos
+          </div>
+          <input type="file" id="image-input" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+        `;
+        uploadArea.onclick = () => document.getElementById('image-input').click();
+      }
+    }
+
+    window.trocarImagem = function() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = handleImageUpload;
+      input.click();
+    };
+
+    window.removerImagem = function() {
+      currentImageData = null;
+      updateImagePreview();
+    };
+
+    function renderCriteriaRow(id, label, avaliacao) {
+      const raw = (avaliacao && Object.prototype.hasOwnProperty.call(avaliacao, id)) ? avaliacao[id] : '';
+      const value = (raw === null || raw === undefined) ? '' : String(raw);
+      const valueNum = value === '' ? null : parseFloat(value);
+
+      const isSel = (n) => valueNum !== null && Math.abs(valueNum - n) < 0.0001;
+
+      return `
+        <tr class="${value !== '' ? 'criterio-ok' : ''}">
+          <td>${label}</td>
+          <td>
+            <input type="hidden" name="${id}" value="${value}">
+            <button type="button" class="rating-btn critico ${isSel(0) ? 'selected' : ''}" data-field="${id}" data-value="0">&nbsp;</button>
+          </td>
+          <td>
+            <button type="button" class="rating-btn ruim ${isSel(2.5) ? 'selected' : ''}" data-field="${id}" data-value="2.5">&nbsp;</button>
+          </td>
+          <td>
+            <button type="button" class="rating-btn regular ${isSel(5) ? 'selected' : ''}" data-field="${id}" data-value="5">&nbsp;</button>
+          </td>
+          <td>
+            <button type="button" class="rating-btn bom ${isSel(7.5) ? 'selected' : ''}" data-field="${id}" data-value="7.5">&nbsp;</button>
+          </td>
+          <td>
+            <button type="button" class="rating-btn excelente ${isSel(10) ? 'selected' : ''}" data-field="${id}" data-value="10">&nbsp;</button>
+          </td>
+        </tr>
+      `;
+    }
+
+
+    function getBlockAverage(criteria) {
+      const values = criteria.map(c => {
+        const input = document.querySelector(`input[name="${c}"]`);
+        return input ? parseFloat(input.value) : 0;
+      }).filter(v => !isNaN(v) && v >= 0);
+      
+      if (values.length === 0) return 0;
+      return (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
+    }
+
+    function getClassification(avg) {
+      avg = parseFloat(avg);
+      if (avg >= 8.75) return '<span class="classification excelente">🏅 Excelente</span>';
+      if (avg >= 6.25) return '<span class="classification bom">👍 Bom</span>';
+      if (avg >= 3.75) return '<span class="classification regular">⚠️ Regular</span>';
+      if (avg >= 1.25) return '<span class="classification ruim">🔻 Ruim</span>';
+      if (avg >= 0) return '<span class="classification critico">🚨 Crítico</span>';
+      return '-';
+    }
+
+    function updateBlockSummaries() {
+      const blocos = [
+        { id: 'bloco1', criteria: ['bloco1_postura', 'bloco1_comunicacao', 'bloco1_controle_emocional', 'bloco1_foco', 'bloco1_proatividade', 'bloco1_comprometimento', 'bloco1_responsabilidade', 'bloco1_etica'] },
+        { id: 'bloco2', criteria: ['bloco2_organizacao', 'bloco2_exposicao', 'bloco2_precificacao', 'bloco2_mostruarios', 'bloco2_padroes', 'bloco2_patrimonio', 'bloco2_posto'] },
+        { id: 'bloco3', criteria: ['bloco3_prospeccao', 'bloco3_telefone', 'bloco3_uso_produtivo', 'bloco3_negociacao', 'bloco3_evita_dispersao', 'bloco3_evolucao', 'bloco3_agilidade'] },
+        { id: 'bloco4', criteria: ['bloco4_comunicacao_cliente', 'bloco4_abordagem', 'bloco4_clareza', 'bloco4_proatividade_contato', 'bloco4_comunicacao_assertiva', 'bloco4_resolucao_conflitos', 'bloco4_comunicacao_interna', 'bloco4_capacidade_ouvir'] },
+        { id: 'bloco5', criteria: ['bloco5_escuta_ativa', 'bloco5_clareza_orientacao', 'bloco5_encaminhamento', 'bloco5_qualidade_info', 'bloco5_acompanhamento', 'bloco5_retorno_cliente', 'bloco5_comunicacao_clara', 'bloco5_postura_dono'] },
+        { id: 'bloco6', criteria: ['bloco6_meta_batida', 'bloco6_taxa_conversao', 'bloco6_eficiencia', 'bloco6_ticket_medio', 'bloco6_constancia', 'bloco6_aproveitamento', 'bloco6_evolucao'] }
+      ];
+
+      blocos.forEach(bloco => {
+        const avg = parseFloat(getBlockAverage(bloco.criteria));
+        const mediaEl = document.getElementById(`${bloco.id}-media`);
+        const classEl = document.getElementById(`${bloco.id}-classificacao`);
+        const feedEl = document.getElementById(`${bloco.id}-feedback`);
+        const toggleBtn = document.getElementById(`toggle-${bloco.id}`);
+
+        if (mediaEl) mediaEl.textContent = avg || '-';
+        if (classEl) classEl.innerHTML = avg ? getClassification(avg) : '-';
+        if (feedEl) feedEl.textContent = gerarFeedback(avg);
+        
+        if (toggleBtn) {
+          // Marca como preenchido se existir pelo menos 1 critério selecionado no bloco (inclusive CRÍTICO = 0)
+          const anyFilled = bloco.criteria.some(c => {
+            const input = document.querySelector(`input[name="${c}"]`);
+            return input && input.value !== '';
+          });
+          if (anyFilled) toggleBtn.classList.add('preenchido');
+          else toggleBtn.classList.remove('preenchido');
+        }
+      });
+
+      updateCompiladoFinal();
+    }
+
+    function updateCompiladoFinal() {
+      const medias = [
+        getBlockAverage(['bloco1_postura', 'bloco1_comunicacao', 'bloco1_controle_emocional', 'bloco1_foco', 'bloco1_proatividade', 'bloco1_comprometimento', 'bloco1_responsabilidade', 'bloco1_etica']),
+        getBlockAverage(['bloco2_organizacao', 'bloco2_exposicao', 'bloco2_precificacao', 'bloco2_mostruarios', 'bloco2_padroes', 'bloco2_patrimonio', 'bloco2_posto']),
+        getBlockAverage(['bloco3_prospeccao', 'bloco3_telefone', 'bloco3_uso_produtivo', 'bloco3_negociacao', 'bloco3_evita_dispersao', 'bloco3_evolucao', 'bloco3_agilidade']),
+        getBlockAverage(['bloco4_comunicacao_cliente', 'bloco4_abordagem', 'bloco4_clareza', 'bloco4_proatividade_contato', 'bloco4_comunicacao_assertiva', 'bloco4_resolucao_conflitos', 'bloco4_comunicacao_interna', 'bloco4_capacidade_ouvir']),
+        getBlockAverage(['bloco5_escuta_ativa', 'bloco5_clareza_orientacao', 'bloco5_encaminhamento', 'bloco5_qualidade_info', 'bloco5_acompanhamento', 'bloco5_retorno_cliente', 'bloco5_comunicacao_clara', 'bloco5_postura_dono']),
+        getBlockAverage(['bloco6_meta_batida', 'bloco6_taxa_conversao', 'bloco6_eficiencia', 'bloco6_ticket_medio', 'bloco6_constancia', 'bloco6_aproveitamento', 'bloco6_evolucao'])
+      ].map(m => parseFloat(m)).filter(v => !isNaN(v) && v > 0);
+
+      if (medias.length === 0) {
+        document.getElementById('media-geral').textContent = '-';
+        document.getElementById('classificacao-geral').innerHTML = '-';
+        document.getElementById('feedback-geral').textContent = 'Aguardando avaliação dos blocos.';
+        return;
+      }
+
+      const mediaGeral = (medias.reduce((a, b) => a + b, 0) / medias.length).toFixed(1);
+      document.getElementById('media-geral').textContent = mediaGeral;
+      document.getElementById('classificacao-geral').innerHTML = getClassification(mediaGeral);
+      document.getElementById('feedback-geral').textContent = gerarFeedback(mediaGeral);
+    }
+
+    function setupRatingListeners() {
+  // Delegação de eventos: funciona mesmo com blocos renderizados dinamicamente
+  if (window.__ratingDelegationAttached) return;
+  window.__ratingDelegationAttached = true;
+
+  const cssEscape = (s) => {
+    try { return (window.CSS && CSS.escape) ? CSS.escape(String(s)) : String(s).replace(/[^a-zA-Z0-9_-]/g, '\\$&'); }
+    catch (_) { return String(s); }
+  };
+
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.rating-btn');
+    if (!btn) return;
+
+    const fieldId = btn.getAttribute('data-field');   // ex: bloco2_exposicao_layout
+    const value = btn.getAttribute('data-value');     // "0" | "2.5" | "5" | "7.5" | "10"
+    if (!fieldId) return;
+
+    const input = document.getElementById(fieldId);
+    if (!input) return;
+
+    const alreadySelected = btn.classList.contains('selected');
+
+    // remove seleção anterior do MESMO critério
+    document.querySelectorAll('.rating-btn[data-field="' + cssEscape(fieldId) + '"]').forEach(b => {
+      b.classList.remove('selected');
+    });
+
+    // Se clicou no mesmo botão já selecionado => DESMARCA (fica em branco)
+    if (alreadySelected) {
+      input.value = '';
+    } else {
+      btn.classList.add('selected');
+      input.value = value;
+    }
+
+    // Atualiza resumos do bloco, botão do cabeçalho e compilado
+    const blocoId = (fieldId.split('_')[0] || '').trim(); // ex: bloco2
+    if (blocoId) {
+      try { if (typeof atualizarResumoBloco === 'function') atualizarResumoBloco(blocoId); } catch (_) {}
+      try { updateToggleForBloco(blocoId); } catch (_) {}
+    }
+    updateCompiladoFinal();
+  }, true);
+}
+
+    function processRatingClick(btn) {
+        const row = btn.closest('tr');
+        if (!row) return;
+        const field = btn.getAttribute('data-field');
+        const hiddenInput = field ? row.querySelector(`input[name="${field}"]`) : row.querySelector('input[type="hidden"]');
+        const alreadySelected = btn.classList.contains('selected');
+
+        row.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+
+        if (alreadySelected) {
+            if (hiddenInput) hiddenInput.value = '';
+        } else {
+            btn.classList.add('selected');
+            if (hiddenInput) hiddenInput.value = btn.getAttribute('data-value') || '';
+        }
+
+        const blocoId = btn.getAttribute('data-bloco');
+        if (blocoId) { atualizarResumoBloco(blocoId); try { updateToggleForBloco(blocoId); } catch(_){} }
+    }
+
+    function applyBlocoFocus(blocoId) {
+        focusBlocoId = blocoId || null;
+        const sections = document.querySelectorAll('.bloco-section');
+        if (!sections.length) return;
+
+        if (!focusBlocoId) {
+            sections.forEach(sec => sec.classList.remove('bloco-hidden'));
+            return;
+        }
+
+        sections.forEach(sec => {
+            if (sec.id === focusBlocoId) sec.classList.remove('bloco-hidden');
+            else sec.classList.add('bloco-hidden');
+        });
+
+        // garantir que o bloco focado esteja aberto e visível
+        const focused = document.getElementById(focusBlocoId);
+        if (focused) {
+            focused.classList.remove('collapsed');
+            setTimeout(() => focused.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+    }
+
+
+    
+    function readCriterion(fieldName) {
+      const el = document.querySelector(`input[name="${fieldName}"]`);
+      if (!el) return null;
+      const v = (el.value === undefined || el.value === null) ? '' : String(el.value);
+      if (v.trim() === '') return null; // mantém em branco se não foi selecionado
+      const num = parseFloat(v);
+      return Number.isFinite(num) ? num : null;
+    }
+
+async function handleFormSubmit(e) {
+      e.preventDefault();
+
+      if (avaliacoes.length >= 999 && !editingId) {
+        showToast('❌ Limite de 999 avaliações atingido');
+        return;
+      }
+
+      const btnSalvar = document.getElementById('btn-salvar');
+      const originalText = btnSalvar.innerHTML;
+      btnSalvar.disabled = true;
+      btnSalvar.innerHTML = '<span class="loading-spinner"></span> Salvando...';
+
+      const formData = {
+        is_user_record: false,
+        vendedor_nome: document.getElementById('vendedor-nome').value,
+        vendedor_funcao: document.getElementById('vendedor-funcao').value,
+        data_avaliacao: document.getElementById('data-avaliacao').value,
+        
+        bloco1_postura: readCriterion("bloco1_postura"),
+        bloco1_comunicacao: readCriterion("bloco1_comunicacao"),
+        bloco1_controle_emocional: readCriterion("bloco1_controle_emocional"),
+        bloco1_foco: readCriterion("bloco1_foco"),
+        bloco1_proatividade: readCriterion("bloco1_proatividade"),
+        bloco1_comprometimento: readCriterion("bloco1_comprometimento"),
+        bloco1_responsabilidade: readCriterion("bloco1_responsabilidade"),
+        bloco1_etica: readCriterion("bloco1_etica"),
+        bloco1_observacoes: document.getElementById('bloco1-obs').value,
+
+        bloco2_organizacao: readCriterion("bloco2_organizacao"),
+        bloco2_exposicao: readCriterion("bloco2_exposicao"),
+        bloco2_precificacao: readCriterion("bloco2_precificacao"),
+        bloco2_mostruarios: readCriterion("bloco2_mostruarios"),
+        bloco2_padroes: readCriterion("bloco2_padroes"),
+        bloco2_patrimonio: readCriterion("bloco2_patrimonio"),
+        bloco2_posto: readCriterion("bloco2_posto"),
+        bloco2_observacoes: document.getElementById('bloco2-obs').value,
+
+        bloco3_prospeccao: readCriterion("bloco3_prospeccao"),
+        bloco3_telefone: readCriterion("bloco3_telefone"),
+        bloco3_uso_produtivo: readCriterion("bloco3_uso_produtivo"),
+        bloco3_negociacao: readCriterion("bloco3_negociacao"),
+        bloco3_evita_dispersao: readCriterion("bloco3_evita_dispersao"),
+        bloco3_evolucao: readCriterion("bloco3_evolucao"),
+        bloco3_agilidade: readCriterion("bloco3_agilidade"),
+        bloco3_observacoes: document.getElementById('bloco3-obs').value,
+
+        bloco4_comunicacao_cliente: readCriterion("bloco4_comunicacao_cliente"),
+        bloco4_abordagem: readCriterion("bloco4_abordagem"),
+        bloco4_clareza: readCriterion("bloco4_clareza"),
+        bloco4_proatividade_contato: readCriterion("bloco4_proatividade_contato"),
+        bloco4_comunicacao_assertiva: readCriterion("bloco4_comunicacao_assertiva"),
+        bloco4_resolucao_conflitos: readCriterion("bloco4_resolucao_conflitos"),
+        bloco4_comunicacao_interna: readCriterion("bloco4_comunicacao_interna"),
+        bloco4_capacidade_ouvir: readCriterion("bloco4_capacidade_ouvir"),
+        bloco4_observacoes: document.getElementById('bloco4-obs').value,
+
+        bloco5_escuta_ativa: readCriterion("bloco5_escuta_ativa"),
+        bloco5_clareza_orientacao: readCriterion("bloco5_clareza_orientacao"),
+        bloco5_encaminhamento: readCriterion("bloco5_encaminhamento"),
+        bloco5_qualidade_info: readCriterion("bloco5_qualidade_info"),
+        bloco5_acompanhamento: readCriterion("bloco5_acompanhamento"),
+        bloco5_retorno_cliente: readCriterion("bloco5_retorno_cliente"),
+        bloco5_comunicacao_clara: readCriterion("bloco5_comunicacao_clara"),
+        bloco5_postura_dono: readCriterion("bloco5_postura_dono"),
+        bloco5_observacoes: document.getElementById('bloco5-obs').value,
+
+        bloco6_meta_batida: readCriterion("bloco6_meta_batida"),
+        bloco6_taxa_conversao: readCriterion("bloco6_taxa_conversao"),
+        bloco6_eficiencia: readCriterion("bloco6_eficiencia"),
+        bloco6_ticket_medio: readCriterion("bloco6_ticket_medio"),
+        bloco6_constancia: readCriterion("bloco6_constancia"),
+        bloco6_aproveitamento: readCriterion("bloco6_aproveitamento"),
+        bloco6_evolucao: readCriterion("bloco6_evolucao"),
+        bloco6_observacoes: document.getElementById('bloco6-obs').value,
+        bloco6_imagem_resultados: currentImageData || ''
+      };
+      let result;
+      // Garante o retorno correto quando a edição foi aberta pelo Histórico/Relatório
+      const willReturnToRelatorio = (returnToView === 'relatorio' && returnToVendedor);
+      if (willReturnToRelatorio) {
+        currentView = 'relatorio';
+        vendedorSelecionado = returnToVendedor;
+      }
+
+      try {
+        const hasSdk = (window.dataSdk && typeof window.dataSdk.create === 'function' && typeof window.dataSdk.update === 'function');
+        if (!hasSdk) {
+          // Fallback (GitHub Pages / sem Data SDK): salva localmente para não travar
+          const localKey = 'fs_devprof_avaliacoes';
+          const lista = JSON.parse(localStorage.getItem(localKey) || '[]');
+
+          const item = { ...formData, __backendId: editingId || ('local_' + Date.now()) };
+
+          if (editingId) {
+            const idx = lista.findIndex(a => a.__backendId === editingId);
+            if (idx >= 0) lista[idx] = item;
+            const memIdx = avaliacoes.findIndex(a => a.__backendId === editingId);
+            if (memIdx >= 0) avaliacoes[memIdx] = item;
+          } else {
+            lista.unshift(item);
+            avaliacoes.unshift(item);
+          }
+
+          localStorage.setItem(localKey, JSON.stringify(lista));
+          result = { isOk: true };
+        } else {
+          if (editingId) {
+            const avaliacaoExistente = avaliacoes.find(a => a.__backendId === editingId);
+            if (avaliacaoExistente) {
+              result = await window.dataSdk.update({ ...avaliacaoExistente, ...formData });
+            }
+          } else {
+            result = await window.dataSdk.create(formData);
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao salvar:', err);
+        result = { isOk: false };
+      }
+
+      if (result.isOk) {
+        showToast(editingId ? '✅ Avaliação atualizada!' : '✅ Avaliação salva!');
+        currentImageData = null;
+        editingId = null;
+        if (returnToView === 'relatorio' && returnToVendedor) {
+          gerarRelatorio(returnToVendedor);
+        } else if (returnToView === 'historico' && returnToVendedor) {
+          // Volta pro histórico do vendedor (na lista), sem cair no dashboard
+          currentView = 'list';
+          vendedorSelecionado = returnToVendedor;
+          document.getElementById('btn-nova-avaliacao').style.display = 'block';
+          document.getElementById('btn-dashboard').style.display = 'block';
+          try { renderHistoricoVendedor(returnToVendedor); } catch(_) { renderListView(); }
+        } else {
+          showListView();
+        }
+            focusBlocoId = null;
+            returnToVendedor = null;
+            returnToView = 'list';
+      } else {
+        showToast('❌ Erro ao salvar');
+        btnSalvar.disabled = false;
+        btnSalvar.innerHTML = originalText;
+      }
+    }
+
+    
+    function handleCancelFromForm() {
+      // Se entrou pelo relatório (histórico), volta para o relatório do vendedor
+      if (returnToView === 'relatorio' && returnToVendedor) {
+        focusBlocoId = null;
+        gerarRelatorio(returnToVendedor);
+        return;
+      }
+      // Se veio do dashboard, volta para o dashboard
+      if (returnToView === 'dashboard') {
+        focusBlocoId = null;
+        showDashboardView();
+        return;
+      }
+      // padrão
+      focusBlocoId = null;
+      showListView();
+    }
+
+function renderFormView(focusBloco = null) {
+      const avaliacao = editingId ? avaliacoes.find(a => a.__backendId === editingId) : null;
+      if (avaliacao && avaliacao.bloco6_imagem_resultados) {
+        currentImageData = avaliacao.bloco6_imagem_resultados;
+      }
+      
+      const mainContent = document.getElementById('main-content');
+      mainContent.innerHTML = `
+        <div class="form-container">
+          <div class="form-header">
+            <h2>${editingId ? '✏️ Editar Avaliação' : '➕ Nova Avaliação'}</h2>
+          </div>
+
+          <form id="avaliacao-form">
+            <div class="input-group">
+              <label for="vendedor-nome">Nome do Colaborador *</label>
+              <input type="text" id="vendedor-nome" required value="${avaliacao?.vendedor_nome || ''}">
+            </div>
+
+            <div class="input-group">
+              <label for="vendedor-funcao">Função *</label>
+              <input type="text" id="vendedor-funcao" required value="${avaliacao?.vendedor_funcao || ''}">
+            </div>
+
+            <div class="input-group">
+              <label for="data-avaliacao">Data *</label>
+              <input type="date" id="data-avaliacao" required value="${avaliacao?.data_avaliacao || new Date().toISOString().split('T')[0]}">
+            </div>
+
+            <!-- BLOCO 1 -->
+            <div class="form-section">
+              <div class="block-title" onclick="toggleBlock('bloco1')">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">🧠</span> PERFIL COMPORTAMENTAL</h3>
+                  <div class="block-subtitle">Quem é o vendedor no dia a dia</div>
+                </div>
+                <button type="button" class="block-toggle-btn" id="toggle-bloco1">▶️</button>
+              </div>
+
+              <div class="block-content collapsed" id="content-bloco1">
+                <table class="criteria-table">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Crítico<br>0.0</th>
+                      <th>Ruim<br>2.5</th>
+                      <th>Regular<br>5.0</th>
+                      <th>Bom<br>7.5</th>
+                      <th>Excelente<br>10</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${renderCriteriaRow('bloco1_postura', 'Postura profissional', avaliacao)}
+                    ${renderCriteriaRow('bloco1_comunicacao', 'Comunicação com cliente', avaliacao)}
+                    ${renderCriteriaRow('bloco1_controle_emocional', 'Controle emocional', avaliacao)}
+                    ${renderCriteriaRow('bloco1_foco', 'Foco e disciplina', avaliacao)}
+                    ${renderCriteriaRow('bloco1_proatividade', 'Proatividade', avaliacao)}
+                    ${renderCriteriaRow('bloco1_comprometimento', 'Comprometimento', avaliacao)}
+                    ${renderCriteriaRow('bloco1_responsabilidade', 'Responsabilidade', avaliacao)}
+                    ${renderCriteriaRow('bloco1_etica', 'Ética e respeito', avaliacao)}
+                  </tbody>
+                </table>
+
+                <div class="observations-box">
+                  <label for="bloco1-obs">Observações</label>
+                  <textarea id="bloco1-obs">${avaliacao?.bloco1_observacoes || ''}</textarea>
+                </div>
+
+                <div class="block-summary">
+                  <h4>📌 Resumo do Bloco 1</h4>
+                  <div class="summary-row">
+                    <span class="summary-label">Média:</span>
+                    <span class="summary-value" id="bloco1-media">-</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Classificação:</span>
+                    <span id="bloco1-classificacao">-</span>
+                  </div>
+                  <div class="feedback-box">
+                    <span class="feedback-label">📝 Feedback:</span>
+                    <div class="feedback-text" id="bloco1-feedback">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCO 2 -->
+            <div class="form-section">
+              <div class="block-title" onclick="toggleBlock('bloco2')">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">🏬</span> ORGANIZAÇÃO E LOJA</h3>
+                  <div class="block-subtitle">A imagem da loja começa no vendedor</div>
+                </div>
+                <button type="button" class="block-toggle-btn" id="toggle-bloco2">▶️</button>
+              </div>
+
+              <div class="block-content collapsed" id="content-bloco2">
+                <table class="criteria-table">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Crítico<br>0.0</th>
+                      <th>Ruim<br>2.5</th>
+                      <th>Regular<br>5.0</th>
+                      <th>Bom<br>7.5</th>
+                      <th>Excelente<br>10</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${renderCriteriaRow('bloco2_organizacao', 'Organização e limpeza', avaliacao)}
+                    ${renderCriteriaRow('bloco2_exposicao', 'Exposição e layout', avaliacao)}
+                    ${renderCriteriaRow('bloco2_precificacao', 'Precificação correta', avaliacao)}
+                    ${renderCriteriaRow('bloco2_mostruarios', 'Cuidado com mostruários', avaliacao)}
+                    ${renderCriteriaRow('bloco2_padroes', 'Padrões operacionais', avaliacao)}
+                    ${renderCriteriaRow('bloco2_patrimonio', 'Zelo pelo patrimônio', avaliacao)}
+                    ${renderCriteriaRow('bloco2_posto', 'Organização do posto', avaliacao)}
+                  </tbody>
+                </table>
+
+                <div class="observations-box">
+                  <label for="bloco2-obs">Observações</label>
+                  <textarea id="bloco2-obs">${avaliacao?.bloco2_observacoes || ''}</textarea>
+                </div>
+
+                <div class="block-summary">
+                  <h4>📌 Resumo do Bloco 2</h4>
+                  <div class="summary-row">
+                    <span class="summary-label">Média:</span>
+                    <span class="summary-value" id="bloco2-media">-</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Classificação:</span>
+                    <span id="bloco2-classificacao">-</span>
+                  </div>
+                  <div class="feedback-box">
+                    <span class="feedback-label">📝 Feedback:</span>
+                    <div class="feedback-text" id="bloco2-feedback">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCO 3 -->
+            <div class="form-section">
+              <div class="block-title" onclick="toggleBlock('bloco3')">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">📞</span> COMERCIAL E PROSPECÇÃO</h3>
+                  <div class="block-subtitle">Uso inteligente do telefone</div>
+                </div>
+                <button type="button" class="block-toggle-btn" id="toggle-bloco3">▶️</button>
+              </div>
+
+              <div class="block-content collapsed" id="content-bloco3">
+                <table class="criteria-table">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Crítico<br>0.0</th>
+                      <th>Ruim<br>2.5</th>
+                      <th>Regular<br>5.0</th>
+                      <th>Bom<br>7.5</th>
+                      <th>Excelente<br>10</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${renderCriteriaRow('bloco3_prospeccao', 'Prospecção ativa', avaliacao)}
+                    ${renderCriteriaRow('bloco3_telefone', 'Uso estratégico do telefone', avaliacao)}
+                    ${renderCriteriaRow('bloco3_uso_produtivo', 'Uso produtivo', avaliacao)}
+                    ${renderCriteriaRow('bloco3_negociacao', 'Negociação', avaliacao)}
+                    ${renderCriteriaRow('bloco3_evita_dispersao', 'Evita dispersão', avaliacao)}
+                    ${renderCriteriaRow('bloco3_evolucao', 'Evolução de negociações', avaliacao)}
+                    ${renderCriteriaRow('bloco3_agilidade', 'Agilidade no retorno', avaliacao)}
+                  </tbody>
+                </table>
+
+                <div class="observations-box">
+                  <label for="bloco3-obs">Observações</label>
+                  <textarea id="bloco3-obs">${avaliacao?.bloco3_observacoes || ''}</textarea>
+                </div>
+
+                <div class="block-summary">
+                  <h4>📌 Resumo do Bloco 3</h4>
+                  <div class="summary-row">
+                    <span class="summary-label">Média:</span>
+                    <span class="summary-value" id="bloco3-media">-</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Classificação:</span>
+                    <span id="bloco3-classificacao">-</span>
+                  </div>
+                  <div class="feedback-box">
+                    <span class="feedback-label">📝 Feedback:</span>
+                    <div class="feedback-text" id="bloco3-feedback">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCO 4 -->
+            <div class="form-section">
+              <div class="block-title" onclick="toggleBlock('bloco4')">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">💬</span> COMUNICAÇÃO E RELACIONAMENTO</h3>
+                  <div class="block-subtitle">Maturidade profissional</div>
+                </div>
+                <button type="button" class="block-toggle-btn" id="toggle-bloco4">▶️</button>
+              </div>
+
+              <div class="block-content collapsed" id="content-bloco4">
+                <table class="criteria-table">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Crítico<br>0.0</th>
+                      <th>Ruim<br>2.5</th>
+                      <th>Regular<br>5.0</th>
+                      <th>Bom<br>7.5</th>
+                      <th>Excelente<br>10</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${renderCriteriaRow('bloco4_comunicacao_cliente', 'Comunicação com cliente', avaliacao)}
+                    ${renderCriteriaRow('bloco4_abordagem', 'Abordagem inicial', avaliacao)}
+                    ${renderCriteriaRow('bloco4_clareza', 'Clareza e educação', avaliacao)}
+                    ${renderCriteriaRow('bloco4_proatividade_contato', 'Proatividade no contato', avaliacao)}
+                    ${renderCriteriaRow('bloco4_comunicacao_assertiva', 'Comunicação assertiva', avaliacao)}
+                    ${renderCriteriaRow('bloco4_resolucao_conflitos', 'Resolução de conflitos', avaliacao)}
+                    ${renderCriteriaRow('bloco4_comunicacao_interna', 'Comunicação interna', avaliacao)}
+                    ${renderCriteriaRow('bloco4_capacidade_ouvir', 'Capacidade de ouvir', avaliacao)}
+                  </tbody>
+                </table>
+
+                <div class="observations-box">
+                  <label for="bloco4-obs">Observações</label>
+                  <textarea id="bloco4-obs">${avaliacao?.bloco4_observacoes || ''}</textarea>
+                </div>
+
+                <div class="block-summary">
+                  <h4>📌 Resumo do Bloco 4</h4>
+                  <div class="summary-row">
+                    <span class="summary-label">Média:</span>
+                    <span class="summary-value" id="bloco4-media">-</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Classificação:</span>
+                    <span id="bloco4-classificacao">-</span>
+                  </div>
+                  <div class="feedback-box">
+                    <span class="feedback-label">📝 Feedback:</span>
+                    <div class="feedback-text" id="bloco4-feedback">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCO 5 -->
+            <div class="form-section">
+              <div class="block-title" onclick="toggleBlock('bloco5')">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">🛠️</span> RESOLUÇÃO DE PROBLEMAS</h3>
+                  <div class="block-subtitle">Pós-venda e atendimento</div>
+                </div>
+                <button type="button" class="block-toggle-btn" id="toggle-bloco5">▶️</button>
+              </div>
+
+              <div class="block-content collapsed" id="content-bloco5">
+                <table class="criteria-table">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Crítico<br>0.0</th>
+                      <th>Ruim<br>2.5</th>
+                      <th>Regular<br>5.0</th>
+                      <th>Bom<br>7.5</th>
+                      <th>Excelente<br>10</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${renderCriteriaRow('bloco5_escuta_ativa', 'Escuta ativa', avaliacao)}
+                    ${renderCriteriaRow('bloco5_clareza_orientacao', 'Clareza na orientação', avaliacao)}
+                    ${renderCriteriaRow('bloco5_encaminhamento', 'Encaminhamento correto', avaliacao)}
+                    ${renderCriteriaRow('bloco5_qualidade_info', 'Qualidade das informações', avaliacao)}
+                    ${renderCriteriaRow('bloco5_acompanhamento', 'Acompanhamento', avaliacao)}
+                    ${renderCriteriaRow('bloco5_retorno_cliente', 'Retorno ao cliente', avaliacao)}
+                    ${renderCriteriaRow('bloco5_comunicacao_clara', 'Comunicação clara', avaliacao)}
+                    ${renderCriteriaRow('bloco5_postura_dono', 'Postura de dono', avaliacao)}
+                  </tbody>
+                </table>
+
+                <div class="observations-box">
+                  <label for="bloco5-obs">Observações</label>
+                  <textarea id="bloco5-obs">${avaliacao?.bloco5_observacoes || ''}</textarea>
+                </div>
+
+                <div class="block-summary">
+                  <h4>📌 Resumo do Bloco 5</h4>
+                  <div class="summary-row">
+                    <span class="summary-label">Média:</span>
+                    <span class="summary-value" id="bloco5-media">-</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Classificação:</span>
+                    <span id="bloco5-classificacao">-</span>
+                  </div>
+                  <div class="feedback-box">
+                    <span class="feedback-label">📝 Feedback:</span>
+                    <div class="feedback-text" id="bloco5-feedback">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCO 6 -->
+            <div class="form-section">
+              <div class="block-title" onclick="toggleBlock('bloco6')">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">📊</span> RESULTADOS E DESEMPENHO</h3>
+                  <div class="block-subtitle">Aqui o número fala</div>
+                </div>
+                <button type="button" class="block-toggle-btn" id="toggle-bloco6">▶️</button>
+              </div>
+
+              <div class="block-content collapsed" id="content-bloco6">
+                <table class="criteria-table">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Crítico<br>0.0</th>
+                      <th>Ruim<br>2.5</th>
+                      <th>Regular<br>5.0</th>
+                      <th>Bom<br>7.5</th>
+                      <th>Excelente<br>10</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${renderCriteriaRow('bloco6_meta_batida', 'Meta batida', avaliacao)}
+                    ${renderCriteriaRow('bloco6_taxa_conversao', 'Taxa de conversão', avaliacao)}
+                    ${renderCriteriaRow('bloco6_eficiencia', 'Eficiência', avaliacao)}
+                    ${renderCriteriaRow('bloco6_ticket_medio', 'Ticket médio', avaliacao)}
+                    ${renderCriteriaRow('bloco6_constancia', 'Constância', avaliacao)}
+                    ${renderCriteriaRow('bloco6_aproveitamento', 'Aproveitamento', avaliacao)}
+                    ${renderCriteriaRow('bloco6_evolucao', 'Evolução', avaliacao)}
+                  </tbody>
+                </table>
+
+                <div class="observations-box">
+                  <label for="bloco6-obs">Observações</label>
+                  <textarea id="bloco6-obs">${avaliacao?.bloco6_observacoes || ''}</textarea>
+                </div>
+
+                <div class="observations-box">
+                  <label>📊 Gráficos de Resultados</label>
+                  <div class="upload-area" id="upload-area"></div>
+                </div>
+
+                <div class="block-summary">
+                  <h4>📌 Resumo do Bloco 6</h4>
+                  <div class="summary-row">
+                    <span class="summary-label">Média:</span>
+                    <span class="summary-value" id="bloco6-media">-</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Classificação:</span>
+                    <span id="bloco6-classificacao">-</span>
+                  </div>
+                  <div class="feedback-box">
+                    <span class="feedback-label">📝 Feedback:</span>
+                    <div class="feedback-text" id="bloco6-feedback">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 🏁 COMPILADO FINAL -->
+            <div class="form-section" style="background: rgba(102, 126, 234, 0.1); padding: 2rem; border-radius: 12px;">
+              <div class="block-title" style="background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); cursor: default;">
+                <div class="block-title-content">
+                  <h3><span class="emoji3d">🏁</span> COMPILADO FINAL</h3>
+                  <div class="block-subtitle">Resultado integrado</div>
+                </div>
+              </div>
+
+              <div class="block-summary" style="background: white;">
+                <h4>🏁 Resultado Final</h4>
+                <div class="summary-row">
+                  <span class="summary-label">Média geral:</span>
+                  <span class="summary-value" id="media-geral" style="font-size: 2rem;">-</span>
+                </div>
+                <div class="summary-row">
+                  <span class="summary-label">Classificação:</span>
+                  <span id="classificacao-geral">-</span>
+                </div>
+                <div class="feedback-box" style="margin-top: 1.5rem;">
+                  <span class="feedback-label">🔎 Análise Geral:</span>
+                  <div class="feedback-text" id="feedback-geral">-</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+              <button type="button" class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+              <button type="submit" class="btn btn-primary" id="btn-salvar">
+                ${editingId ? '💾 Atualizar' : '💾 Salvar'}
+              </button>
+            </div>
+          </form>
+        </div>
+      `;
+
+      document.getElementById('btn-cancelar').addEventListener('click', handleCancelFromForm);
+      document.getElementById('avaliacao-form').addEventListener('submit', handleFormSubmit);
+
+      setupRatingListeners();
+      ['bloco1','bloco2','bloco3','bloco4','bloco5','bloco6'].forEach(b => { try { updateToggleForBloco(b); } catch(_) {} });
+        // habilita clique por delegação também
+        applyBlocoFocus(focusBloco || focusBlocoId);
+      updateImagePreview();
+    }
+
+    function renderDashboardView() {
+      const mainContent = document.getElementById('main-content');
+      
+      if (avaliacoes.length === 0) {
+        mainContent.innerHTML = `
+          <div class="list-container">
+            <div class="empty-state">
+              <div class="empty-state-icon">🗂️</div>
+              <h3>Nenhuma avaliação cadastrada</h3>
+              <p>Clique em "Nova Avaliação" para começar</p>
+              <button class="btn btn-primary" onclick="showListView()" style="margin-top: 1.5rem;">
+                ⬅️ Voltar ao Início
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const vendedores = {};
+      
+      avaliacoes.forEach(avaliacao => {
+        const nome = avaliacao.vendedor_nome;
+        if (!vendedores[nome]) {
+          vendedores[nome] = [];
+        }
+        vendedores[nome].push(avaliacao);
+      });
+
+      const vendedoresOrdenados = Object.keys(vendedores).sort();
+
+      const vendedoresHtml = vendedoresOrdenados.map(nomeVendedor => {
+        const avaliacoesVendedor = vendedores[nomeVendedor];
+        const avaliacaoRecente = avaliacoesVendedor.sort((a, b) => 
+          new Date(b.data_avaliacao) - new Date(a.data_avaliacao)
+        )[0];
+
+        const funcao = avaliacaoRecente.vendedor_funcao || 'Não informada';
+        const iniciais = nomeVendedor.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        
+        const mediasGerais = avaliacoesVendedor.map(av => parseFloat(calcularMediaGeral(av))).filter(m => m > 0);
+        const mediaGeralHistorica = mediasGerais.length > 0 
+          ? (mediasGerais.reduce((a, b) => a + b, 0) / mediasGerais.length).toFixed(1)
+          : '0.0';
+        
+        return `
+          <div class="colaborador-item" onclick="gerarRelatorio('${nomeVendedor}')">
+            <div class="colaborador-info">
+              <div class="colaborador-avatar">${iniciais}</div>
+              <div class="colaborador-detalhes">
+                <div class="colaborador-nome">${nomeVendedor}</div>
+                <div class="colaborador-funcao">${funcao}</div>
+              </div>
+              <div style="text-align: right; margin-left: auto; padding-right: 1rem;">
+                <div style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaGeralHistorica}</div>
+                <div style="font-size: 0.8rem; color: #718096;">Média Geral</div>
+              </div>
+            </div>
+            <div class="colaborador-arrow">→</div>
+          </div>
+        `;
+      }).join('');
+
+      mainContent.innerHTML = `
+        <div id="report-content"><div class="list-container">
+          <div class="list-header">
+            <h2>👥 Colaboradores</h2>
+            <p style="color: #718096; margin-top: 0.5rem;">Clique para ver o relatório completo</p>
+          </div>
+          
+          <div class="avaliacoes-grid">
+            ${vendedoresHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderListView() {
+      const mainContent = document.getElementById('main-content');
+      
+      // Mostrar/ocultar botão dashboard baseado em avaliações
+      const btnDashboard = document.getElementById('btn-dashboard');
+      if (btnDashboard) {
+        btnDashboard.style.display = avaliacoes.length > 0 ? 'block' : 'none';
+      }
+      
+      if (avaliacoes.length === 0) {
+        mainContent.innerHTML = `
+          <div class="list-container">
+            <div class="empty-state">
+              <div class="empty-state-icon">🗂️</div>
+              <h3>Nenhuma avaliação cadastrada</h3>
+              <p>Clique em "Nova Avaliação" para começar</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (vendedorSelecionado) {
+        renderHistoricoVendedor(vendedorSelecionado);
+        return;
+      }
+
+      const vendedores = {};
+      
+      avaliacoes.forEach(avaliacao => {
+        const nome = avaliacao.vendedor_nome;
+        if (!vendedores[nome]) {
+          vendedores[nome] = [];
+        }
+        vendedores[nome].push(avaliacao);
+      });
+
+      const vendedoresOrdenados = Object.keys(vendedores).sort();
+
+      const vendedoresHtml = vendedoresOrdenados.map(nomeVendedor => {
+        const avaliacoesVendedor = vendedores[nomeVendedor];
+        const avaliacaoRecente = avaliacoesVendedor.sort((a, b) => 
+          new Date(b.data_avaliacao) - new Date(a.data_avaliacao)
+        )[0];
+
+        const funcao = avaliacaoRecente.vendedor_funcao || 'Não informada';
+        const iniciais = nomeVendedor.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const mediaRecente = calcularMediaGeral(avaliacaoRecente);
+        
+        return `
+          <div class="colaborador-item" style="padding: 1rem;">
+            <div class="colaborador-info" onclick="verHistoricoVendedor('${nomeVendedor}')" style="cursor: pointer;">
+              <div class="colaborador-avatar" style="width: 40px; height: 40px; font-size: 1.1rem;">${iniciais}</div>
+              <div class="colaborador-detalhes">
+                <div class="colaborador-nome" style="font-size: 1rem;">${nomeVendedor}</div>
+                <div class="colaborador-funcao" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">${funcao}</div>
+              </div>
+              <div style="text-align: right; margin-left: auto; padding-right: 0.5rem;">
+                <div style="font-size: 1.1rem; font-weight: 700; color: #667eea;">${mediaRecente}</div>
+                <div style="font-size: 0.7rem; color: #718096;">Última</div>
+              </div>
+            </div>
+            <div class="colaborador-arrow" onclick="verHistoricoVendedor('${nomeVendedor}')" style="cursor: pointer;">→</div>
+          </div>
+        `;
+      }).join('');
+
+      mainContent.innerHTML = `
+        <div class="list-container">
+          <div class="list-header">
+            <h2 style="font-size: 1.2rem; color: #2d3748;">👥 Colaboradores</h2>
+          </div>
+          
+          <div class="avaliacoes-grid" style="gap: 0.75rem;">
+            ${vendedoresHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    window.verHistoricoVendedor = function(nomeVendedor) {
+      vendedorSelecionado = nomeVendedor;
+      renderHistoricoVendedor(nomeVendedor);
+    };
+
+    window.verRelatorioColaborador = function(nomeVendedor) {
+      gerarRelatorio(nomeVendedor);
+    };
+
+    
+function calcularMediaBloco(avaliacao, bloco) {
+      const criterios = {
+        bloco1: ['postura', 'comunicacao', 'controle_emocional', 'foco', 'proatividade', 'comprometimento', 'responsabilidade', 'etica'],
+        bloco2: ['organizacao', 'exposicao', 'precificacao', 'mostruarios', 'padroes', 'patrimonio', 'posto'],
+        bloco3: ['prospeccao', 'telefone', 'uso_produtivo', 'negociacao', 'evita_dispersao', 'evolucao', 'agilidade'],
+        bloco4: ['comunicacao_cliente', 'abordagem', 'clareza', 'proatividade_contato', 'comunicacao_assertiva', 'resolucao_conflitos', 'comunicacao_interna', 'capacidade_ouvir'],
+        bloco5: ['escuta_ativa', 'clareza_orientacao', 'encaminhamento', 'qualidade_info', 'acompanhamento', 'retorno_cliente', 'comunicacao_clara', 'postura_dono'],
+        bloco6: ['meta_batida', 'taxa_conversao', 'eficiencia', 'ticket_medio', 'constancia', 'aproveitamento', 'evolucao']
+      };
+
+      const parseVal = (raw) => {
+        if (raw === null || raw === undefined || raw === '') return null;
+        const num = parseFloat(raw);
+        return Number.isFinite(num) ? num : null;
+      };
+
+      const valores = (criterios[bloco] || [])
+        .map(c => parseVal(avaliacao[`${bloco}_${c}`]))
+        .filter(v => v !== null);
+
+      if (valores.length === 0) return '0.0';
+      return (valores.reduce((a, b) => a + b, 0) / valores.length).toFixed(1);
+    }
+
+
+    function calcularMediaGeral(avaliacao) {
+      const medias = [
+        parseFloat(calcularMediaBloco(avaliacao, 'bloco1')),
+        parseFloat(calcularMediaBloco(avaliacao, 'bloco2')),
+        parseFloat(calcularMediaBloco(avaliacao, 'bloco3')),
+        parseFloat(calcularMediaBloco(avaliacao, 'bloco4')),
+        parseFloat(calcularMediaBloco(avaliacao, 'bloco5')),
+        parseFloat(calcularMediaBloco(avaliacao, 'bloco6'))
+      ].filter(v => !isNaN(v) && v > 0);
+
+      if (medias.length === 0) return '0.0';
+      return (medias.reduce((a, b) => a + b, 0) / medias.length).toFixed(1);
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString + 'T00:00:00');
+      return date.toLocaleDateString('pt-BR');
+    }
+
+    function renderHistoricoVendedor(nomeVendedor) {
+      const avaliacoesVendedor = avaliacoes
+        .filter(a => a.vendedor_nome === nomeVendedor)
+        .sort((a, b) => new Date(b.data_avaliacao) - new Date(a.data_avaliacao));
+
+      const avaliacoesHtml = avaliacoesVendedor.map(avaliacao => {
+        const bloco1Media = calcularMediaBloco(avaliacao, 'bloco1');
+        const bloco2Media = calcularMediaBloco(avaliacao, 'bloco2');
+        const bloco3Media = calcularMediaBloco(avaliacao, 'bloco3');
+        const bloco4Media = calcularMediaBloco(avaliacao, 'bloco4');
+        const bloco5Media = calcularMediaBloco(avaliacao, 'bloco5');
+        const bloco6Media = calcularMediaBloco(avaliacao, 'bloco6');
+        const mediaGeral = calcularMediaGeral(avaliacao);
+        
+        return `
+          <div class="avaliacao-card">
+            <div class="avaliacao-header">
+              <div class="avaliacao-info">
+                <h3>Avaliação de ${formatDate(avaliacao.data_avaliacao)}</h3>
+                <p style="font-size: 1.1rem; color: #667eea; font-weight: 600; margin-top: 0.25rem;">Média Geral: ${mediaGeral}</p>
+              </div>
+              <div class="avaliacao-actions">
+                <button class="btn-icon" onclick="editarAvaliacao('${avaliacao.__backendId}')" title="Editar">✏️</button>
+                <button class="btn-icon" onclick="excluirAvaliacao('${avaliacao.__backendId}')" title="Excluir">🗑️</button>
+              </div>
+            </div>
+            <div class="blocos-resumo">
+              <div class="bloco-mini" onclick="editarAvaliacaoEIrParaBloco('${avaliacao.__backendId}', 'bloco1')">
+                <div class="bloco-mini-title">Perfil</div>
+                <div class="bloco-mini-score">${bloco1Media}</div>
+              </div>
+              <div class="bloco-mini" onclick="editarAvaliacaoEIrParaBloco('${avaliacao.__backendId}', 'bloco2')">
+                <div class="bloco-mini-title">Organização</div>
+                <div class="bloco-mini-score">${bloco2Media}</div>
+              </div>
+              <div class="bloco-mini" onclick="editarAvaliacaoEIrParaBloco('${avaliacao.__backendId}', 'bloco3')">
+                <div class="bloco-mini-title">Comercial</div>
+                <div class="bloco-mini-score">${bloco3Media}</div>
+              </div>
+              <div class="bloco-mini" onclick="editarAvaliacaoEIrParaBloco('${avaliacao.__backendId}', 'bloco4')">
+                <div class="bloco-mini-title">Comunicação</div>
+                <div class="bloco-mini-score">${bloco4Media}</div>
+              </div>
+              <div class="bloco-mini" onclick="editarAvaliacaoEIrParaBloco('${avaliacao.__backendId}', 'bloco5')">
+                <div class="bloco-mini-title">Resolução</div>
+                <div class="bloco-mini-score">${bloco5Media}</div>
+              </div>
+              <div class="bloco-mini" onclick="editarAvaliacaoEIrParaBloco('${avaliacao.__backendId}', 'bloco6')">
+                <div class="bloco-mini-title">Resultados</div>
+                <div class="bloco-mini-score">${bloco6Media}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const mainContent = document.getElementById('main-content');
+      mainContent.innerHTML = `
+        <div class="list-container">
+          <div class="list-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h2>📋 Histórico de ${nomeVendedor}</h2>
+              <p style="color: #718096; margin-top: 0.5rem;">${avaliacoesVendedor.length} avaliação(ões) registrada(s)</p>
+            </div>
+            <button class="btn btn-secondary no-print" onclick="showListView()" style="white-space: nowrap;">
+              ⬅️ Voltar ao Início
+            </button>
+          </div>
+          <div class="avaliacoes-grid">
+            ${avaliacoesHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    window.editarAvaliacao = function(backendId) {
+      editingId = backendId;
+      focusBlocoId = null;
+
+      // Detecta de onde veio a edição para voltar corretamente após atualizar
+      // - Se estava no relatório (média por colaborador): volta pro relatório do vendedor
+      // - Se estava no histórico do vendedor (lista filtrada): volta pro histórico do vendedor
+      // - Caso contrário: volta pra lista geral
+      if (currentView === 'relatorio' && vendedorSelecionado) {
+        returnToView = 'relatorio';
+        returnToVendedor = vendedorSelecionado;
+      } else if (vendedorSelecionado) {
+        returnToView = 'historico';
+        returnToVendedor = vendedorSelecionado;
+      } else {
+        returnToView = 'list';
+        returnToVendedor = null;
+      }
+
+      showFormView();
+    };
+
+    window.editarAvaliacaoEIrParaBloco = function(backendId, blocoId) {
+      editingId = backendId;
+        focusBlocoId = blocoId;
+        returnToView = 'relatorio';
+        const av = avaliacoes.find(a => a.__backendId === backendId);
+        returnToVendedor = (av && av.vendedor_nome) ? av.vendedor_nome : (vendedorSelecionado || null);
+      showFormView(blocoId);
+      
+      setTimeout(() => {
+        const blocoElement = document.getElementById(`content-${blocoId}`);
+        const blocoTitle = document.querySelector(`#toggle-${blocoId}`).closest('.block-title');
+        
+        if (blocoElement && blocoElement.classList.contains('collapsed')) {
+          toggleBlock(blocoId);
+        }
+        
+        setTimeout(() => {
+          blocoTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }, 100);
+    };
+
+    window.imprimirRelatorio = function () {
+  // Precisa estar na tela de relatório/histórico para imprimir corretamente
+  const reportEl =
+    document.getElementById('report-content') ||
+    document.querySelector('#main-content #report-content') ||
+    document.querySelector('#main-content .list-container');
+
+  if (!reportEl) {
+    showToast('❌ Nada para imprimir. Abra um relatório primeiro.');
+    return;
+  }
+
+  // garante print-area no DOM
+  let printArea = document.getElementById('print-area');
+  if (!printArea) {
+    printArea = document.createElement('div');
+    printArea.id = 'print-area';
+    document.body.appendChild(printArea);
+  }
+
+  // copia o conteúdo do relatório para a área de impressão
+  printArea.innerHTML = reportEl.outerHTML;
+  document.body.classList.add('printing');
+
+  const restore = () => {
+    document.body.classList.remove('printing');
+    printArea.innerHTML = '';
+  };
+
+  const prevAfter = window.onafterprint;
+  window.onafterprint = function () {
+    try { if (typeof prevAfter === 'function') prevAfter(); } catch(_) {}
+    restore();
+    window.onafterprint = prevAfter || null;
+  };
+
+  // espera o browser renderizar o print-area antes do print
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      try { window.print(); } catch (e) { restore(); }
+      // fallback se onafterprint não disparar
+      setTimeout(() => {
+        if (document.body.classList.contains('printing')) restore();
+      }, 2500);
+    });
+  });
+};
+
+    window.gerarRelatorio = function(nomeVendedor) {
+      currentView = 'relatorio';
+      vendedorSelecionado = nomeVendedor;
+      document.getElementById('btn-nova-avaliacao').style.display = 'none';
+      document.getElementById('btn-dashboard').style.display = 'none';
+
+      const avaliacoesVendedor = avaliacoes.filter(a => a.vendedor_nome === nomeVendedor);
+      
+      if (avaliacoesVendedor.length === 0) {
+        showToast('❌ Nenhuma avaliação encontrada');
+        return;
+      }
+
+      const totalAvaliacoes = avaliacoes.length;
+      const vendedores = {};
+      
+      avaliacoes.forEach(avaliacao => {
+        const nome = avaliacao.vendedor_nome;
+        if (!vendedores[nome]) {
+          vendedores[nome] = [];
+        }
+        vendedores[nome].push(avaliacao);
+      });
+
+      const totalColaboradores = Object.keys(vendedores).length;
+
+      const mediasGerais = avaliacoes.map(av => parseFloat(calcularMediaGeral(av))).filter(m => m > 0);
+      const mediaGeralSistema = mediasGerais.length > 0 
+        ? (mediasGerais.reduce((a, b) => a + b, 0) / mediasGerais.length).toFixed(1)
+        : '0.0';
+
+      let melhorAvaliacao = null;
+      let melhorMedia = 0;
+
+      avaliacoes.forEach(av => {
+        const media = parseFloat(calcularMediaGeral(av));
+        if (media > melhorMedia) {
+          melhorMedia = media;
+          melhorAvaliacao = av;
+        }
+      });
+
+      const mediasGeraisColaborador = avaliacoesVendedor.map(av => parseFloat(calcularMediaGeral(av))).filter(m => m > 0);
+      const mediaGeralColaborador = mediasGeraisColaborador.length > 0 
+        ? (mediasGeraisColaborador.reduce((a, b) => a + b, 0) / mediasGeraisColaborador.length).toFixed(1)
+        : '0.0';
+
+      const avaliacaoMaisRecente = avaliacoesVendedor.sort((a, b) => 
+        new Date(b.data_avaliacao) - new Date(a.data_avaliacao)
+      )[0];
+
+      const mediaRecente = calcularMediaGeral(avaliacaoMaisRecente);
+
+      const mediasBloco1 = avaliacoesVendedor.map(av => parseFloat(calcularMediaBloco(av, 'bloco1'))).filter(m => m > 0);
+      const mediaBloco1 = mediasBloco1.length > 0 ? (mediasBloco1.reduce((a, b) => a + b, 0) / mediasBloco1.length).toFixed(1) : '0.0';
+
+      const mediasBloco2 = avaliacoesVendedor.map(av => parseFloat(calcularMediaBloco(av, 'bloco2'))).filter(m => m > 0);
+      const mediaBloco2 = mediasBloco2.length > 0 ? (mediasBloco2.reduce((a, b) => a + b, 0) / mediasBloco2.length).toFixed(1) : '0.0';
+
+      const mediasBloco3 = avaliacoesVendedor.map(av => parseFloat(calcularMediaBloco(av, 'bloco3'))).filter(m => m > 0);
+      const mediaBloco3 = mediasBloco3.length > 0 ? (mediasBloco3.reduce((a, b) => a + b, 0) / mediasBloco3.length).toFixed(1) : '0.0';
+
+      const mediasBloco4 = avaliacoesVendedor.map(av => parseFloat(calcularMediaBloco(av, 'bloco4'))).filter(m => m > 0);
+      const mediaBloco4 = mediasBloco4.length > 0 ? (mediasBloco4.reduce((a, b) => a + b, 0) / mediasBloco4.length).toFixed(1) : '0.0';
+
+      const mediasBloco5 = avaliacoesVendedor.map(av => parseFloat(calcularMediaBloco(av, 'bloco5'))).filter(m => m > 0);
+      const mediaBloco5 = mediasBloco5.length > 0 ? (mediasBloco5.reduce((a, b) => a + b, 0) / mediasBloco5.length).toFixed(1) : '0.0';
+
+      const mediasBloco6 = avaliacoesVendedor.map(av => parseFloat(calcularMediaBloco(av, 'bloco6'))).filter(m => m > 0);
+      const mediaBloco6 = mediasBloco6.length > 0 ? (mediasBloco6.reduce((a, b) => a + b, 0) / mediasBloco6.length).toFixed(1) : '0.0';
+
+      const medias = [
+        { nome: 'Perfil Comportamental', valor: parseFloat(mediaBloco1) },
+        { nome: 'Organização e Loja', valor: parseFloat(mediaBloco2) },
+        { nome: 'Comercial e Prospecção', valor: parseFloat(mediaBloco3) },
+        { nome: 'Comunicação', valor: parseFloat(mediaBloco4) },
+        { nome: 'Resolução de Problemas', valor: parseFloat(mediaBloco5) },
+        { nome: 'Resultados', valor: parseFloat(mediaBloco6) }
+      ];
+
+      const pontoForte = medias.reduce((max, m) => m.valor > max.valor ? m : max);
+      const pontoMelhorar = medias.reduce((min, m) => m.valor < min.valor && m.valor > 0 ? m : min);
+
+      const mainContent = document.getElementById('main-content');
+      mainContent.innerHTML = `
+        <div class="list-container">
+          <!-- Dashboard Geral do Sistema -->
+          <div style="margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 3px solid #e2e8f0;">
+            <div class="list-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h2>📊 Dashboard Geral do Sistema</h2>
+                <p style="color: #718096; margin-top: 0.5rem;">Visão completa de todas as avaliações</p>
+              </div>
+              <button class="btn btn-secondary no-print" onclick="showListView()" style="white-space: nowrap;">
+                ⬅️ Voltar ao Início
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 1.5rem;">
+              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+                <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem;">${totalColaboradores}</div>
+                <div style="font-size: 0.85rem; opacity: 0.95;">Colaboradores</div>
+              </div>
+              
+              <div style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);">
+                <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem;">${totalAvaliacoes}</div>
+                <div style="font-size: 0.85rem; opacity: 0.95;">Avaliações Realizadas</div>
+              </div>
+              
+              <div style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);">
+                <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem;">${mediaGeralSistema}</div>
+                <div style="font-size: 0.85rem; opacity: 0.95;">Média Geral do Sistema</div>
+              </div>
+              
+              ${melhorAvaliacao ? `
+              <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);">
+                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">🏆 ${melhorAvaliacao.vendedor_nome.split(' ')[0]}</div>
+                <div style="font-size: 0.85rem; opacity: 0.95;">Melhor Desempenho (${melhorMedia.toFixed(1)})</div>
+              </div>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- Relatório do Colaborador -->
+          <div class="list-header">
+            <h2>📝 Relatório Completo - ${nomeVendedor}</h2>
+            <p style="color: #718096; margin-top: 0.5rem;">Análise consolidada de ${avaliacoesVendedor.length} avaliação(ões)</p>
+          </div>
+
+          <!-- Cards principais do colaborador -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 2rem;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+              <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem;">${mediaGeralColaborador}</div>
+              <div style="font-size: 0.85rem; opacity: 0.95;">Média Histórica</div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);">
+              <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem;">${mediaRecente}</div>
+              <div style="font-size: 0.85rem; opacity: 0.95;">Última Avaliação</div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);">
+              <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem;">${avaliacoesVendedor.length}</div>
+              <div style="font-size: 0.85rem; opacity: 0.95;">Total de Avaliações</div>
+            </div>
+          </div>
+
+          <!-- Desempenho por Bloco -->
+          <div style="background: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <h3 style="color: #2d3748; margin-bottom: 1.5rem; font-size: 1.3rem;">Desempenho Médio por Área</h3>
+            
+            <div style="display: grid; gap: 1rem;">
+              <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: #2d3748;">🧠 Perfil Comportamental</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaBloco1}</span>
+                </div>
+                ${avaliacaoMaisRecente.bloco1_observacoes ? `
+                  <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.7rem; color: #718096; font-style: italic; line-height: 1.4;">
+                      "${avaliacaoMaisRecente.bloco1_observacoes}"
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+              
+              <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: #2d3748;">🏬 Organização e Loja</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaBloco2}</span>
+                </div>
+                ${avaliacaoMaisRecente.bloco2_observacoes ? `
+                  <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.7rem; color: #718096; font-style: italic; line-height: 1.4;">
+                      "${avaliacaoMaisRecente.bloco2_observacoes}"
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+              
+              <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: #2d3748;">📞 Comercial e Prospecção</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaBloco3}</span>
+                </div>
+                ${avaliacaoMaisRecente.bloco3_observacoes ? `
+                  <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.7rem; color: #718096; font-style: italic; line-height: 1.4;">
+                      "${avaliacaoMaisRecente.bloco3_observacoes}"
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+              
+              <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: #2d3748;">💬 Comunicação e Relacionamento</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaBloco4}</span>
+                </div>
+                ${avaliacaoMaisRecente.bloco4_observacoes ? `
+                  <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.7rem; color: #718096; font-style: italic; line-height: 1.4;">
+                      "${avaliacaoMaisRecente.bloco4_observacoes}"
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+              
+              <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: #2d3748;">🛠️ Resolução de Problemas</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaBloco5}</span>
+                </div>
+                ${avaliacaoMaisRecente.bloco5_observacoes ? `
+                  <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.7rem; color: #718096; font-style: italic; line-height: 1.4;">
+                      "${avaliacaoMaisRecente.bloco5_observacoes}"
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+              
+              <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: #2d3748;">📊 Resultados e Desempenho</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #667eea;">${mediaBloco6}</span>
+                </div>
+                ${avaliacaoMaisRecente.bloco6_observacoes ? `
+                  <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.7rem; color: #718096; font-style: italic; line-height: 1.4;">
+                      "${avaliacaoMaisRecente.bloco6_observacoes}"
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+
+          <!-- Análise Qualitativa -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.75rem; margin-bottom: 2rem;">
+            <div style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);">
+              <div style="font-size: 1.2rem; margin-bottom: 0.25rem;">💪 Ponto Forte</div>
+              <div style="font-size: 1rem; font-weight: 600;">${pontoForte.nome}</div>
+              <div style="font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem;">${pontoForte.valor}</div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);">
+              <div style="font-size: 1.2rem; margin-bottom: 0.25rem;">🧩 Área a Desenvolver</div>
+              <div style="font-size: 1rem; font-weight: 600;">${pontoMelhorar.nome}</div>
+              <div style="font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem;">${pontoMelhorar.valor}</div>
+            </div>
+          </div>
+
+          <!-- Classificação Geral -->
+          <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;">
+            <h3 style="color: #2d3748; margin-bottom: 1rem; font-size: 1.3rem;">Classificação Geral</h3>
+            <div style="font-size: 1.2rem;">${getClassification(mediaGeralColaborador)}</div>
+            <div style="margin-top: 1.5rem; padding: 1.5rem; background: #f7fafc; border-radius: 8px; border-left: 4px solid #667eea;">
+              <div style="color: #667eea; font-weight: 600; margin-bottom: 0.5rem;">📝 Feedback Geral:</div>
+              <div style="color: #4a5568; line-height: 1.6;">${gerarFeedback(mediaGeralColaborador)}</div>
+            </div>
+          </div>
+
+          <!-- Botão Imprimir -->
+          <div style="margin-top: 2rem; text-align: center;">
+            <button class="btn btn-primary no-print" onclick="imprimirRelatorio()" style="font-size: 1.1rem; padding: 1rem 2rem;">
+              🖨️ Imprimir Relatório
+            </button>
+          </div>
+        </div>
+      </div>`;
+    };
+
+    window.excluirAvaliacao = async function(backendId) {
+      const avaliacao = avaliacoes.find(a => a.__backendId === backendId);
+      if (!avaliacao) return;
+
+      const confirmDiv = document.createElement('div');
+      confirmDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 2000; max-width: 400px;';
+      confirmDiv.innerHTML = `
+        <h3 style="margin-bottom: 1rem; color: #2d3748;">Confirmar Exclusão</h3>
+        <p style="margin-bottom: 1.5rem; color: #4a5568;">Deseja realmente excluir a avaliação de <strong>${avaliacao.vendedor_nome}</strong>?</p>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" onclick="this.parentElement.parentElement.remove()">Cancelar</button>
+          <button class="btn-delete-user" id="confirm-delete-avaliacao">Confirmar</button>
+        </div>
+      `;
+      document.body.appendChild(confirmDiv);
+
+      document.getElementById('confirm-delete-avaliacao').onclick = async function() {
+        confirmDiv.remove();
+        const hasSdk = (window.dataSdk && typeof window.dataSdk.delete === 'function');
+        if (!hasSdk) {
+          const localKey = 'fs_devprof_avaliacoes';
+          const lista = JSON.parse(localStorage.getItem(localKey) || '[]');
+          const idx = lista.findIndex(a => a.__backendId === backendId);
+          if (idx >= 0) lista.splice(idx, 1);
+          localStorage.setItem(localKey, JSON.stringify(lista));
+          const memIdx = avaliacoes.findIndex(a => a.__backendId === backendId);
+          if (memIdx >= 0) avaliacoes.splice(memIdx, 1);
+          showToast('✅ Avaliação excluída!');
+          // Re-render do histórico atual
+          if (vendedorSelecionado) {
+            try { renderHistoricoVendedor(vendedorSelecionado); } catch(_) { try { showUsersList(); } catch(_) {} }
+          } else {
+            try { showUsersList(); } catch(_) {}
+          }
+        } else {
+          const result = await window.dataSdk.delete(avaliacao);
+          if (result && result.isOk) {
+            showToast('✅ Avaliação excluída!');
+            try { await carregarAvaliacoes(); } catch(_) {}
+            if (vendedorSelecionado) {
+              try { renderHistoricoVendedor(vendedorSelecionado); } catch(_) {}
+            }
+          } else {
+            showToast('❌ Erro ao excluir');
+          }
+        }
+      };
+    };
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b22f8a1e5adc5ea',t:'MTc2NjQ0MTY1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+
+<script>
+/* FS DevProf - Fixes de lógica (seleção, salvar, imprimir) */
+(function(){
+  function onReady(fn){
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+    else fn();
+  }
+
+  function setHiddenValue(field, value){
+    const input = document.querySelector('input[type="hidden"][name="'+CSS.escape(field)+'"]');
+    if (input) input.value = value;
+  }
+
+  function updateButtonVisual(btn, isSelected){
+    // mantém o visual simples: classe selected + visto no próprio botão
+    if (isSelected){
+      btn.classList.add('selected');
+      btn.textContent = '✓';
+    } else {
+      btn.classList.remove('selected');
+      btn.textContent = '';
+      btn.innerHTML = '&nbsp;'; // preserva tamanho
+    }
+  }
+
+  function handleRatingClick(btn){
+    const field = btn.getAttribute('data-field');
+    const value = btn.getAttribute('data-value');
+    if (!field) return;
+
+    const row = btn.closest('tr') || btn.closest('.criteria-row') || btn.parentElement;
+    const scope = row || document;
+
+    const siblings = scope.querySelectorAll('button.rating-btn[data-field="'+CSS.escape(field)+'"]');
+    const already = btn.classList.contains('selected');
+
+    // Desmarca tudo
+    siblings.forEach(b => {
+      b.classList.remove('selected');
+      b.textContent = '';
+      b.innerHTML = '&nbsp;';
+    });
+
+    // Se já estava selecionado -> fica em branco
+    if (already){
+      setHiddenValue(field, '');
+      return;
+    }
+
+    // Marca o atual
+    btn.classList.add('selected');
+    btn.textContent = '✓';
+    setHiddenValue(field, value);
+  
+    try { updateBlockSummaries(); } catch(_) {}
+  }
+
+  function bindPrint(){
+    const btns = [
+      document.getElementById('btnPrint'),
+      document.getElementById('btnImprimir'),
+      document.getElementById('btnImprimirDashboard'),
+      document.querySelector('[data-action="print-dashboard"]'),
+      document.querySelector('.btn-imprimir'),
+    ].filter(Boolean);
+
+    btns.forEach(btn=>{
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        try { window.print(); } catch(_) {}
+      }, true);
+    });
+  }
+
+  function bindSave(){
+    const btnSalvar = document.getElementById('btnSalvar') || document.querySelector('.btn-salvar') || document.querySelector('[data-action="salvar"]');
+    if (!btnSalvar) return;
+
+    // Evita múltiplos cliques
+    btnSalvar.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (btnSalvar.__saving) return;
+      btnSalvar.__saving = true;
+
+      const prevHTML = btnSalvar.innerHTML;
+      btnSalvar.disabled = true;
+
+      // tenta chamar função existente se houver, senão fallback localStorage
+      const finish = (ok, msg) => {
+        btnSalvar.__saving = false;
+        btnSalvar.disabled = false;
+        btnSalvar.innerHTML = prevHTML;
+        if (msg) alert(msg);
+      };
+
+      try{
+        if (typeof window.salvarAvaliacao === 'function'){
+          const maybePromise = window.salvarAvaliacao();
+          if (maybePromise && typeof maybePromise.then === 'function'){
+            maybePromise.then(()=>finish(true, 'Salvo com sucesso.')).catch(()=>finish(false, 'Erro ao salvar.'));
+            return;
+          }
+          finish(true, 'Salvo com sucesso.');
+          return;
+        }
+
+        // Fallback simples: salva campos hidden atuais
+        const formData = {};
+        document.querySelectorAll('input[type="hidden"][name]').forEach(inp=>{
+          formData[inp.name] = inp.value;
+        });
+        const key = 'fs_devprof_draft';
+        localStorage.setItem(key, JSON.stringify(formData));
+        finish(true, 'Salvo com sucesso.');
+      } catch(err){
+        console.error(err);
+        finish(false, 'Erro ao salvar.');
+      }
+    }, true);
+  }
+
+  onReady(function(){
+    // Delegação de clique para todos os botões de classificação
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest && e.target.closest('button.rating-btn');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      handleRatingClick(btn);
+    }, true);
+
+    bindSave();
+    bindPrint();
+  });
+})();
+</script>
+
+
+<!-- PATCH LÓGICA AVALIAÇÃO (FS) -->
+<script>
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.rating-btn');
+  if (!btn) return;
+
+  const field = btn.dataset.field;
+  const value = btn.dataset.value;
+  const row = btn.closest('tr');
+  const input = row.querySelector(`input[name="${field}"]`);
+
+  if (!input) return;
+
+  // Toggle off
+  if (btn.classList.contains('selected')) {
+    btn.classList.remove('selected');
+    input.value = '';
+    row.classList.remove('criterio-ok');
+    atualizarBlocos();
+    return;
+  }
+
+  // Clear row
+  row.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+
+  // Select
+  btn.classList.add('selected');
+  input.value = value;
+  row.classList.add('criterio-ok');
+
+  atualizarBlocos();
+
+});
+
+// Atualiza o indicador "preenchido" também quando digitar observações
+document.addEventListener('input', function (e) {
+  const ta = e.target && e.target.closest && e.target.closest('textarea');
+  if (!ta) return;
+  // Só recalcula se estiver dentro de uma seção do formulário
+  if (ta.closest('.form-section')) atualizarBlocos();
+});
+
+function atualizarBlocos() {
+  document.querySelectorAll('.form-section').forEach(section => {
+    const rows = section.querySelectorAll('tbody tr');
+    let preenchidos = 0;
+
+    rows.forEach(r => {
+      const inp = r.querySelector('input[type="hidden"]');
+      const ok = inp && inp.value !== '';
+      r.classList.toggle('criterio-ok', ok);
+      if (ok) preenchidos++;
+    });
+
+    const toggle = section.querySelector('.block-toggle-btn');
+    if (toggle) {
+      toggle.classList.toggle('preenchido', (preenchidos > 0) || (() => { const ta = section.querySelector('textarea'); return ta && ta.value && ta.value.trim() !== ''; })());
+    }
+  });
+}
+
+window.editarBloco = function (avaliacaoId, blocoId) {
+  // Editar a partir de cards do relatório/histórico
+  editingId = avaliacaoId;
+  focusBlocoId = blocoId;
+
+  // Define para onde voltar depois de atualizar/cancelar (sem depender de "estado perdido")
+  if (currentView === 'relatorio' && vendedorSelecionado) {
+    returnToView = 'relatorio';
+    returnToVendedor = vendedorSelecionado;
+  } else if (vendedorSelecionado) {
+    returnToView = 'historico';
+    returnToVendedor = vendedorSelecionado;
+  } else {
+    returnToView = 'list';
+    returnToVendedor = null;
+  }
+
+  showFormView(blocoId);
+};
+
+window.cancelarEdicao = function () {
+  // Usa o mesmo fluxo de cancelamento do formulário (respeita origem)
+  try { handleCancelFromForm(); } catch (e) { showListView(); }
+};
+
+window.atualizarAvaliacao = function () {
+  // IMPORTANTÍSSIMO: não limpar estado aqui.
+  // O salvarAvaliacao já decide o retorno correto e faz os resets necessários.
+  salvarAvaliacao();
+};
+</script>
+
+<style>
+/* Critério preenchido: deixa o nome/linha verde para ficar bem visível */
+.criterio-ok td {
+  background: rgba(198, 246, 213, 0.35) !important;
+}
+.criterio-ok td:first-child {
+  background: #c6f6d5 !important;
+  font-weight: 700;
+}
+
+/* Bloco totalmente preenchido: botão do bloco fica verde */
+.block-toggle-btn.preenchido {
+  background: #22c55e !important;
+  color: #fff !important;
+  border: 2px solid rgba(0,0,0,0.06) !important;
+}
+</style>
+
+
+  <div id="print-area"></div>
+</body>
+</html>
